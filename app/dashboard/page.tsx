@@ -9,47 +9,10 @@ import { Button } from "@/components/ui/button";
 import { Brain, FileText, Target, Zap, ArrowLeft, Star } from "lucide-react";
 import { motion } from "framer-motion";
 import { ResumeAnalysis } from "@/components/analysis-results";
+import { getScoreBgColor, getScoreColor } from "@/lib/colors";
+import { AnalysisDataType } from "@/lib/types";
+import { analyzeResume } from "@/lib/ai-analyzer";
 
-interface AnalysisData {
-  overallScore: number;
-  scoreJustification: string;
-  executiveSummary: string;
-  firstImpression: string;
-  keywordAnalysis: {
-    matchingKeywords: string[];
-    missingKeywords: string[];
-  };
-  atsAnalysis: {
-    redFlags: string[];
-    recommendations: string[];
-  };
-  experienceAlignment: {
-    strengths: string[];
-    gaps: string[];
-    dealBreakers: string[];
-  };
-  actionableRecommendations: {
-    rewrittenSummary: string;
-    improvedBulletPoints: Array<{
-      original: string;
-      improved: string;
-    }>;
-    addressingGaps: string[];
-  };
-  finalChecklist: string[];
-}
-
-const getScoreColor = (score: number) => {
-  if (score >= 80) return "text-green-600";
-  if (score >= 60) return "text-yellow-600";
-  return "text-red-600";
-};
-
-const getScoreBgColor = (score: number) => {
-  if (score >= 80) return "bg-green-100 dark:bg-green-900/20";
-  if (score >= 60) return "bg-yellow-100 dark:bg-yellow-900/20";
-  return "bg-red-100 dark:bg-red-900/20";
-};
 
 export default function DashboardPage() {
   const [step, setStep] = useState<"upload" | "analyzing" | "results">(
@@ -57,17 +20,13 @@ export default function DashboardPage() {
   );
   const [resumeFile, setResumeFile] = useState<File | null>(null);
   const [jobDescription, setJobDescription] = useState("");
-  const [analysisData, setAnalysisData] = useState<AnalysisData | null>(null);
+  const [analysisData, setAnalysisData] = useState<AnalysisDataType | null>(
+    null
+  );
   const [isAnalyzing, setIsAnalyzing] = useState(false);
 
   const handleAnalyze = async () => {
-    if (!jobDescription.trim()) {
-      // setError("Please enter a job description")
-      return;
-    }
-
-    if (!resumeFile) {
-      // setError("Please upload a resume PDF")
+    if (!resumeFile || !jobDescription.trim()) {
       return;
     }
 
@@ -75,22 +34,8 @@ export default function DashboardPage() {
     setStep("analyzing");
 
     try {
-      const formData = new FormData();
-      formData.append("jobDescription", jobDescription);
-      formData.append("resume", resumeFile);
-
-      const response = await fetch("/api/analyze-resume", {
-        method: "POST",
-        body: formData,
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || "Analysis failed");
-      }
-
-      const result = await response.json();
-      setAnalysisData(result);
+      const analysisData = await analyzeResume(resumeFile, jobDescription);
+      setAnalysisData(analysisData);
       setStep("results");
     } catch (err) {
       console.error("Analysis failed:", err);
@@ -130,11 +75,11 @@ export default function DashboardPage() {
           <div className="flex items-center justify-between mb-8">
             {/* <div className="flex items-center space-x-4"> */}
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">
-                Analysis Results
+              <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">
+              Analysis Results
               </h1>
-              <p className="text-gray-600">
-                Comprehensive AI-powered resume analysis
+              <p className="text-gray-600 dark:text-gray-300">
+              Comprehensive AI-powered resume analysis
               </p>
             </div>
             <div
@@ -166,128 +111,131 @@ export default function DashboardPage() {
   return (
     <div className="p-6">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mb-8"
-        >
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            Resume Analysis
-          </h1>
-          <p className="text-gray-600">
-            Upload your resume and job description to get AI-powered insights
-            and recommendations.
+      {/* Header */}
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="mb-8"
+      >
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">
+        Resume Analysis
+        </h1>
+        <p className="text-gray-600 dark:text-gray-300">
+        Upload your resume and job description to get AI-powered insights
+        and recommendations.
+        </p>
+      </motion.div>
+
+      {/* Quick Stats */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.1 }}
+        className="grid md:grid-cols-4 gap-4 mb-8"
+      >
+        <Card className="p-4 bg-gradient-to-r from-blue-50 to-blue-100 border-blue-200 dark:from-blue-900 dark:to-blue-800 dark:border-blue-700">
+        <div className="flex items-center">
+          <Target className="h-8 w-8 text-blue-600 dark:text-blue-300 mr-3" />
+          <div>
+          <p className="text-sm font-medium text-blue-800 dark:text-blue-200">
+            Skills Match
           </p>
-        </motion.div>
-
-        {/* Quick Stats */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-          className="grid md:grid-cols-4 gap-4 mb-8"
-        >
-          <Card className="p-4 bg-linear-to-r from-blue-50 to-blue-100 border-blue-200">
-            <div className="flex items-center">
-              <Target className="h-8 w-8 text-blue-600 mr-3" />
-              <div>
-                <p className="text-sm font-medium text-blue-800">
-                  Skills Match
-                </p>
-                <p className="text-xs text-blue-600">Precision scoring</p>
-              </div>
-            </div>
-          </Card>
-          <Card className="p-4 bg-linear-to-r from-green-50 to-green-100 border-green-200">
-            <div className="flex items-center">
-              <FileText className="h-8 w-8 text-green-600 mr-3" />
-              <div>
-                <p className="text-sm font-medium text-green-800">
-                  ATS Optimization
-                </p>
-                <p className="text-xs text-green-600">System compatibility</p>
-              </div>
-            </div>
-          </Card>
-          <Card className="p-4 bg-linear-to-r from-purple-50 to-purple-100 border-purple-200">
-            <div className="flex items-center">
-              <Zap className="h-8 w-8 text-purple-600 mr-3" />
-              <div>
-                <p className="text-sm font-medium text-purple-800">
-                  Instant Analysis
-                </p>
-                <p className="text-xs text-purple-600">Real-time feedback</p>
-              </div>
-            </div>
-          </Card>
-          <Card className="p-4 bg-linear-to-r from-orange-50 to-orange-100 border-orange-200">
-            <div className="flex items-center">
-              <Brain className="h-8 w-8 text-orange-600 mr-3" />
-              <div>
-                <p className="text-sm font-medium text-orange-800">
-                  AI Insights
-                </p>
-                <p className="text-xs text-orange-600">Smart recommendations</p>
-              </div>
-            </div>
-          </Card>
-        </motion.div>
-
-        {/* Main Content */}
-        <div className="grid lg:grid-cols-2 gap-8 mb-8">
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.2 }}
-          >
-            <FileUpload
-              onFileSelect={setResumeFile}
-              selectedFile={resumeFile}
-            />
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.3 }}
-          >
-            <JobDescriptionInput
-              value={jobDescription}
-              onChange={setJobDescription}
-            />
-          </motion.div>
+          <p className="text-xs text-blue-600 dark:text-blue-300">Precision scoring</p>
+          </div>
         </div>
-
-        {/* Analyze Button */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-          className="text-center"
-        >
-          <Button
-            onClick={handleAnalyze}
-            disabled={!resumeFile || !jobDescription.trim() || isAnalyzing}
-            size="lg"
-            className="px-12 py-4 text-lg font-semibold"
-          >
-            {isAnalyzing ? (
-              <>
-                <Brain className="mr-2 h-5 w-5 animate-spin" />
-                Analyzing Resume...
-              </>
-            ) : (
-              <>
-                <Brain className="mr-2 h-5 w-5" />
-                Analyze Resume
-              </>
-            )}
-          </Button>
-          <p className="text-sm text-gray-500 mt-2">
-            Analysis typically takes 30-60 seconds
+        </Card>
+        <Card className="p-4 bg-gradient-to-r from-green-50 to-green-100 border-green-200 dark:from-green-900 dark:to-green-800 dark:border-green-700">
+        <div className="flex items-center">
+          <FileText className="h-8 w-8 text-green-600 dark:text-green-300 mr-3" />
+          <div>
+          <p className="text-sm font-medium text-green-800 dark:text-green-200">
+            ATS Optimization
           </p>
+          <p className="text-xs text-green-600 dark:text-green-300">System compatibility</p>
+          </div>
+        </div>
+        </Card>
+        <Card className="p-4 bg-gradient-to-r from-purple-50 to-purple-100 border-purple-200 dark:from-purple-900 dark:to-purple-800 dark:border-purple-700">
+        <div className="flex items-center">
+          <Zap className="h-8 w-8 text-purple-600 dark:text-purple-300 mr-3" />
+          <div>
+          <p className="text-sm font-medium text-purple-800 dark:text-purple-200">
+            Instant Analysis
+          </p>
+          <p className="text-xs text-purple-600 dark:text-purple-300">Real-time feedback</p>
+          </div>
+        </div>
+        </Card>
+        <Card className="p-4 bg-gradient-to-r from-orange-50 to-orange-100 border-orange-200 dark:from-orange-900 dark:to-orange-800 dark:border-orange-700">
+        <div className="flex items-center">
+          <Brain className="h-8 w-8 text-orange-600 dark:text-orange-300 mr-3" />
+          <div>
+          <p className="text-sm font-medium text-orange-800 dark:text-orange-200">
+            AI Insights
+          </p>
+          <p className="text-xs text-orange-600 dark:text-orange-300">Smart recommendations</p>
+          </div>
+        </div>
+        </Card>
+      </motion.div>
+
+      {/* Main Content */}
+      <div className="grid lg:grid-cols-2 gap-8 mb-8">
+        <motion.div
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 0.2 }}
+        >
+        <FileUpload
+          onFileSelect={setResumeFile}
+          selectedFile={resumeFile}
+        />
         </motion.div>
+
+        <motion.div
+        initial={{ opacity: 0, x: 20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 0.3 }}
+        >
+        <JobDescriptionInput
+          value={jobDescription}
+          onChange={setJobDescription}
+        />
+        </motion.div>
+      </div>
+
+      {/* Analyze Button */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.4 }}
+        className="text-center"
+      >
+        <Button
+        onClick={handleAnalyze}
+        disabled={!resumeFile || !jobDescription.trim() || isAnalyzing}
+        size="lg"
+        className="px-12 py-4 text-lg font-semibold 
+          bg-blue-600 text-white hover:bg-blue-700
+          dark:bg-blue-500 dark:text-gray-900 dark:hover:bg-blue-300
+          transition-colors duration-200"
+        >
+        {isAnalyzing ? (
+          <>
+          <Brain className="mr-2 h-5 w-5 animate-spin" />
+          Analyzing Resume...
+          </>
+        ) : (
+          <>
+          <Brain className="mr-2 h-5 w-5" />
+          Analyze Resume
+          </>
+        )}
+        </Button>
+        <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
+        Analysis typically takes 30-60 seconds
+        </p>
+      </motion.div>
       </div>
     </div>
   );

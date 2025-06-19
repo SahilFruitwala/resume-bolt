@@ -17,52 +17,14 @@ import {
   CheckSquare,
   Edit3,
 } from "lucide-react"
+import { AnalysisDataType } from "@/lib/types"
 
 
 interface ResumeAnalysisProps {
-  analysis: {
-    overallScore: number
-    scoreJustification: string
-    executiveSummary: string
-    firstImpression: string
-    keywordAnalysis: {
-      matchingKeywords: string[]
-      missingKeywords: string[]
-    }
-    atsAnalysis: {
-      redFlags: string[]
-      recommendations: string[]
-    }
-    experienceAlignment: {
-      strengths: string[]
-      gaps: string[]
-      dealBreakers: string[]
-    }
-    actionableRecommendations: {
-      rewrittenSummary: string
-      improvedBulletPoints: Array<{
-        original: string
-        improved: string
-      }>
-      addressingGaps: string[]
-    }
-    finalChecklist: string[]
-  }
+  analysis: AnalysisDataType;
 }
 
 export function ResumeAnalysis({ analysis }: ResumeAnalysisProps) {
-  const getScoreColor = (score: number) => {
-    if (score >= 80) return "text-green-600"
-    if (score >= 60) return "text-yellow-600"
-    return "text-red-600"
-  }
-
-  const getScoreBgColor = (score: number) => {
-    if (score >= 80) return "bg-green-100 dark:bg-green-900/20"
-    if (score >= 60) return "bg-yellow-100 dark:bg-yellow-900/20"
-    return "bg-red-100 dark:bg-red-900/20"
-  }
-
   return (
     <>
       <div className="max-w-7xl mx-auto space-y-6">

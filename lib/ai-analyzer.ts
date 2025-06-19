@@ -1,28 +1,19 @@
-interface AnalysisData {
-  overallScore: number;
-  skillsMatch: number;
-  atsScore: number;
-  formatScore: number;
-  keyStrengths: string[];
-  missingKeywords: string[];
-  improvements: string[];
-  atsRecommendations: string[];
-  formatFeedback: string[];
-}
+import { AnalysisDataType } from "./types";
 
-export async function analyzeResume(resumeFile: File, jobDescription: string): Promise<AnalysisData> {
+export async function analyzeResume(resumeFile: File, jobDescription: string): Promise<AnalysisDataType> {
   try {
     const formData = new FormData();
-    formData.append('resume', resumeFile);
-    formData.append('jobDescription', jobDescription);
+    formData.append("jobDescription", jobDescription);
+    formData.append("resume", resumeFile);
 
-    const response = await fetch('/api/analyze', {
-      method: 'POST',
+    const response = await fetch("/api/analyze-resume", {
+      method: "POST",
       body: formData,
     });
 
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      const errorData = await response.json();
+      throw new Error(errorData.error || "Analysis failed");
     }
 
     const analysisData = await response.json();
