@@ -49,91 +49,105 @@ export function LoadingState() {
   }, [currentStep]);
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
+    <div className="min-h-screen bg-background flex items-center justify-center">
       <div className="max-w-2xl mx-auto px-4">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className="text-center mb-8"
-        >
-          <div className="mx-auto w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mb-6">
-            <Brain className="h-10 w-10 text-blue-600 animate-pulse" />
-          </div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Analyzing Your Resume</h1>
-          <p className="text-gray-600">
-            Our AI is carefully reviewing your resume against the job requirements
-          </p>
-        </motion.div>
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        className="text-center mb-8"
+      >
+        <div className="mx-auto w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mb-6">
+        <Brain className="h-10 w-10 text-primary animate-pulse" />
+        </div>
+        <h1 className="text-3xl font-bold text-foreground mb-2">Working on Your Resume</h1>
+        <p className="text-muted-foreground">
+        We&apos;re matching your resume to the job description and preparing tailored insights.
+        </p>
+      </motion.div>
 
-        <Card className="p-8">
-          <div className="space-y-6">
+      <Card className="p-8">
+        <div className="space-y-6">
+        <div>
+          <div className="flex items-center justify-between mb-2">
+          <span className="text-sm font-medium text-foreground">Progress</span>
+          <span className="text-sm text-muted-foreground">{Math.round(progress)}%</span>
+          </div>
+          <Progress value={progress} className="h-3" />
+        </div>
+
+        <div className="space-y-4">
+          {steps.map((step, index) => {
+          const StepIcon = step.icon;
+          const isActive = index === currentStep;
+          const isCompleted = index < currentStep;
+
+          // Assign a unique color for each step
+          const iconColors = [
+            'text-blue-500',
+            'text-yellow-500',
+            'text-purple-500',
+            'text-green-600'
+          ];
+          const bgColors = [
+            'bg-blue-100',
+            'bg-yellow-100',
+            'bg-purple-100',
+            'bg-green-100'
+          ];
+
+          return (
+            <motion.div
+            key={index}
+            initial={{ opacity: 0.5 }}
+            animate={{
+              opacity: isActive ? 1 : isCompleted ? 0.7 : 0.4,
+              scale: isActive ? 1.02 : 1
+            }}
+            className={`
+              flex items-center p-4 rounded-lg transition-all duration-300
+              ${isActive ? 'bg-primary/10 border border-primary/20' : ''}
+            `}
+            >
+            <div className={`
+              shrink-0 w-10 h-10 rounded-full flex items-center justify-center mr-4
+              ${isCompleted ? 'bg-success/10' : isActive ? bgColors[index] : 'bg-muted'}
+            `}>
+              <StepIcon className={`
+              h-5 w-5
+              ${isCompleted ? 'text-success' : isActive ? iconColors[index] + ' animate-pulse' : 'text-muted-foreground'}
+              `} />
+            </div>
             <div>
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-sm font-medium text-gray-700">Analysis Progress</span>
-                <span className="text-sm text-gray-500">{Math.round(progress)}%</span>
-              </div>
-              <Progress value={progress} className="h-3" />
+              <p className={`
+              font-medium
+              ${isActive ? iconColors[index] : isCompleted ? 'text-success' : 'text-muted-foreground'}
+              `}>
+              {step.label}
+              </p>
+              {isActive && (
+              <p className={`text-sm ${iconColors[index]}`}>In progress...</p>
+              )}
+              {isCompleted && (
+              <p className="text-sm text-success">Completed</p>
+              )}
             </div>
+            </motion.div>
+          );
+          })}
+        </div>
+        </div>
+      </Card>
 
-            <div className="space-y-4">
-              {steps.map((step, index) => {
-                const StepIcon = step.icon;
-                const isActive = index === currentStep;
-                const isCompleted = index < currentStep;
-                
-                return (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0.5 }}
-                    animate={{ 
-                      opacity: isActive ? 1 : isCompleted ? 0.7 : 0.4,
-                      scale: isActive ? 1.02 : 1
-                    }}
-                    className={`
-                      flex items-center p-4 rounded-lg transition-all duration-300
-                      ${isActive ? 'bg-blue-50 border border-blue-200' : ''}
-                    `}
-                  >
-                    <div className={`
-                      shrink-0 w-10 h-10 rounded-full flex items-center justify-center mr-4
-                      ${isCompleted ? 'bg-green-100' : isActive ? 'bg-blue-100' : 'bg-gray-100'}
-                    `}>
-                      <StepIcon className={`
-                        h-5 w-5
-                        ${isCompleted ? 'text-green-600' : isActive ? 'text-blue-600 animate-pulse' : 'text-gray-400'}
-                      `} />
-                    </div>
-                    <div>
-                      <p className={`
-                        font-medium
-                        ${isActive ? 'text-blue-900' : isCompleted ? 'text-green-800' : 'text-gray-600'}
-                      `}>
-                        {step.label}
-                      </p>
-                      {isActive && (
-                        <p className="text-sm text-blue-600">In progress...</p>
-                      )}
-                      {isCompleted && (
-                        <p className="text-sm text-green-600">Completed</p>
-                      )}
-                    </div>
-                  </motion.div>
-                );
-              })}
-            </div>
-          </div>
-        </Card>
-
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1 }}
-          className="text-center mt-8"
-        >
-          <p className="text-sm text-gray-500">
-            This usually takes 30-60 seconds. Please keep this tab open.
-          </p>
-        </motion.div>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1 }}
+        className="text-center mt-8"
+      >
+        <p className="text-sm text-muted-foreground">
+        This process usually takes less than a minute. Please keep this tab open.
+        </p>
+      </motion.div>
       </div>
     </div>
   );

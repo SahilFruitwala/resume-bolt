@@ -39,74 +39,74 @@ export function JobDescriptionInput({ value, onChange }: JobDescriptionInputProp
   return (
     <Card className="p-6">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-2xl font-semibold flex items-center">
-          <Briefcase className="mr-2 h-6 w-6 text-blue-600" />
-          Job Description
-        </h2>
-        {getStatusIcon()}
+      <h2 className="text-2xl font-semibold flex items-center">
+        <Briefcase className="mr-2 h-6 w-6 text-primary" />
+        Job Description
+      </h2>
+      {getStatusIcon()}
       </div>
       
       <div className="space-y-3">
-        <div
-          className={`
-            relative transition-all duration-200
-            ${isFocused ? 'ring-2 ring-blue-500 ring-opacity-50' : ''}
-          `}
-        >
-          <Textarea
-            placeholder="Paste the job description here. Include requirements, qualifications, and key skills mentioned in the posting..."
-            value={value}
-            onChange={(e) => onChange(e.target.value)}
-            onFocus={() => setIsFocused(true)}
-            onBlur={() => setIsFocused(false)}
-            className={`
-              min-h-[300px] resize-none text-sm leading-relaxed
-              ${currentLength > maxLength ? 'border-red-300 focus:border-red-500' : ''}
-            `}
-            maxLength={maxLength + 100} // Allow slight overflow for better UX
-          />
-        </div>
+      <div
+        className={`
+        relative transition-all duration-200
+        ${isFocused ? 'ring-2 ring-ring ring-opacity-50' : ''}
+        `}
+      >
+        <Textarea
+        placeholder="Paste the job description here. Include requirements, qualifications, and key skills mentioned in the posting..."
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
+        className={`
+          min-h-[300px] resize-none text-sm leading-relaxed
+          ${currentLength > maxLength ? 'border-destructive focus:border-destructive' : ''}
+        `}
+        maxLength={maxLength + 100}
+        />
+      </div>
 
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <span className={`text-sm font-medium ${getCharacterCountColor()}`}>
-              {currentLength.toLocaleString()} / {maxLength.toLocaleString()} characters
-            </span>
-            
-            {currentLength > 0 && (
-              <Badge 
-                variant={isValid ? "default" : "destructive"}
-                className="text-xs"
-              >
-                {isValid ? 'Valid' : 'Too long'}
-              </Badge>
-            )}
-          </div>
-
-          {isNearLimit && currentLength <= maxLength && (
-            <span className="text-xs text-yellow-600 font-medium">
-              Approaching limit
-            </span>
-          )}
-          
-          {currentLength > maxLength && (
-            <span className="text-xs text-red-600 font-medium">
-              Exceeds limit by {(currentLength - maxLength).toLocaleString()} characters
-            </span>
-          )}
-        </div>
-
-        {currentLength === 0 && (
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-            <h4 className="text-sm font-medium text-blue-900 mb-2">Tips for better analysis:</h4>
-            <ul className="text-sm text-blue-800 space-y-1">
-              <li>• Include required qualifications and skills</li>
-              <li>• Add preferred experience and certifications</li>
-              <li>• Mention specific tools, technologies, or software</li>
-              <li>• Include any industry-specific keywords</li>
-            </ul>
-          </div>
+      <div className="flex items-center justify-between">
+        <div className="flex items-center space-x-4">
+        <span className={`text-sm font-medium ${getCharacterCountColor()}`}>
+          {currentLength.toLocaleString()} / {maxLength.toLocaleString()} characters
+        </span>
+        
+        {currentLength > 0 && (
+          <Badge 
+          variant={isValid ? "default" : "destructive"}
+          className="text-xs"
+          >
+          {isValid ? 'Valid' : 'Too long'}
+          </Badge>
         )}
+        </div>
+
+        {isNearLimit && currentLength <= maxLength && (
+        <span className="text-xs text-warning font-medium">
+          Approaching limit
+        </span>
+        )}
+        
+        {currentLength > maxLength && (
+        <span className="text-xs text-destructive font-medium">
+          Exceeds limit by {(currentLength - maxLength).toLocaleString()} characters
+        </span>
+        )}
+      </div>
+
+      {currentLength === 0 && (
+        <div className="bg-muted border border-border rounded-lg p-4">
+        <h4 className="text-sm font-medium text-foreground mb-2">Tips for better analysis:</h4>
+        <ul className="text-sm text-muted-foreground space-y-1">
+          <li>• Include required qualifications and skills</li>
+          <li>• Add preferred experience and certifications</li>
+          <li>• Mention specific tools, technologies, or software</li>
+          <li>• Include any industry-specific keywords</li>
+        </ul>
+        </div>
+      )}
       </div>
     </Card>
   );

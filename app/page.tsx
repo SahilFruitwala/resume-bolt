@@ -93,14 +93,14 @@ const testimonials = [
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 dark:from-gray-900 dark:via-gray-950 dark:to-gray-900 transition-colors">
+    <div className="min-h-screen bg-background transition-colors">
       {/* Header */}
-      <header className="border-b bg-white/80 dark:bg-gray-900/80 backdrop-blur-xs sticky top-0 z-50 transition-colors">
+      <header className="border-b bg-background/80 backdrop-blur-xs sticky top-0 z-50 transition-colors">
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
         <div className="flex items-center space-x-2">
-          <Brain className="h-8 w-8 text-blue-600 dark:text-blue-400" />
-          <span className="text-xl font-bold text-gray-900 dark:text-white">
+          <Brain className="h-8 w-8 text-primary" />
+          <span className="text-xl font-bold text-foreground">
           ResumeBolt
           </span>
         </div>
@@ -125,18 +125,18 @@ export default function LandingPage() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
         >
-        <Badge className="mb-4 px-4 py-2 text-sm font-medium bg-blue-50 text-blue-700 dark:bg-blue-900 dark:text-blue-200">
+        <Badge className="mb-4 px-4 py-2 text-sm font-medium bg-muted text-primary">
           <Zap className="mr-2 h-4 w-4" />
           Powered by Advanced AI
         </Badge>
-        <h1 className="text-5xl md:text-7xl font-bold text-gray-900 dark:text-white mb-6 leading-tight">
+        <h1 className="text-5xl md:text-7xl font-bold text-foreground mb-6 leading-tight">
           Optimize Your Resume with
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400">
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">
           {" "}
           AI
           </span>
         </h1>
-        <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
+        <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto leading-relaxed">
           Get instant, AI-powered insights to make your resume stand out.
           Our advanced analysis helps you match job requirements, pass ATS
           systems, and land more interviews.
@@ -162,7 +162,7 @@ export default function LandingPage() {
       </section>
 
       {/* Stats Section */}
-      <section className="py-16 bg-white dark:bg-gray-900 transition-colors">
+      <section className="py-16 bg-background transition-colors">
       <div className="container mx-auto px-4">
         <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -174,12 +174,12 @@ export default function LandingPage() {
         {stats.map((stat, index) => (
           <div key={index} className="text-center">
           <div className="flex justify-center mb-2">
-            <stat.icon className="h-8 w-8 text-blue-600 dark:text-blue-400" />
+            <stat.icon className="h-8 w-8 text-primary" />
           </div>
-          <div className="text-3xl font-bold text-gray-900 dark:text-white mb-1">
+          <div className="text-3xl font-bold text-foreground mb-1">
             {stat.number}
           </div>
-          <div className="text-gray-600 dark:text-gray-300">{stat.label}</div>
+          <div className="text-muted-foreground">{stat.label}</div>
           </div>
         ))}
         </motion.div>
@@ -196,10 +196,10 @@ export default function LandingPage() {
         viewport={{ once: true }}
         className="text-center mb-16"
         >
-        <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+        <h2 className="text-4xl font-bold text-foreground mb-4">
           Everything You Need to Land Your Dream Job
         </h2>
-        <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+        <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
           Our comprehensive AI analysis covers every aspect of your resume
           to maximize your chances of success.
         </p>
@@ -214,16 +214,16 @@ export default function LandingPage() {
           transition={{ duration: 0.6, delay: index * 0.1 }}
           viewport={{ once: true }}
           >
-          <Card className="p-8 h-full hover:shadow-lg transition-all duration-300 border-0 bg-white/60 dark:bg-gray-800/60 backdrop-blur-xs">
+          <Card className="p-8 h-full hover:shadow-lg transition-all duration-300 border-0 bg-card backdrop-blur-xs">
             <div className="flex items-center mb-4">
-            <div className={`p-3 rounded-lg bg-gray-50 dark:bg-gray-900 mr-4`}>
-              <feature.icon className={`h-6 w-6 ${feature.color} dark:text-blue-400`} />
+            <div className="p-3 rounded-lg bg-muted mr-4">
+              <feature.icon className="h-6 w-6 text-primary" />
             </div>
-            <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
+            <h3 className="text-xl font-semibold text-foreground">
               {feature.title}
             </h3>
             </div>
-            <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+            <p className="text-muted-foreground leading-relaxed">
             {feature.description}
             </p>
           </Card>
@@ -234,7 +234,7 @@ export default function LandingPage() {
       </section>
 
       {/* How It Works */}
-      <section className="py-20 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-900 dark:to-gray-950 transition-colors">
+      <section className="py-20 bg-muted transition-colors">
       <div className="container mx-auto px-4">
         <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -243,10 +243,10 @@ export default function LandingPage() {
         viewport={{ once: true }}
         className="text-center mb-16"
         >
-        <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+        <h2 className="text-4xl font-bold text-foreground mb-4">
           How It Works
         </h2>
-        <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+        <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
           Get professional resume insights in just three simple steps.
         </p>
         </motion.div>
@@ -284,17 +284,17 @@ export default function LandingPage() {
           className="text-center"
           >
           <div className="relative mb-6">
-            <div className="w-20 h-20 bg-white dark:bg-gray-900 rounded-full flex items-center justify-center mx-auto shadow-lg">
-            <item.icon className="h-8 w-8 text-blue-600 dark:text-blue-400" />
+            <div className="w-20 h-20 bg-card rounded-full flex items-center justify-center mx-auto shadow-lg">
+            <item.icon className="h-8 w-8 text-primary" />
             </div>
-            <div className="absolute -top-2 -right-2 w-8 h-8 bg-blue-600 dark:bg-blue-400 text-white rounded-full flex items-center justify-center text-sm font-bold">
+            <div className="absolute -top-2 -right-2 w-8 h-8 bg-primary text-white rounded-full flex items-center justify-center text-sm font-bold">
             {item.step}
             </div>
           </div>
-          <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
+          <h3 className="text-xl font-semibold text-foreground mb-3">
             {item.title}
           </h3>
-          <p className="text-gray-600 dark:text-gray-300">{item.description}</p>
+          <p className="text-muted-foreground">{item.description}</p>
           </motion.div>
         ))}
         </div>
@@ -311,10 +311,10 @@ export default function LandingPage() {
         viewport={{ once: true }}
         className="text-center mb-16"
         >
-        <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+        <h2 className="text-4xl font-bold text-foreground mb-4">
           Trusted by Job Seekers Worldwide
         </h2>
-        <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+        <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
           See how our AI-powered resume analysis has helped professionals
           land their dream jobs.
         </p>
@@ -329,7 +329,7 @@ export default function LandingPage() {
           transition={{ duration: 0.6, delay: index * 0.1 }}
           viewport={{ once: true }}
           >
-          <Card className="p-6 h-full bg-white/80 dark:bg-gray-800/80 backdrop-blur-xs border-0 shadow-lg">
+          <Card className="p-6 h-full bg-card backdrop-blur-xs border-0 shadow-lg">
             <div className="flex items-center mb-4">
             {[...Array(testimonial.rating)].map((_, i) => (
               <Star
@@ -338,18 +338,18 @@ export default function LandingPage() {
               />
             ))}
             </div>
-            <p className="text-gray-700 dark:text-gray-200 mb-6 italic">
+            <p className="text-foreground mb-6 italic">
             "{testimonial.content}"
             </p>
             <div className="flex items-center">
-            <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 dark:from-blue-400 dark:to-purple-600 rounded-full flex items-center justify-center text-white font-semibold mr-3">
+            <div className="w-10 h-10 bg-gradient-to-r from-primary to-secondary rounded-full flex items-center justify-center text-white font-semibold mr-3">
               {testimonial.name.charAt(0)}
             </div>
             <div>
-              <div className="font-semibold text-gray-900 dark:text-white">
+              <div className="font-semibold text-foreground">
               {testimonial.name}
               </div>
-              <div className="text-sm text-gray-600 dark:text-gray-300">
+              <div className="text-sm text-muted-foreground">
               {testimonial.role} at {testimonial.company}
               </div>
             </div>
@@ -362,7 +362,7 @@ export default function LandingPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-700 dark:to-purple-800 text-white transition-colors">
+      <section className="py-20 bg-gradient-to-r from-primary to-secondary text-white transition-colors">
       <div className="container mx-auto px-4 text-center">
         <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -392,14 +392,14 @@ export default function LandingPage() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-gray-900 dark:bg-gray-950 text-white py-12 transition-colors">
+      <footer className="bg-background text-foreground py-12 transition-colors border-t">
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row items-center justify-between">
         <div className="flex items-center space-x-2 mb-4 md:mb-0">
-          <Brain className="h-6 w-6 text-blue-400" />
+          <Brain className="h-6 w-6 text-primary" />
           <span className="text-lg font-semibold">ResumeBolt</span>
         </div>
-        <div className="text-gray-400 text-sm">
+        <div className="text-muted-foreground text-sm">
           © 2025 ResumeBolt. All rights reserved.
         </div>
         </div>
