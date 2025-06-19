@@ -22,6 +22,9 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { usePathname } from "next/navigation";
+import { UserButton } from "@clerk/nextjs";
+import { dark, simple } from "@clerk/themes";
+import { useTheme } from "next-themes";
 
 const navigation = [
   // { name: "Dashboard", href: "/dashboard", icon: ChartColumn },
@@ -42,10 +45,8 @@ export default function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const { theme } = useTheme();
   const pathname = usePathname();
-
-  console.clear();
-  console.log(pathname);
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -168,7 +169,13 @@ export default function DashboardLayout({
           <div className="shrink-0 border-t border-border p-4">
             <Card className="p-3 bg-card">
               <div className="flex items-center">
-                <div className="shrink-0">
+                <UserButton
+                  showName={true}
+                  appearance={{
+                    baseTheme: theme === "dark" ? dark : simple,
+                  }}
+                />
+                {/* <div className="shrink-0">
                   <div className="h-8 w-8 bg-gradient-to-r from-primary to-secondary rounded-full flex items-center justify-center">
                     <User className="h-4 w-4 text-white" />
                   </div>
@@ -180,7 +187,7 @@ export default function DashboardLayout({
                   <p className="text-xs text-muted-foreground truncate">
                     Free Plan
                   </p>
-                </div>
+                </div> */}
               </div>
             </Card>
           </div>

@@ -1,4 +1,4 @@
-import { AnalysisDataType } from "./types";
+import { AnalysisDataType, CoverLetterAnalysisDataType } from "./types";
 
 export async function analyzeResume(resumeFile: File, jobDescription: string): Promise<AnalysisDataType> {
   try {
@@ -27,7 +27,7 @@ export async function analyzeResume(resumeFile: File, jobDescription: string): P
 export async function analyzeCoverLetter(
   coverLetterFile: File,
   jobDescription: string
-): Promise<AnalysisDataType> {
+): Promise<CoverLetterAnalysisDataType> {
   try {
     const formData = new FormData();
     formData.append("jobDescription", jobDescription);

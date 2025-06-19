@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { generateObject } from "ai";
 import { google } from "@ai-sdk/google";
 import { z } from "zod";
+import { db } from "@/db";
+import { analysis } from "@/db/schema";
 import { auth } from "@clerk/nextjs/server";
 
 export const maxDuration = 60;
@@ -77,11 +79,11 @@ const coverLetterAnalysisSchema = z.object({
 
 export async function POST(request: Request) {
   try {
-    // const { userId } = await auth();
+    const { userId } = await auth();
 
-    // if (!userId) {
-    //   return new NextResponse("Unauthorized", { status: 401 });
-    // }
+    if (!userId) {
+      return new NextResponse("Unauthorized", { status: 401 });
+    }
 
     const formData = await request.formData();
     const coverLetterText = formData.get("coverLetter") as string;
@@ -137,7 +139,11 @@ export async function POST(request: Request) {
 
 Job Description: ${jobDescription}
 
-${coverLetterText ? `Cover Letter Text: ${coverLetterText}` : "Cover Letter: [See attached PDF]"}
+${
+  coverLetterText
+    ? `Cover Letter Text: ${coverLetterText}`
+    : "Cover Letter: [See attached PDF]"
+}
 
 Please conduct a thorough analysis of the provided cover letter against the job description. Provide the following comprehensive breakdown:
 
@@ -223,109 +229,6 @@ IMPORTANT: Base your analysis entirely on the actual content of the provided cov
       });
     }
 
-    // const obj = {
-    //   overallScore: 55,
-    //   scoreJustification:
-    //     "The cover letter demonstrates some relevant technical skills but fails to adequately address the core requirements of the job description, particularly C# development and experience in a financial services environment.",
-    //   executiveSummary:
-    //     "The cover letter is geared towards a full-stack role and doesn't adequately highlight the C# development skills and experience required for this specific position. It needs to be refocused to emphasize relevant skills and experience and address the key requirements of the job description. The immediate impression is that the candidate is a skilled full-stack developer, but not necessarily the right fit for this particular role.",
-    //   firstImpression:
-    //     "The cover letter gives the impression of a skilled full-stack developer with experience in Django and React, but it needs to be more tailored to the specific requirements of a C# development role in a financial services environment.",
-    //   structureAnalysis: {
-    //     strengths: [
-    //       "The cover letter has a clear and professional format.",
-    //       "The letter includes a brief summary of the candidate's experience and skills.",
-    //       "The closing paragraph expresses gratitude and a desire for further discussion.",
-    //     ],
-    //     weaknesses: [
-    //       "The opening paragraph is generic and doesn't immediately grab the reader's attention.",
-    //       "The letter lacks a strong narrative or compelling story that showcases the candidate's passion and abilities.",
-    //       "The work authorization paragraph is placed in the middle of the letter, disrupting the flow.",
-    //     ],
-    //     recommendations: [
-    //       "Move the work authorization paragraph to the end of the letter, as it is not the most compelling information to highlight.",
-    //       "Use bullet points to list your key C# skills and achievements, making them easier to read and digest.",
-    //       "Ensure that each paragraph has a clear focus and contributes to your overall value proposition.",
-    //     ],
-    //   },
-    //   contentAnalysis: {
-    //     relevanceToJob: [
-    //       "The cover letter is partially relevant, as it mentions technical skills. However, it emphasizes full-stack skills that are not the primary focus of the job description.",
-    //       "The letter does not adequately address the core requirements of C# development, multi-threading, and collaboration with quants and traders.",
-    //     ],
-    //     personalityAndFit: [
-    //       "The cover letter demonstrates some enthusiasm and a collaborative spirit, but it could be more tailored to the specific culture and needs of a financial services technology team.",
-    //       "The phrase 'I am genuinely passionate about what you have provided with JIRA and Trello' is vague and doesn't clearly articulate your passion or how it relates to the job.",
-    //     ],
-    //     valueProposition: [
-    //       "The candidate highlights achievements like 'achieving a 40% faster response time' and 'boosting reusability by 50%'. However, these achievements are related to Django and React, not C#.",
-    //       "The value proposition is not clearly aligned with the specific needs of the role, which requires C# development and support for a financial platform.",
-    //     ],
-    //     gaps: [
-    //       "The cover letter focuses heavily on full-stack development and technologies like React and Django, which are not the primary focus of the job description. The job description emphasizes C# development and multi-threading.",
-    //       "The cover letter does not explicitly address the 'correct attitude' requirement, which is crucial for this role.",
-    //       "The cover letter lacks specific examples of working directly with quants and traders or providing 3rd line support.",
-    //     ],
-    //   },
-    //   keywordAnalysis: {
-    //     matchingKeywords: [
-    //       "C#",
-    //       "JavaScript",
-    //       "Python",
-    //       "testing",
-    //       "documentation",
-    //       "release",
-    //       "global",
-    //       "technology",
-    //       "Bachelor’s degree",
-    //       "communication",
-    //     ],
-    //     missingKeywords: [
-    //       "multi-threading",
-    //       "WPF",
-    //       "messaging",
-    //       "React",
-    //       "Angular",
-    //       "financial services",
-    //       "quants",
-    //       "traders",
-    //       "3rd line support",
-    //       "commodities",
-    //       "applications development",
-    //     ],
-    //   },
-    //   toneAndStyle: {
-    //     assessment:
-    //       "The tone of the cover letter is professional and enthusiastic. However, the writing style could be more concise and impactful.",
-    //     improvements: [
-    //       "Use stronger action verbs to describe your accomplishments.",
-    //       "Avoid vague phrases like 'I am genuinely passionate about' and replace them with specific examples of your passion.",
-    //       "Proofread carefully for any errors in grammar or spelling.",
-    //     ],
-    //   },
-    //   actionableRecommendations: {
-    //     rewrittenOpening:
-    //       "I am writing to express my strong interest in the Application Development position at [Company Name], as advertised on [Platform]. With my C# development experience, understanding of multi-threading, and passion for collaborative problem-solving, I am confident I can contribute to your team's success in developing and supporting critical platform components.",
-    //     rewrittenClosing:
-    //       "Thank you for your time and consideration. I am eager to discuss how my C# development experience and collaborative approach can contribute to your team's success. I am available for an interview at your earliest convenience.",
-    //     contentSuggestions: [
-    //       "Quantify your experience with C# development, highlighting specific projects and their impact.",
-    //       "Mention your understanding of multi-threading in C#, as this is a key requirement.",
-    //       "Even though React is listed as 'a plus but not required,' briefly mentioning your willingness to learn it could strengthen your application.",
-    //       "Address the 'correct attitude' requirement by explicitly stating your commitment to treating business, quants, and tech colleagues as clients.",
-    //     ],
-    //     callToActionImprovement:
-    //       "Instead of a generic 'I look forward to discussing this opportunity with you,' try: 'I am eager to discuss how my C# and collaborative skills can contribute to your team's success. I am available for an interview at your earliest convenience.'",
-    //   },
-    //   finalChecklist: [
-    //     "Rewrite the opening paragraph to focus on your C# development experience and understanding of multi-threading.",
-    //     "Provide specific examples of your C# projects and their impact, quantifying your achievements whenever possible.",
-    //     "Address the 'correct attitude' requirement by explicitly stating your commitment to treating business, quants, and tech colleagues as clients.",
-    //     "Remove or minimize the focus on full-stack technologies like React and Django, as they are not the primary focus of the job description.",
-    //     "Proofread carefully for any errors in grammar or spelling.",
-    //   ],
-    // };
-
     const result = await generateObject({
       model: google("gemini-2.0-flash"),
       messages,
@@ -333,23 +236,19 @@ IMPORTANT: Base your analysis entirely on the actual content of the provided cov
       temperature: 0.1,
     });
 
-    // // Save analysis to Convex database
-    // try {
-    //   await convex.mutation(api.analysis.create, {
-    //     userId: userId,
-    //     type: "cover-letter",
-    //     title:
-    //       title || `Cover Letter Analysis - ${new Date().toLocaleDateString()}`,
-    //     company: company || "Unknown Company",
-    //     jobDescription,
-    //     fileName: coverLetterFile?.name,
-    //     fileSize: coverLetterFile?.size,
-    //     analysis: result.object,
-    //   });
-    // } catch (dbError) {
-    //   console.error("Failed to save analysis to database:", dbError);
-    //   // Continue with response even if DB save fails
-    // }
+    try {
+      await db.insert(analysis).values({
+        forResume: false,
+        title: title || "Unnamed Analysis",
+        company: company || "Unknown Company",
+        analysisJson: result.object,
+        jobDescription,
+        userId,
+      });
+    } catch (dbError) {
+      console.error("Failed to save analysis to database:", dbError);
+      // Continue with response even if DB save fails
+    }
 
     return Response.json(result.object);
   } catch (error) {

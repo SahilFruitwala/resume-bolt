@@ -2,9 +2,9 @@ import { NextResponse } from "next/server";
 import { generateObject } from "ai";
 import { google } from "@ai-sdk/google";
 import { z } from "zod";
-// import { api } from "@/convex/_generated/api";
-// import { ConvexHttpClient } from "convex/browser";
-// import { auth } from "@clerk/nextjs/server";
+import { db } from "@/db";
+import { analysis } from "@/db/schema";
+import { auth } from "@clerk/nextjs/server";
 
 export const maxDuration = 60;
 
@@ -73,11 +73,11 @@ const analysisSchema = z.object({
 
 export async function POST(request: Request) {
   try {
-    // const { userId } = await auth();
+    const { userId } = await auth();
 
-    // if (!userId) {
-    //   return new NextResponse("Unauthorized", { status: 401 });
-    // }
+    if (!userId) {
+      return new NextResponse("Unauthorized", { status: 401 });
+    }
 
     const formData = await request.formData();
     const resumeFile = formData.get("resume") as File;
@@ -98,109 +98,6 @@ export async function POST(request: Request) {
         { status: 400 }
       );
     }
-
-    // const obj = {
-    //   overallScore: 65,
-    //   scoreJustification:
-    //     "The candidate possesses a solid technical foundation and some relevant skills, but the lack of explicitly stated C# experience and financial services background significantly lowers the match score.",
-    //   executiveSummary:
-    //     "Sahil is a skilled software engineer with a strong background in API development and database optimization. His experience with Python, JavaScript, and various frameworks makes him a potentially good fit for the role. However, the resume needs to be tailored to emphasize C# experience and highlight his willingness to learn React.",
-    //   firstImpression:
-    //     "Technically proficient with a focus on web development and automation, but needs to better highlight C# skills and financial services experience.",
-    //   keywordAnalysis: {
-    //     matchingKeywords: [
-    //       "API",
-    //       "JavaScript",
-    //       "React",
-    //       "SQL",
-    //       "Database",
-    //       "AWS",
-    //       "Python",
-    //       "Testing",
-    //       "REST",
-    //       "Multi-threading",
-    //       "Cloud",
-    //       "Git",
-    //       "GitHub",
-    //       "WPF",
-    //     ],
-    //     missingKeywords: [
-    //       "C#",
-    //       "Quants",
-    //       "Traders",
-    //       "Financial Services",
-    //       "Commodities",
-    //       "Technology",
-    //       "Platform",
-    //       "Support",
-    //       "Documentation",
-    //       "Release Process",
-    //       "Firm Standards",
-    //       "Global",
-    //       "Markets",
-    //       "Deliveries",
-    //     ],
-    //   },
-    //   atsAnalysis: {
-    //     redFlags: [
-    //       "The use of columns or tables in the skills section could potentially cause parsing issues. Consider converting it to a simple list format.",
-    //       "While not a major issue, the use of multiple fonts might slightly decrease ATS readability. Stick to one or two standard fonts like Arial or Calibri.",
-    //     ],
-    //     recommendations: [
-    //       "Ensure that all acronyms (e.g., NLP) are spelled out on first use to avoid misinterpretation by the ATS.",
-    //       "Consider removing the 'Interest' section, as it doesn't directly contribute to your qualifications for the role and can take up valuable space.",
-    //       "Save your resume as a .docx file to ensure maximum compatibility with most ATS systems.",
-    //     ],
-    //   },
-    //   experienceAlignment: {
-    //     strengths: [
-    //       'Experience in API development: "Designed scalable Django REST APIs to handle 1000+ daily requests, leveraging query optimization and caching to achieve a 40% faster response time."',
-    //       'Experience with React: "Built reusable React components adhering to atomic design principles, boosting reusability by 50% and simplifying client data management."',
-    //       'Experience with database optimization: "Streamlined database operations by refining Django ORM queries and integrating raw SQL, reducing query execution times by 40%."',
-    //       'Experience with cloud technologies: "Engineered a serverless backend using AWS Lambda and S3 to process data for a custom contact panel, reducing operational costs by 40%."',
-    //     ],
-    //     gaps: [
-    //       "The resume lacks explicit experience in financial services, although this is listed as 'a plus but not required.'",
-    //       "While the resume mentions React, it's not highlighted as a primary skill. Given the WPF to React migration, more emphasis on React experience (even if it's in personal projects) would be beneficial.",
-    //       "The resume doesn't explicitly mention experience working directly with quants and traders, or providing 3rd line support.",
-    //     ],
-    //     dealBreakers: [
-    //       "The resume does not explicitly state C# experience, which is a primary requirement. While it mentions other languages, the lack of C# is a significant gap.",
-    //     ],
-    //   },
-    //   actionableRecommendations: {
-    //     rewrittenSummary:
-    //       "A highly skilled software engineer with experience in C# and a strong background in API development, database optimization, and automation. Proven ability to deliver high-quality code and streamline workflows, as demonstrated by reducing manual data entry time by 75% and development bottlenecks by 35%. Eager to leverage existing skills and learn React during the WPF migration to contribute to the platform's development.",
-    //     improvedBulletPoints: [
-    //       {
-    //         original:
-    //           "Designed and implemented CLI tools for automated data import from Google Sheets to MySQL database, reducing manual data entry time by 75%.",
-    //         improved:
-    //           "Designed and implemented CLI tools using Python to automate data import from Google Sheets to MySQL database, reducing manual data entry time by 75%, resulting in a savings of 20 hours per week for the data entry team.",
-    //       },
-    //       {
-    //         original:
-    //           "Refactored legacy Django APIs to enhance maintainability, streamline workflows, and reduce development bottlenecks by 35%.",
-    //         improved:
-    //           "Refactored legacy Django APIs to enhance maintainability and streamline workflows, resulting in a 35% reduction in development bottlenecks and a 15% improvement in code deployment frequency.",
-    //       },
-    //     ],
-    //     addressingGaps: [
-    //       "Reorder your skills section to prioritize C# and multi-threading, even if it means moving it above the Education section. This will immediately highlight your most relevant skills to the recruiter and the ATS.",
-    //       "Quantify your experience with financial data or systems, even if it's a small part of a previous project. For example, mention if you've worked with financial APIs or processed financial data in any of your projects.",
-    //       "In your rewritten summary, explicitly state your eagerness to learn React during the WPF migration. This shows your willingness to adapt and grow within the role.",
-    //     ],
-    //   },
-    //   finalChecklist: [
-    //     "Rewrite the professional summary to emphasize C# experience and eagerness to learn React.",
-    //     "Reorder the skills section to prioritize C# and multi-threading.",
-    //     "Quantify your achievements with metrics wherever possible to demonstrate impact.",
-    //     "Tailor your bullet points to highlight experiences that align with the job description's requirements, such as working with stakeholders and providing support.",
-    //     "Save the resume as a .docx file.",
-    //   ],
-    // };
-
-    // return Response.json(obj);
 
     const resumeBuffer = await resumeFile.arrayBuffer();
 
@@ -275,22 +172,19 @@ IMPORTANT: Base your analysis entirely on the actual content of the provided res
       temperature: 0.1,
     });
 
-    // // Save analysis to Convex database
-    // try {
-    //   await convex.mutation(api.analysis.create, {
-    //     userId,
-    //     type: "resume",
-    //     title: title || `Resume Analysis - ${new Date().toLocaleDateString()}`,
-    //     company: company || "Unknown Company",
-    //     jobDescription,
-    //     fileName: resumeFile.name,
-    //     fileSize: resumeFile.size,
-    //     analysis: result.object,
-    //   });
-    // } catch (dbError) {
-    //   console.error("Failed to save analysis to database:", dbError);
-    //   // Continue with response even if DB save fails
-    // }
+    try {
+      await db.insert(analysis).values({
+        forResume: true,
+        title : title || "Unnamed Analysis",
+        company: company || "Unknown Company",
+        analysisJson: result.object,
+        jobDescription,
+        userId,
+      });
+    } catch (dbError) {
+      console.error("Failed to save analysis to database:", dbError);
+      // Continue with response even if DB save fails
+    }
 
     return Response.json(result.object);
   } catch (error) {

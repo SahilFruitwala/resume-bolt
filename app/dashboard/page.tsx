@@ -58,8 +58,6 @@ export default function DashboardPage() {
   }
 
   if (step === "results" && analysisData) {
-    console.clear();
-    console.log("Analysis Data:", analysisData);
     return (
       <div className="p-6">
         <div className="max-w-7xl mx-auto">
