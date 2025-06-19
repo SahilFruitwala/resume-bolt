@@ -2,13 +2,9 @@ import { NextResponse } from "next/server";
 import { generateObject } from "ai";
 import { google } from "@ai-sdk/google";
 import { z } from "zod";
-import { api } from "@/convex/_generated/api";
-import { ConvexHttpClient } from "convex/browser";
 import { auth } from "@clerk/nextjs/server";
 
 export const maxDuration = 60;
-
-const convex = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
 
 const coverLetterAnalysisSchema = z.object({
   overallScore: z
@@ -81,11 +77,11 @@ const coverLetterAnalysisSchema = z.object({
 
 export async function POST(request: Request) {
   try {
-    const { userId } = await auth();
+    // const { userId } = await auth();
 
-    if (!userId) {
-      return new NextResponse("Unauthorized", { status: 401 });
-    }
+    // if (!userId) {
+    //   return new NextResponse("Unauthorized", { status: 401 });
+    // }
 
     const formData = await request.formData();
     const coverLetterText = formData.get("coverLetter") as string;
@@ -337,23 +333,23 @@ IMPORTANT: Base your analysis entirely on the actual content of the provided cov
       temperature: 0.1,
     });
 
-    // Save analysis to Convex database
-    try {
-      await convex.mutation(api.analysis.create, {
-        userId: userId,
-        type: "cover-letter",
-        title:
-          title || `Cover Letter Analysis - ${new Date().toLocaleDateString()}`,
-        company: company || "Unknown Company",
-        jobDescription,
-        fileName: coverLetterFile?.name,
-        fileSize: coverLetterFile?.size,
-        analysis: result.object,
-      });
-    } catch (dbError) {
-      console.error("Failed to save analysis to database:", dbError);
-      // Continue with response even if DB save fails
-    }
+    // // Save analysis to Convex database
+    // try {
+    //   await convex.mutation(api.analysis.create, {
+    //     userId: userId,
+    //     type: "cover-letter",
+    //     title:
+    //       title || `Cover Letter Analysis - ${new Date().toLocaleDateString()}`,
+    //     company: company || "Unknown Company",
+    //     jobDescription,
+    //     fileName: coverLetterFile?.name,
+    //     fileSize: coverLetterFile?.size,
+    //     analysis: result.object,
+    //   });
+    // } catch (dbError) {
+    //   console.error("Failed to save analysis to database:", dbError);
+    //   // Continue with response even if DB save fails
+    // }
 
     return Response.json(result.object);
   } catch (error) {
