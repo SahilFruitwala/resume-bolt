@@ -1,27 +1,42 @@
 "use client";
 
 import { useState } from "react";
-import { FileUpload } from "@/components/FileUpload";
-import { JobDescriptionInput } from "@/components/JobDescriptionInput";
-import { AnalysisResults } from "@/components/AnalysisResults";
-import { LoadingState } from "@/components/LoadingState";
-import { analyzeResume } from "@/lib/ai-analyzer";
+import { FileUpload } from "@/components/file-upload";
+import { JobDescriptionInput } from "@/components/job-description-input";
+import { LoadingState } from "@/components/loading-state";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Brain, FileText, Target, Zap, ArrowLeft, Star } from "lucide-react";
 import { motion } from "framer-motion";
-import { ResumeAnalysis } from "@/components/NewAnalysis";
+import { ResumeAnalysis } from "@/components/analysis-results";
 
 interface AnalysisData {
   overallScore: number;
-  skillsMatch: number;
-  atsScore: number;
-  formatScore: number;
-  keyStrengths: string[];
-  missingKeywords: string[];
-  improvements: string[];
-  atsRecommendations: string[];
-  formatFeedback: string[];
+  scoreJustification: string;
+  executiveSummary: string;
+  firstImpression: string;
+  keywordAnalysis: {
+    matchingKeywords: string[];
+    missingKeywords: string[];
+  };
+  atsAnalysis: {
+    redFlags: string[];
+    recommendations: string[];
+  };
+  experienceAlignment: {
+    strengths: string[];
+    gaps: string[];
+    dealBreakers: string[];
+  };
+  actionableRecommendations: {
+    rewrittenSummary: string;
+    improvedBulletPoints: Array<{
+      original: string;
+      improved: string;
+    }>;
+    addressingGaps: string[];
+  };
+  finalChecklist: string[];
 }
 
 const getScoreColor = (score: number) => {
@@ -142,7 +157,7 @@ export default function DashboardPage() {
               {/* </div> */}
             </div>
           </div>
-          <ResumeAnalysis analysis={analysisData} onReset={() => {}} />
+          <ResumeAnalysis analysis={analysisData} />
         </div>
       </div>
     );
@@ -173,7 +188,7 @@ export default function DashboardPage() {
           transition={{ delay: 0.1 }}
           className="grid md:grid-cols-4 gap-4 mb-8"
         >
-          <Card className="p-4 bg-gradient-to-r from-blue-50 to-blue-100 border-blue-200">
+          <Card className="p-4 bg-linear-to-r from-blue-50 to-blue-100 border-blue-200">
             <div className="flex items-center">
               <Target className="h-8 w-8 text-blue-600 mr-3" />
               <div>
@@ -184,7 +199,7 @@ export default function DashboardPage() {
               </div>
             </div>
           </Card>
-          <Card className="p-4 bg-gradient-to-r from-green-50 to-green-100 border-green-200">
+          <Card className="p-4 bg-linear-to-r from-green-50 to-green-100 border-green-200">
             <div className="flex items-center">
               <FileText className="h-8 w-8 text-green-600 mr-3" />
               <div>
@@ -195,7 +210,7 @@ export default function DashboardPage() {
               </div>
             </div>
           </Card>
-          <Card className="p-4 bg-gradient-to-r from-purple-50 to-purple-100 border-purple-200">
+          <Card className="p-4 bg-linear-to-r from-purple-50 to-purple-100 border-purple-200">
             <div className="flex items-center">
               <Zap className="h-8 w-8 text-purple-600 mr-3" />
               <div>
@@ -206,7 +221,7 @@ export default function DashboardPage() {
               </div>
             </div>
           </Card>
-          <Card className="p-4 bg-gradient-to-r from-orange-50 to-orange-100 border-orange-200">
+          <Card className="p-4 bg-linear-to-r from-orange-50 to-orange-100 border-orange-200">
             <div className="flex items-center">
               <Brain className="h-8 w-8 text-orange-600 mr-3" />
               <div>

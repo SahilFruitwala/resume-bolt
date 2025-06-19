@@ -149,7 +149,7 @@ export function FileUpload({ onFileSelect, selectedFile }: FileUploadProps) {
           >
             <div className="flex items-start justify-between">
               <div className="flex items-center">
-                <div className="flex-shrink-0">
+                <div className="shrink-0">
                   <CheckCircle className="h-8 w-8 text-green-600" />
                 </div>
                 <div className="ml-3">

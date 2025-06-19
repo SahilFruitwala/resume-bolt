@@ -128,7 +128,7 @@ export default function ReportsPage() {
               <Card className="p-6 hover:shadow-lg transition-shadow">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-4">
-                    <div className="flex-shrink-0">
+                    <div className="shrink-0">
                       <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
                         <FileText className="h-6 w-6 text-blue-600" />
                       </div>

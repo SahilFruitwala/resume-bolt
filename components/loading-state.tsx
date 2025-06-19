@@ -49,7 +49,7 @@ export function LoadingState() {
   }, [currentStep]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
+    <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
       <div className="max-w-2xl mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
@@ -95,7 +95,7 @@ export function LoadingState() {
                     `}
                   >
                     <div className={`
-                      flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center mr-4
+                      shrink-0 w-10 h-10 rounded-full flex items-center justify-center mr-4
                       ${isCompleted ? 'bg-green-100' : isActive ? 'bg-blue-100' : 'bg-gray-100'}
                     `}>
                       <StepIcon className={`

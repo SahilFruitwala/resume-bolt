@@ -48,10 +48,9 @@ interface ResumeAnalysisProps {
     }
     finalChecklist: string[]
   }
-  onReset: () => void,
 }
 
-export function ResumeAnalysis({ analysis, onReset }: ResumeAnalysisProps) {
+export function ResumeAnalysis({ analysis }: ResumeAnalysisProps) {
   const getScoreColor = (score: number) => {
     if (score >= 80) return "text-green-600"
     if (score >= 60) return "text-yellow-600"
@@ -182,7 +181,7 @@ export function ResumeAnalysis({ analysis, onReset }: ResumeAnalysisProps) {
                 <ul className="space-y-3">
                   {analysis.atsAnalysis.redFlags.map((flag, index) => (
                     <li key={index} className="flex items-start gap-2">
-                      <AlertTriangle className="h-4 w-4 text-red-500 mt-0.5 flex-shrink-0" />
+                      <AlertTriangle className="h-4 w-4 text-red-500 mt-0.5 shrink-0" />
                       <span className="text-sm text-gray-700 dark:text-gray-300">{flag}</span>
                     </li>
                   ))}
@@ -207,7 +206,7 @@ export function ResumeAnalysis({ analysis, onReset }: ResumeAnalysisProps) {
               <ul className="space-y-3">
                 {analysis.atsAnalysis.recommendations.map((rec, index) => (
                   <li key={index} className="flex items-start gap-2">
-                    <TrendingUp className="h-4 w-4 text-blue-500 mt-0.5 flex-shrink-0" />
+                    <TrendingUp className="h-4 w-4 text-blue-500 mt-0.5 shrink-0" />
                     <span className="text-sm text-gray-700 dark:text-gray-300">{rec}</span>
                   </li>
                 ))}
@@ -229,7 +228,7 @@ export function ResumeAnalysis({ analysis, onReset }: ResumeAnalysisProps) {
               <ul className="space-y-3">
                 {analysis.experienceAlignment.strengths.map((strength, index) => (
                   <li key={index} className="flex items-start gap-2">
-                    <CheckCircle className="h-4 w-4 text-green-500 mt-0.5 flex-shrink-0" />
+                    <CheckCircle className="h-4 w-4 text-green-500 mt-0.5 shrink-0" />
                     <span className="text-sm text-gray-700 dark:text-gray-300">{strength}</span>
                   </li>
                 ))}
@@ -248,7 +247,7 @@ export function ResumeAnalysis({ analysis, onReset }: ResumeAnalysisProps) {
               <ul className="space-y-3">
                 {analysis.experienceAlignment.gaps.map((gap, index) => (
                   <li key={index} className="flex items-start gap-2">
-                    <AlertTriangle className="h-4 w-4 text-yellow-500 mt-0.5 flex-shrink-0" />
+                    <AlertTriangle className="h-4 w-4 text-yellow-500 mt-0.5 shrink-0" />
                     <span className="text-sm text-gray-700 dark:text-gray-300">{gap}</span>
                   </li>
                 ))}
@@ -268,7 +267,7 @@ export function ResumeAnalysis({ analysis, onReset }: ResumeAnalysisProps) {
                 <ul className="space-y-3">
                   {analysis.experienceAlignment.dealBreakers.map((dealBreaker, index) => (
                     <li key={index} className="flex items-start gap-2">
-                      <AlertTriangle className="h-4 w-4 text-red-500 mt-0.5 flex-shrink-0" />
+                      <AlertTriangle className="h-4 w-4 text-red-500 mt-0.5 shrink-0" />
                       <span className="text-sm text-gray-700 dark:text-gray-300">{dealBreaker}</span>
                     </li>
                   ))}
@@ -338,7 +337,7 @@ export function ResumeAnalysis({ analysis, onReset }: ResumeAnalysisProps) {
               <ul className="space-y-3">
                 {analysis.actionableRecommendations.addressingGaps.map((gap, index) => (
                   <li key={index} className="flex items-start gap-2">
-                    <Lightbulb className="h-4 w-4 text-purple-500 mt-0.5 flex-shrink-0" />
+                    <Lightbulb className="h-4 w-4 text-purple-500 mt-0.5 shrink-0" />
                     <span className="text-sm text-gray-700 dark:text-gray-300">{gap}</span>
                   </li>
                 ))}
@@ -363,7 +362,7 @@ export function ResumeAnalysis({ analysis, onReset }: ResumeAnalysisProps) {
               <ul className="space-y-2">
                 {analysis.finalChecklist.map((item, index) => (
                   <li key={index} className="flex items-start gap-2">
-                    <CheckSquare className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
+                    <CheckSquare className="h-4 w-4 text-green-600 mt-0.5 shrink-0" />
                     <span className="text-sm text-gray-700 dark:text-gray-300">{item}</span>
                   </li>
                 ))}

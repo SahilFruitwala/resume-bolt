@@ -82,7 +82,7 @@ export default function DashboardLayout({
                     >
                       <item.icon
                         className={`
-                          mr-3 h-5 w-5 flex-shrink-0
+                          mr-3 h-5 w-5 shrink-0
                           ${item.current ? 'text-blue-500' : 'text-gray-400 group-hover:text-gray-500'}
                         `}
                       />
@@ -98,7 +98,7 @@ export default function DashboardLayout({
 
       {/* Desktop sidebar */}
       <div className="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-64 lg:flex-col">
-        <div className="flex flex-col flex-grow bg-white border-r border-gray-200 shadow-sm">
+        <div className="flex flex-col grow bg-white border-r border-gray-200 shadow-xs">
           <div className="flex h-16 items-center px-6 border-b">
             <Link href="/" className="flex items-center space-x-2">
               <Brain className="h-6 w-6 text-blue-600" />
@@ -121,7 +121,7 @@ export default function DashboardLayout({
                 >
                   <item.icon
                     className={`
-                      mr-3 h-5 w-5 flex-shrink-0
+                      mr-3 h-5 w-5 shrink-0
                       ${item.current ? 'text-blue-500' : 'text-gray-400 group-hover:text-gray-500'}
                     `}
                   />
@@ -132,11 +132,11 @@ export default function DashboardLayout({
           </nav>
           
           {/* User profile section */}
-          <div className="flex-shrink-0 border-t border-gray-200 p-4">
+          <div className="shrink-0 border-t border-gray-200 p-4">
             <Card className="p-3">
               <div className="flex items-center">
-                <div className="flex-shrink-0">
-                  <div className="h-8 w-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center">
+                <div className="shrink-0">
+                  <div className="h-8 w-8 bg-linear-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center">
                     <User className="h-4 w-4 text-white" />
                   </div>
                 </div>
@@ -153,7 +153,7 @@ export default function DashboardLayout({
       {/* Main content */}
       <div className="lg:pl-64">
         {/* Top navigation */}
-        <div className="sticky top-0 z-40 bg-white border-b border-gray-200 shadow-sm">
+        <div className="sticky top-0 z-40 bg-white border-b border-gray-200 shadow-xs">
           <div className="flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
             <div className="flex items-center">
               <Button
