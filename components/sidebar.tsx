@@ -35,7 +35,7 @@ const navigation = [
   },
   {
     name: "History",
-    href: "/dashboard/history",
+    href: "/dashboard/history?page=1",
     icon: History,
   },
   // { name: 'Analytics', href: '/dashboard/analytics', icon: BarChart3 },
@@ -43,11 +43,9 @@ const navigation = [
   // { name: 'Help', href: '/dashboard/help', icon: HelpCircle },
 ];
 
-export default function Sidebar() {
+export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
   const { theme } = useTheme();
   const pathname = usePathname();
-
-  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
     <>
@@ -93,30 +91,41 @@ export default function Sidebar() {
                       key={item.name}
                       href={item.href}
                       className={`
-          group flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors
-          ${
-            item.href === pathname
-              ? "bg-primary/10 text-primary border-r-2 border-primary"
-              : "text-foreground hover:bg-muted hover:text-foreground"
-          }
-          `}
+                        group flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors
+                        ${
+                          item.href.includes(pathname)
+                            ? "bg-primary/10 text-primary border-r-2 border-primary"
+                            : "text-foreground hover:bg-muted hover:text-foreground"
+                        }
+                      `}
                       onClick={() => setSidebarOpen(false)}
                     >
                       <item.icon
                         className={`
-          mr-3 h-5 w-5 shrink-0
-          ${
-            item.href === pathname
-              ? "text-primary"
-              : "text-muted-foreground group-hover:text-foreground"
-          }
-          `}
+                          mr-3 h-5 w-5 shrink-0
+                          ${
+                            item.href.includes(pathname)
+                              ? "text-primary"
+                              : "text-muted-foreground group-hover:text-foreground"
+                          }
+                        `}
                       />
                       {item.name}
                     </Link>
                   ))}
                 </div>
               </nav>
+              <SignOutButton>
+                <div className="group flex items-center px-3 py-2 rounded-lg transition-colors cursor-pointer text-foreground hover:bg-muted hover:text-foreground">
+                  <Button
+                    variant="ghost"
+                    className="hover:bg-transparent text-md font-medium"
+                  >
+                    Sign Out
+                  </Button>
+                  <LogOut className="mr-3 h-5 w-5 shrink-0 text-primary" />
+                </div>
+              </SignOutButton>
             </motion.div>
           </motion.div>
         )}
@@ -145,7 +154,7 @@ export default function Sidebar() {
                   className={`
                     group flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors
                     ${
-                      item.href === pathname
+                      item.href.includes(pathname)
                         ? "bg-primary/10 text-primary border-r-2 border-primary"
                         : "text-foreground hover:bg-muted hover:text-foreground"
                     }
@@ -155,7 +164,7 @@ export default function Sidebar() {
                     className={`
                       mr-3 h-5 w-5 shrink-0
                       ${
-                        item.href === pathname
+                        item.href.includes(pathname)
                           ? "text-primary"
                           : "text-muted-foreground group-hover:text-foreground"
                       }

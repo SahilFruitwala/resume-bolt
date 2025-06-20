@@ -44,7 +44,7 @@ export default function DashboardLayout({
 
   return (
     <div className="min-h-screen bg-background">
-      <Sidebar />
+      <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
       {/* Main content */}
       <div className="lg:pl-64">
