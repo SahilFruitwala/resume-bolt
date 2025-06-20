@@ -106,7 +106,7 @@ export default function LandingPage() {
         </div>
         <div className='space-x-4 flex items-center'>
           <ThemeToggle />
-          <Link href="/dashboard">
+          <Link href="/dashboard/resume">
           <Button>
             Get Started
             <ArrowRight className="ml-2 h-4 w-4" />
@@ -142,7 +142,7 @@ export default function LandingPage() {
           systems, and land more interviews.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Link href="/dashboard">
+          <Link href="/dashboard/resume">
           <Button size="lg" className="px-8 py-4 text-lg font-semibold">
             <Brain className="mr-2 h-5 w-5" />
             Analyze My Resume
@@ -377,7 +377,7 @@ export default function LandingPage() {
           Join thousands of professionals who have improved their job
           prospects with our AI-powered resume analysis.
         </p>
-        <Link href="/dashboard">
+        <Link href="/dashboard/resume">
           <Button
           size="lg"
           variant="secondary"

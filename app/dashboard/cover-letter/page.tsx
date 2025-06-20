@@ -13,6 +13,8 @@ import { getScoreBgColor, getScoreColor } from "@/lib/colors";
 import { AnalysisDataType, CoverLetterAnalysisDataType } from "@/lib/types";
 import { analyzeCoverLetter, analyzeResume } from "@/lib/ai-analyzer";
 import { CoverLetterAnalysis } from "@/components/cover-letter-analysis";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 export default function DashboardPage() {
   const [step, setStep] = useState<"upload" | "analyzing" | "results">(
@@ -23,6 +25,7 @@ export default function DashboardPage() {
   const [analysisData, setAnalysisData] =
     useState<CoverLetterAnalysisDataType | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [analysisName, setAnalysisName] = useState("");
 
   const handleAnalyze = async () => {
     if (!coverLetterFile || !jobDescription.trim()) {
@@ -35,7 +38,8 @@ export default function DashboardPage() {
     try {
       const analysisData = await analyzeCoverLetter(
         coverLetterFile,
-        jobDescription
+        jobDescription,
+        analysisName
       );
       setAnalysisData(analysisData);
       setStep("results");
@@ -53,6 +57,7 @@ export default function DashboardPage() {
     setJobDescription("");
     setAnalysisData(null);
     setIsAnalyzing(false);
+    setAnalysisName("");
   };
 
   if (step === "analyzing") {
@@ -75,7 +80,7 @@ export default function DashboardPage() {
           <div className="flex items-center justify-between mb-8">
             {/* <div className="flex items-center space-x-4"> */}
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">
+              <h1 className="text-3xl font-bold text-primary">
                 Analysis Results
               </h1>
               <p className="text-gray-600 dark:text-gray-300">
@@ -117,7 +122,7 @@ export default function DashboardPage() {
           animate={{ opacity: 1, y: 0 }}
           className="mb-8"
         >
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">
+          <h1 className="text-3xl font-bold text-primary mb-2">
             Cover Letter Analysis
           </h1>
           <p className="text-gray-600 dark:text-gray-300">
@@ -189,6 +194,20 @@ export default function DashboardPage() {
 
         {/* Main Content */}
         <div className="grid lg:grid-cols-2 gap-8 mb-8">
+          <div className="space-y-6 w-full">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.2 }}
+              className="grid w-full items-center gap-3"
+            >
+              <Label htmlFor="analysis name">Name</Label>
+              <Input
+                placeholder="Name of this analysis"
+                value={analysisName}
+                onChange={(e) => setAnalysisName(e.target.value)}
+              />
+            </motion.div>
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -200,6 +219,7 @@ export default function DashboardPage() {
               type="cover letter"
             />
           </motion.div>
+          </div>
 
           <motion.div
             initial={{ opacity: 0, x: 20 }}

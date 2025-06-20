@@ -20,7 +20,7 @@ export const analysis = sqliteTable("analysis", {
   forResume: integer("for_resume", { mode: "boolean" }),
   title: text("title").notNull(),
   company: text("company").notNull(),
-  analysisJson: blob("analysis_json", { mode: "json" }).$type<
+  analysisJson: text('analysis_json', { mode: "json" }).$type<
     AnalysisDataType | CoverLetterAnalysisDataType
   >(),
   jobDescription: text("job_description").notNull(),
@@ -30,9 +30,8 @@ export const analysis = sqliteTable("analysis", {
   createdAt: text("created_at")
     .default(sql`(CURRENT_TIMESTAMP)`)
     .notNull(),
-  updatedAt: integer("updated_at", { mode: "timestamp" }).$onUpdate(
-    () => new Date()
-  ),
+  overallScore: integer("overall_score").notNull().default(0),
+  totalInsights: integer("total_insights").notNull().default(0),
 });
 
 

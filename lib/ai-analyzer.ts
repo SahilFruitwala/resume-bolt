@@ -1,10 +1,15 @@
 import { AnalysisDataType, CoverLetterAnalysisDataType } from "./types";
 
-export async function analyzeResume(resumeFile: File, jobDescription: string): Promise<AnalysisDataType> {
+export async function analyzeResume(
+  resumeFile: File,
+  jobDescription: string,
+  analysisName: string
+): Promise<AnalysisDataType> {
   try {
     const formData = new FormData();
     formData.append("jobDescription", jobDescription);
     formData.append("resume", resumeFile);
+    formData.append("tile", analysisName);
 
     const response = await fetch("/api/analyze-resume", {
       method: "POST",
@@ -19,19 +24,21 @@ export async function analyzeResume(resumeFile: File, jobDescription: string): P
     const analysisData = await response.json();
     return analysisData;
   } catch (error) {
-    console.error('Analysis error:', error);
+    console.error("Analysis error:", error);
     throw error;
   }
 }
 
 export async function analyzeCoverLetter(
   coverLetterFile: File,
-  jobDescription: string
+  jobDescription: string,
+  analysisName: string
 ): Promise<CoverLetterAnalysisDataType> {
   try {
     const formData = new FormData();
     formData.append("jobDescription", jobDescription);
     formData.append("coverLetterFile", coverLetterFile);
+    formData.append("title", analysisName);
 
     const response = await fetch("/api/analyze-cover-letter", {
       method: "POST",

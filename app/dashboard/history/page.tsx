@@ -13,6 +13,7 @@ import {
   Clock
 } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useEffect } from 'react';
 
 const mockReports = [
   {
@@ -44,12 +45,22 @@ const mockReports = [
   }
 ];
 
-export default function ReportsPage() {
+export default async function ReportsPage() {
   const getScoreColor = (score: number) => {
     if (score >= 85) return 'text-green-600 bg-green-50';
     if (score >= 70) return 'text-yellow-600 bg-yellow-50';
     return 'text-red-600 bg-red-50';
   };
+
+  const temp = async () => {
+    await fetch("/api/history", {
+      method: "GET",
+    });
+  }
+
+  useEffect(() => {
+    temp()
+  }, []);
 
   return (
     <div className="p-6">

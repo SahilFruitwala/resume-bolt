@@ -1,4 +1,4 @@
-import { asc, eq } from "drizzle-orm";
+import { asc, avg, count, desc, eq, max } from "drizzle-orm";
 import { db } from "../index";
 import { analysis, SelectAnalysis } from "../schema";
 
@@ -18,12 +18,33 @@ export async function getPaginatedAnalysis(
   userId: string,
   page: number = 1,
   pageSize: number = 10
-): Promise<SelectAnalysis[]> {
+) {
+
+  console.log("Fetching paginated analysis for user:", userId, "Page:", page, "Page Size:", pageSize);
+
   return db
-    .select()
+    .select({
+      id: analysis.id,
+      createdAt: analysis.createdAt,
+      forResume: analysis.forResume,
+      title: analysis.title,
+      score: analysis.overallScore,
+      insights: analysis.totalInsights,
+    })
     .from(analysis)
-    .orderBy(asc(analysis.createdAt))
     .where(eq(analysis.userId, userId))
+    .orderBy(asc(analysis.createdAt))
     .limit(pageSize)
-    .offset((page - 1) * pageSize);
+}
+
+export async function getDashboardData(userId: string) {
+  return db
+    .select({
+       total: count(analysis.id),
+       avgScore: avg(analysis.overallScore),
+       maxScore:  max(analysis.overallScore),
+      })
+    .from(analysis)
+    .where(eq(analysis.userId, userId))
+    .orderBy(desc(analysis.overallScore));
 }

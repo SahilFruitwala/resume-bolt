@@ -5,7 +5,7 @@ import { z } from "zod";
 import { db } from "@/db";
 import { analysis } from "@/db/schema";
 import { auth } from "@clerk/nextjs/server";
-import { getRecentAnalysis } from "@/db/queries/select";
+import { getDashboardData, getPaginatedAnalysis, getRecentAnalysis } from "@/db/queries/select";
 
 export async function GET(request: Request) {
   try {
@@ -16,8 +16,25 @@ export async function GET(request: Request) {
     }
 
     const recentAnalysis = await getRecentAnalysis(userId);
-    console.log("Recent Analysis:", recentAnalysis);
-    return Response.json(recentAnalysis);
+    const formatedRecentData = recentAnalysis.map((item) => ({
+      id: item.id,
+      createdAt: new Date(item.createdAt).toLocaleDateString("en-US", {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+      }),
+      forResume: item.forResume,
+      title: item.title,
+      insights: Object.keys(item.analysisJson!.actionableRecommendations!)
+        .length,
+    }));
+
+    // await getDashboardData(userId);
+
+    console.log("Recent Analysis Data:", formatedRecentData);
+
+
+    return Response.json(formatedRecentData);
   } catch (error) {
     console.error("Error during authentication:", error);
   }
