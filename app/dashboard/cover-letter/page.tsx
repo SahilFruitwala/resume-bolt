@@ -15,6 +15,7 @@ import { analyzeCoverLetter, analyzeResume } from "@/lib/ai-analyzer";
 import { CoverLetterAnalysis } from "@/components/cover-letter-analysis";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { toast } from "sonner";
 
 export default function DashboardPage() {
   const [step, setStep] = useState<"upload" | "analyzing" | "results">(
@@ -43,11 +44,15 @@ export default function DashboardPage() {
       );
       setAnalysisData(analysisData);
       setStep("results");
+      toast.success("Cover letter analyzed successfully!");
     } catch (err) {
-      console.error("Analysis failed:", err);
+      toast.error(
+        "Failed to analyze cover letter. Please try again."
+      );
       // setError(err instanceof Error ? err.message : "Failed to analyze resume. Please try again.")
     } finally {
       setIsAnalyzing(false);
+      setStep("upload");
     }
   };
 

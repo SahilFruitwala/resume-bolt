@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Menu} from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
 import Sidebar from "@/components/sidebar";
+import { Toaster } from "@/components/ui/toaster";
 
 export default function DashboardLayout({
   children,
@@ -38,7 +39,6 @@ export default function DashboardLayout({
             </div>
           </div>
         </div>
-
         {/* Page content */}
         <main className="flex-1">{children}</main>
       </div>

@@ -19,6 +19,7 @@ import { getScoreColor } from "@/lib/colors";
 import { useSearchParams } from "next/navigation";
 import { AnalysisDataType, CoverLetterAnalysisDataType } from "@/lib/types";
 import Link from "next/link";
+import { toast } from "sonner";
 
 export default function ReportsPage() {
   const searchParams = useSearchParams();
@@ -43,8 +44,11 @@ export default function ReportsPage() {
       const historyData = await response.json();
       setHistoryData(historyData.result);
       setHasMore(historyData.hasMore);
+      // toast.success("History data fetched successfully!");
     } catch (error) {
-      console.error("Error fetching history data:", error);
+      toast.error(
+        error instanceof Error ? error.message : "Failed to fetch history data"
+      );
     } finally {
       setIsLoading(false);
     }

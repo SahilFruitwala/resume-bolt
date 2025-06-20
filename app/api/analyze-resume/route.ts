@@ -3,8 +3,9 @@ import { generateObject } from "ai";
 import { google } from "@ai-sdk/google";
 import { z } from "zod";
 import { db } from "@/db";
-import { analysis } from "@/db/schema";
+import { analysis, users } from "@/db/schema";
 import { auth } from "@clerk/nextjs/server";
+import { eq, sql } from "drizzle-orm";
 
 export const maxDuration = 60;
 
@@ -74,9 +75,28 @@ const analysisSchema = z.object({
 export async function POST(request: Request) {
   try {
     const { userId } = await auth();
+    // return NextResponse.json(
+    //   { error: "You have no credits remaining. Please upgrade your plan." },
+    //   { status: 403 }
+    // );
 
     if (!userId) {
       return new NextResponse("Unauthorized", { status: 401 });
+    }
+
+    const { creditRemaining } = (
+      await db
+        .select({ creditRemaining: users.creditsRemaining })
+        .from(users)
+        .where(eq(users.id, userId))
+        .limit(1)
+    )[0];
+
+    if (creditRemaining <= 0) {
+      return NextResponse.json(
+        { error: "You have no credits remaining. Please upgrade your plan." },
+        { status: 403 }
+      );
     }
 
     const formData = await request.formData();
@@ -86,14 +106,14 @@ export async function POST(request: Request) {
     const title = formData.get("title") as string;
 
     if (!resumeFile || !jobDescription) {
-      return Response.json(
+      return NextResponse.json(
         { error: "Resume file and job description are required" },
         { status: 400 }
       );
     }
 
     if (resumeFile.type !== "application/pdf") {
-      return Response.json(
+      return NextResponse.json(
         { error: "Only PDF files are supported" },
         { status: 400 }
       );
@@ -173,17 +193,25 @@ IMPORTANT: Base your analysis entirely on the actual content of the provided res
     });
 
     try {
-      await db.insert(analysis).values({
-        forResume: true,
-        title: title || "Unnamed Analysis",
-        company: company || "Unknown Company",
-        analysisJson: result.object,
-        jobDescription,
-        userId,
-        overallScore: result.object.overallScore,
-        totalInsights: Object.keys(
-          result.object.actionableRecommendations!
-        ).length,
+      await db.transaction(async (tx) => {
+        await tx.insert(analysis).values({
+          forResume: true,
+          title: title || "Unnamed Analysis",
+          company: company || "Unknown Company",
+          analysisJson: result.object,
+          jobDescription,
+          userId,
+          overallScore: result.object.overallScore,
+          totalInsights: Object.keys(result.object.actionableRecommendations!)
+            .length,
+        });
+
+        await tx
+          .update(users)
+          .set({
+            creditsRemaining: sql`${users.creditsRemaining} - 1`,
+          })
+          .where(eq(users.id, userId));
       });
     } catch (dbError) {
       console.error("Failed to save analysis to database:", dbError);
@@ -193,7 +221,7 @@ IMPORTANT: Base your analysis entirely on the actual content of the provided res
     return Response.json(result.object);
   } catch (error) {
     console.error("Resume analysis error:", error);
-    return Response.json(
+    return NextResponse.json(
       {
         error:
           "Failed to analyze resume. Please ensure your PDF is readable and try again.",

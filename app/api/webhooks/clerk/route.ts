@@ -182,9 +182,10 @@ export async function POST(req: Request) {
           `Processing user.deleted for Clerk User ID: ${clerkUserId_deleted}`
         );
         await db
-          .delete(users)
+          .update(users)
+          .set({ isActive: false })
           .where(eq(users.id, clerkUserId_deleted));
-        console.log(`User ${clerkUserId_deleted} deleted successfully.`);
+        console.log(`User ${clerkUserId_deleted} in activated successfully.`);
         break;
 
       default:

@@ -14,7 +14,7 @@ import { AnalysisDataType } from "@/lib/types";
 import { analyzeResume } from "@/lib/ai-analyzer";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-
+import { toast } from "sonner";
 
 export default function DashboardPage() {
   const [step, setStep] = useState<"upload" | "analyzing" | "results">(
@@ -37,14 +37,25 @@ export default function DashboardPage() {
     setStep("analyzing");
 
     try {
-      const analysisData = await analyzeResume(resumeFile, jobDescription, analysisName);
+      const analysisData = await analyzeResume(
+        resumeFile,
+        jobDescription,
+        analysisName
+      );
       setAnalysisData(analysisData);
       setStep("results");
+      toast.success("Resume analysis completed successfully!");
     } catch (err) {
-      console.error("Analysis failed:", err);
+      console.log("Error analyzing resume:", err);
+      toast.error(
+        err instanceof Error
+          ? err.message
+          : "Failed to analyze resume. Please try again."
+      );
       // setError(err instanceof Error ? err.message : "Failed to analyze resume. Please try again.")
     } finally {
       setIsAnalyzing(false);
+      setStep("upload");
     }
   };
 
@@ -78,10 +89,10 @@ export default function DashboardPage() {
             {/* <div className="flex items-center space-x-4"> */}
             <div>
               <h1 className="text-3xl font-bold text-primary">
-              Analysis Results
+                Analysis Results
               </h1>
               <p className="text-gray-600 dark:text-gray-300">
-              Comprehensive AI-powered resume analysis
+                Comprehensive AI-powered resume analysis
               </p>
             </div>
             <div
