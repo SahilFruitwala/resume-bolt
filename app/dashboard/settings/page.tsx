@@ -16,6 +16,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Switch } from "@/components/ui/switch";
 import { motion } from "framer-motion";
+import { toast } from "sonner";
 
 export default function SettingsPage() {
   const { user } = useUser();
@@ -43,13 +44,14 @@ export default function SettingsPage() {
       });
 
       if (response.ok) {
-        alert("Profile updated successfully!");
+        toast.success("Profile updated successfully!");
       } else {
-        alert("Failed to update profile.");
+        toast.error("Failed to update profile.");
       }
     } catch (error) {
-      console.error("Error updating profile:", error);
-      alert("An error occurred while updating profile.");
+      toast.error(
+        "An error occurred while updating your profile. Please try again."
+      );
     }
   };
 
@@ -74,13 +76,14 @@ export default function SettingsPage() {
           const errorData = await response.json().catch(() => ({
             message: "Failed to delete account. Please try again.",
           }));
-          alert(
+          toast.error(
             errorData.message || "Failed to delete account. Please try again."
           );
         }
       } catch (error) {
-        console.error("Error deleting account:", error);
-        alert("An error occurred while deleting your account.");
+        toast.error(
+          "An error occurred while deleting your account. Please try again."
+        );
       }
     }
   };
