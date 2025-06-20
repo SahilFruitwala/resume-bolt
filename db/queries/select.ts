@@ -19,9 +19,6 @@ export async function getPaginatedAnalysis(
   page: number = 1,
   pageSize: number = 10
 ) {
-
-  console.log("Fetching paginated analysis for user:", userId, "Page:", page, "Page Size:", pageSize);
-
   return db
     .select({
       id: analysis.id,

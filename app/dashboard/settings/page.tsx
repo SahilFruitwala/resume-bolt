@@ -154,9 +154,9 @@ export default function SettingsPage() {
             </div>
           </CardContent>
           <CardFooter className="flex justify-between">
-            <Button variant="destructive" onClick={handleDeleteAccount}>
+            {/* <Button variant="destructive" onClick={handleDeleteAccount}>
               Delete Account
-            </Button>
+            </Button> */}
             <Button onClick={handleSaveProfile}>Save Changes</Button>
           </CardFooter>
         </Card>

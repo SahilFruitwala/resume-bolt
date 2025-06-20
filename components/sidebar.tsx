@@ -17,14 +17,13 @@ import {
   History,
   BarChart,
   ChartColumn,
+  LogOut,
 } from "lucide-react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { ThemeToggle } from "@/components/theme-toggle";
 import { usePathname } from "next/navigation";
-import { UserButton } from "@clerk/nextjs";
-import { dark, simple } from "@clerk/themes";
 import { useTheme } from "next-themes";
+import { SignOutButton } from "@clerk/nextjs";
 
 const navigation = [
   // { name: "Dashboard", href: "/dashboard", icon: ChartColumn },
@@ -127,7 +126,10 @@ export default function Sidebar() {
       <div className="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-64 lg:flex-col">
         <div className="flex flex-col grow bg-card border-r border-border shadow-xs">
           <div className="flex h-16 items-center px-6 border-b border-border">
-            <Link href="/dashboard/resume" className="flex items-center space-x-2">
+            <Link
+              href="/dashboard/resume"
+              className="flex items-center space-x-2"
+            >
               <Brain className="h-6 w-6 text-primary" />
               <span className="text-lg font-semibold text-foreground">
                 ResumeBolt
@@ -141,23 +143,23 @@ export default function Sidebar() {
                   key={item.name}
                   href={item.href}
                   className={`
-        group flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors
-        ${
-          item.href === pathname
-            ? "bg-primary/10 text-primary border-r-2 border-primary"
-            : "text-foreground hover:bg-muted hover:text-foreground"
-        }
-        `}
+                    group flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors
+                    ${
+                      item.href === pathname
+                        ? "bg-primary/10 text-primary border-r-2 border-primary"
+                        : "text-foreground hover:bg-muted hover:text-foreground"
+                    }
+                  `}
                 >
                   <item.icon
                     className={`
-          mr-3 h-5 w-5 shrink-0
-          ${
-            item.href === pathname
-              ? "text-primary"
-              : "text-muted-foreground group-hover:text-foreground"
-          }
-        `}
+                      mr-3 h-5 w-5 shrink-0
+                      ${
+                        item.href === pathname
+                          ? "text-primary"
+                          : "text-muted-foreground group-hover:text-foreground"
+                      }
+                    `}
                   />
                   {item.name}
                 </Link>
@@ -166,18 +168,29 @@ export default function Sidebar() {
           </nav>
 
           {/* User profile section */}
-          {/* <div className="shrink-0 border-t border-border p-4">
+          <div className="shrink-0 border-t border-border">
             <Card className="p-3 bg-card">
-              <div className="flex items-center">
+              <SignOutButton>
+                <div className="group flex items-center px-3 py-2 rounded-lg transition-colors cursor-pointer text-foreground hover:bg-muted hover:text-foreground">
+                  <Button
+                    variant="ghost"
+                    className="hover:bg-transparent text-md font-medium"
+                  >
+                    Sign Out
+                  </Button>
+                  <LogOut className="mr-3 h-5 w-5 shrink-0 text-primary" />
+                </div>
+              </SignOutButton>
+              {/* <div className="flex items-center">
                 <UserButton
                   showName={true}
                   appearance={{
                     baseTheme: theme === "dark" ? dark : simple,
                   }}
                 />
-              </div>
+              </div> */}
             </Card>
-          </div> */}
+          </div>
         </div>
       </div>
     </>
