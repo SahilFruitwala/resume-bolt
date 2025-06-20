@@ -10,10 +10,10 @@ import { Toaster } from "sonner";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://jobmatchpro.com"),
+  metadataBase: new URL("https://resumebolt.thehalfbakedlab.com"),
   title: {
-    default: "JobMatchPro - AI Career Coach | Resume & Cover Letter Analysis",
-    template: "%s | JobMatchPro",
+    default: "ResumeBolt - AI Career Coach | Resume & Cover Letter Analysis",
+    template: "%s | ResumeBolt",
   },
   description:
     "Professional AI-powered resume and cover letter analysis with actionable feedback to optimize your job applications for ATS systems and land more interviews.",
@@ -34,9 +34,9 @@ export const metadata: Metadata = {
     "career guidance",
     "resume writing",
   ],
-  authors: [{ name: "JobMatchPro", url: "https://jobmatchpro.com" }],
-  creator: "JobMatchPro",
-  publisher: "JobMatchPro",
+  authors: [{ name: "ResumeBolt", url: "https://resumebolt.thehalfbakedlab.com" }],
+  creator: "ResumeBolt",
+  publisher: "ResumeBolt",
   formatDetection: {
     email: false,
     address: false,
@@ -45,28 +45,28 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://jobmatchpro.com",
-    title: "JobMatchPro - AI Career Coach | Resume & Cover Letter Analysis",
+    url: "https://resumebolt.thehalfbakedlab.com",
+    title: "ResumeBolt - AI Career Coach | Resume & Cover Letter Analysis",
     description:
       "Professional AI-powered resume and cover letter analysis with actionable feedback to optimize your job applications for ATS systems and land more interviews.",
-    siteName: "JobMatchPro",
+    siteName: "ResumeBolt",
     images: [
       {
         url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "JobMatchPro - AI Career Coach",
+        alt: "ResumeBolt - AI Career Coach",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "JobMatchPro - AI Career Coach | Resume & Cover Letter Analysis",
+    title: "ResumeBolt - AI Career Coach | Resume & Cover Letter Analysis",
     description:
       "Professional AI-powered resume and cover letter analysis with actionable feedback to optimize your job applications for ATS systems and land more interviews.",
     images: ["/og-image.jpg"],
-    creator: "@JobMatchPro",
-    site: "@JobMatchPro",
+    creator: "@ResumeBolt",
+    site: "@ResumeBolt",
   },
   robots: {
     index: true,
@@ -85,7 +85,7 @@ export const metadata: Metadata = {
     yahoo: "your-yahoo-verification-code",
   },
   alternates: {
-    canonical: "https://jobmatchpro.com",
+    canonical: "https://resumebolt.thehalfbakedlab.com",
   },
   category: "technology",
   generator: "v0.dev",
@@ -94,10 +94,10 @@ export const metadata: Metadata = {
 const structuredData = {
   "@context": "https://schema.org",
   "@type": "WebApplication",
-  name: "JobMatchPro",
+  name: "ResumeBolt",
   description:
     "Professional AI-powered resume and cover letter analysis with actionable feedback to optimize your job applications for ATS systems and land more interviews.",
-  url: "https://jobmatchpro.com",
+  url: "https://resumebolt.thehalfbakedlab.com",
   applicationCategory: "BusinessApplication",
   operatingSystem: "Web",
   offers: {
@@ -107,8 +107,8 @@ const structuredData = {
   },
   creator: {
     "@type": "Organization",
-    name: "JobMatchPro",
-    url: "https://jobmatchpro.com",
+    name: "ResumeBolt",
+    url: "https://resumebolt.thehalfbakedlab.com",
   },
   featureList: [
     "AI-powered resume analysis",
@@ -126,7 +126,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <ClerkProvider>
+    <ClerkProvider waitlistUrl="/waitlist">
       <html lang="en" suppressHydrationWarning>
         <head>
           <script
@@ -144,7 +144,7 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             <main>{children}</main>
-            <Toaster richColors/>
+            <Toaster richColors />
           </ThemeProvider>
         </body>
       </html>

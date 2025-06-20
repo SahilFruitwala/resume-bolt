@@ -106,7 +106,7 @@ export default function LandingPage() {
         </div>
         <div className='space-x-4 flex items-center'>
           <ThemeToggle />
-          <Link href="/dashboard/resume">
+          <Link href="/waitlist">
           <Button>
             Get Started
             <ArrowRight className="ml-2 h-4 w-4" />
@@ -142,20 +142,20 @@ export default function LandingPage() {
           systems, and land more interviews.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Link href="/dashboard/resume">
+          <Link href="/waitlist">
           <Button size="lg" className="px-8 py-4 text-lg font-semibold">
             <Brain className="mr-2 h-5 w-5" />
             Analyze My Resume
           </Button>
           </Link>
-          <Button
+          {/* <Button
           size="lg"
           variant="outline"
           className="px-8 py-4 text-lg font-semibold"
           >
           <FileText className="mr-2 h-5 w-5" />
           View Sample Report
-          </Button>
+          </Button> */}
         </div>
         </motion.div>
       </div>
@@ -302,7 +302,7 @@ export default function LandingPage() {
       </section>
 
       {/* Testimonials */}
-      <section className="py-20 px-4">
+      {/* <section className="py-20 px-4">
       <div className="container mx-auto">
         <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -359,10 +359,10 @@ export default function LandingPage() {
         ))}
         </div>
       </div>
-      </section>
+      </section> */}
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-primary to-secondary text-white transition-colors">
+      {/* <section className="py-20 bg-gradient-to-r from-primary to-secondary text-white transition-colors">
       <div className="container mx-auto px-4 text-center">
         <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -377,7 +377,7 @@ export default function LandingPage() {
           Join thousands of professionals who have improved their job
           prospects with our AI-powered resume analysis.
         </p>
-        <Link href="/dashboard/resume">
+        <Link href="/waitlist">
           <Button
           size="lg"
           variant="secondary"
@@ -389,7 +389,7 @@ export default function LandingPage() {
         </Link>
         </motion.div>
       </div>
-      </section>
+      </section> */}
 
       {/* Footer */}
       <footer className="bg-background text-foreground py-12 transition-colors border-t">
