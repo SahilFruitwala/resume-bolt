@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Menu} from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
@@ -40,7 +40,9 @@ export default function DashboardLayout({
           </div>
         </div>
         {/* Page content */}
-        <main className="flex-1">{children}</main>
+        <Suspense fallback={<div>Loading...</div>}>
+          <main className="flex-1">{children}</main>
+        </Suspense>
       </div>
     </div>
   );
