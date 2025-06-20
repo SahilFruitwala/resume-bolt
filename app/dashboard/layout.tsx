@@ -2,44 +2,15 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import {
-  FileText,
-  Settings,
-  Menu,
-  ScrollText,
-  History,
-} from "lucide-react";
+import { Menu} from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { usePathname } from "next/navigation";
-import { useTheme } from "next-themes";
 import Sidebar from "@/components/sidebar";
-
-const navigation = [
-  // { name: "Dashboard", href: "/dashboard", icon: ChartColumn },
-  { name: "Analyze Resume", href: "/dashboard/resume", icon: FileText },
-  {
-    name: "Analyze Cover Letter",
-    href: "/dashboard/cover-letter",
-    icon: ScrollText,
-  },
-  {
-    name: "History",
-    href: "/dashboard/history",
-    icon: History,
-  },
-  // { name: 'Analytics', href: '/dashboard/analytics', icon: BarChart3 },
-  { name: "Settings", href: "/dashboard/settings", icon: Settings },
-  // { name: 'Help', href: '/dashboard/help', icon: HelpCircle },
-];
 
 export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const { theme } = useTheme();
-  const pathname = usePathname();
-
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (

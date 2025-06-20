@@ -175,11 +175,15 @@ IMPORTANT: Base your analysis entirely on the actual content of the provided res
     try {
       await db.insert(analysis).values({
         forResume: true,
-        title : title || "Unnamed Analysis",
+        title: title || "Unnamed Analysis",
         company: company || "Unknown Company",
         analysisJson: result.object,
         jobDescription,
         userId,
+        overallScore: result.object.overallScore,
+        totalInsights: Object.keys(
+          result.object.actionableRecommendations!
+        ).length,
       });
     } catch (dbError) {
       console.error("Failed to save analysis to database:", dbError);

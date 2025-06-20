@@ -20,36 +20,6 @@ import { useSearchParams } from "next/navigation";
 import { AnalysisDataType, CoverLetterAnalysisDataType } from "@/lib/types";
 import Link from "next/link";
 
-const mockReports = [
-  {
-    id: 1,
-    title: "Software Engineer - Google",
-    date: "2025-01-15",
-    score: 87,
-    status: "completed",
-    insights: 12,
-    improvements: 5,
-  },
-  {
-    id: 2,
-    title: "Frontend Developer - Meta",
-    date: "2025-01-14",
-    score: 92,
-    status: "completed",
-    insights: 15,
-    improvements: 3,
-  },
-  {
-    id: 3,
-    title: "Full Stack Developer - Microsoft",
-    date: "2025-01-13",
-    score: 78,
-    status: "completed",
-    insights: 10,
-    improvements: 8,
-  },
-];
-
 export default function ReportsPage() {
   const searchParams = useSearchParams();
   const page = searchParams.get("page") || "1";
@@ -98,7 +68,7 @@ export default function ReportsPage() {
             View and manage your resume analysis reports.
           </p>
         </motion.div>
-
+        
         {/* Stats Overview
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -145,14 +115,14 @@ export default function ReportsPage() {
         </motion.div> */}
 
         {/* Reports List */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          className="space-y-4"
-        >
-          {historyData &&
-            historyData.map((report, index) => (
+        {historyData && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="space-y-4"
+          >
+            {historyData.map((report, index) => (
               <motion.div
                 key={report.id}
                 initial={{ opacity: 0, x: -20 }}
@@ -217,10 +187,27 @@ export default function ReportsPage() {
                 </Card>
               </motion.div>
             ))}
-        </motion.div>
 
+            <div className="flex space-x-4">
+              {page !== "1" && (
+                <Link href={`/dashboard/history?page=${Number(page) - 1}`}>
+                  <Button variant="outline" size="sm">
+                    Previous
+                  </Button>
+                </Link>
+              )}
+              {hasMore && (
+                <Link href={`/dashboard/history?page=${Number(page) + 1}`}>
+                  <Button variant="outline" size="sm">
+                    Next
+                  </Button>
+                </Link>
+              )}
+            </div>
+          </motion.div>
+        )}
         {/* Empty State (if no reports) */}
-        {mockReports.length === 0 && (
+        {historyData.length === 0 && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -234,10 +221,12 @@ export default function ReportsPage() {
             <p className="text-muted-foreground mb-6">
               Start by analyzing your first resume to see reports here.
             </p>
-            <Button>
-              <FileText className="mr-2 h-4 w-4" />
-              Analyze Resume
-            </Button>
+            <Link href="/dashboard/resume">
+              <Button>
+                <FileText className="mr-2 h-4 w-4" />
+                Analyze Resume
+              </Button>
+            </Link>
           </motion.div>
         )}
       </div>

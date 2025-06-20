@@ -6,8 +6,6 @@ export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-
-  console.log("GET request for analysis by ID", params);
   try {
     const { userId } = await auth();
 
