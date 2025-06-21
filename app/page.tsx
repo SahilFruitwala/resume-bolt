@@ -96,59 +96,59 @@ export default function LandingPage() {
     <div className="min-h-screen bg-background transition-colors">
       {/* Header */}
       <header className="border-b bg-background/80 backdrop-blur-xs sticky top-0 z-50 transition-colors">
-      <div className="container mx-auto px-4 py-4">
-        <div className="flex items-center justify-between">
-        <div className="flex items-center space-x-2">
-          <Brain className="h-8 w-8 text-primary" />
-          <span className="text-xl font-bold text-foreground">
-          ResumeBolt
-          </span>
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-2">
+              <Brain className="h-8 w-8 text-primary" />
+              <span className="text-xl font-bold text-foreground">
+                ResumeBolt
+              </span>
+            </div>
+            <div className="space-x-4 flex items-center">
+              <ThemeToggle />
+              <Link href="/dashboard/resume">
+                <Button>
+                  Get Started
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </Link>
+            </div>
+          </div>
         </div>
-        <div className='space-x-4 flex items-center'>
-          <ThemeToggle />
-          <Link href="/waitlist">
-          <Button>
-            Get Started
-            <ArrowRight className="ml-2 h-4 w-4" />
-          </Button>
-          </Link>
-        </div>
-        </div>
-      </div>
       </header>
 
       {/* Hero Section */}
       <section className="py-20 px-4">
-      <div className="container mx-auto text-center">
-        <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        >
-        <Badge className="mb-4 px-4 py-2 text-sm font-medium bg-muted text-primary">
-          <Zap className="mr-2 h-4 w-4" />
-          Powered by Advanced AI
-        </Badge>
-        <h1 className="text-5xl md:text-7xl font-bold text-foreground mb-6 leading-tight">
-          Optimize Your Resume with
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">
-          {" "}
-          AI
-          </span>
-        </h1>
-        <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto leading-relaxed">
-          Get instant, AI-powered insights to make your resume stand out.
-          Our advanced analysis helps you match job requirements, pass ATS
-          systems, and land more interviews.
-        </p>
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Link href="/waitlist">
-          <Button size="lg" className="px-8 py-4 text-lg font-semibold">
-            <Brain className="mr-2 h-5 w-5" />
-            Analyze My Resume
-          </Button>
-          </Link>
-          {/* <Button
+        <div className="container mx-auto text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <Badge className="mb-4 px-4 py-2 text-sm font-medium bg-muted text-primary">
+              <Zap className="mr-2 h-4 w-4" />
+              Powered by Advanced AI
+            </Badge>
+            <h1 className="text-5xl md:text-7xl font-bold text-foreground mb-6 leading-tight">
+              Optimize Your Resume with
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">
+                {" "}
+                AI
+              </span>
+            </h1>
+            <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto leading-relaxed">
+              Get instant, AI-powered insights to make your resume stand out.
+              Our advanced analysis helps you match job requirements, pass ATS
+              systems, and land more interviews.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link href="/dashboard/resume">
+                <Button size="lg" className="px-8 py-4 text-lg font-semibold">
+                  <Brain className="mr-2 h-5 w-5" />
+                  Analyze My Resume
+                </Button>
+              </Link>
+              {/* <Button
           size="lg"
           variant="outline"
           className="px-8 py-4 text-lg font-semibold"
@@ -156,149 +156,149 @@ export default function LandingPage() {
           <FileText className="mr-2 h-5 w-5" />
           View Sample Report
           </Button> */}
+            </div>
+          </motion.div>
         </div>
-        </motion.div>
-      </div>
       </section>
 
       {/* Stats Section */}
       <section className="py-16 bg-background transition-colors">
-      <div className="container mx-auto px-4">
-        <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        viewport={{ once: true }}
-        className="grid grid-cols-2 md:grid-cols-4 gap-8"
-        >
-        {stats.map((stat, index) => (
-          <div key={index} className="text-center">
-          <div className="flex justify-center mb-2">
-            <stat.icon className="h-8 w-8 text-primary" />
-          </div>
-          <div className="text-3xl font-bold text-foreground mb-1">
-            {stat.number}
-          </div>
-          <div className="text-muted-foreground">{stat.label}</div>
-          </div>
-        ))}
-        </motion.div>
-      </div>
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="grid grid-cols-2 md:grid-cols-4 gap-8"
+          >
+            {stats.map((stat, index) => (
+              <div key={index} className="text-center">
+                <div className="flex justify-center mb-2">
+                  <stat.icon className="h-8 w-8 text-primary" />
+                </div>
+                <div className="text-3xl font-bold text-foreground mb-1">
+                  {stat.number}
+                </div>
+                <div className="text-muted-foreground">{stat.label}</div>
+              </div>
+            ))}
+          </motion.div>
+        </div>
       </section>
 
       {/* Features Section */}
       <section className="py-20 px-4">
-      <div className="container mx-auto">
-        <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        viewport={{ once: true }}
-        className="text-center mb-16"
-        >
-        <h2 className="text-4xl font-bold text-foreground mb-4">
-          Everything You Need to Land Your Dream Job
-        </h2>
-        <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-          Our comprehensive AI analysis covers every aspect of your resume
-          to maximize your chances of success.
-        </p>
-        </motion.div>
-
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {features.map((feature, index) => (
+        <div className="container mx-auto">
           <motion.div
-          key={index}
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: index * 0.1 }}
-          viewport={{ once: true }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
           >
-          <Card className="p-8 h-full hover:shadow-lg transition-all duration-300 border-0 bg-card backdrop-blur-xs">
-            <div className="flex items-center mb-4">
-            <div className="p-3 rounded-lg bg-muted mr-4">
-              <feature.icon className="h-6 w-6 text-primary" />
-            </div>
-            <h3 className="text-xl font-semibold text-foreground">
-              {feature.title}
-            </h3>
-            </div>
-            <p className="text-muted-foreground leading-relaxed">
-            {feature.description}
+            <h2 className="text-4xl font-bold text-foreground mb-4">
+              Everything You Need to Land Your Dream Job
+            </h2>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              Our comprehensive AI analysis covers every aspect of your resume
+              to maximize your chances of success.
             </p>
-          </Card>
           </motion.div>
-        ))}
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {features.map((feature, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                viewport={{ once: true }}
+              >
+                <Card className="p-8 h-full hover:shadow-lg transition-all duration-300 border-0 bg-card backdrop-blur-xs">
+                  <div className="flex items-center mb-4">
+                    <div className="p-3 rounded-lg bg-muted mr-4">
+                      <feature.icon className="h-6 w-6 text-primary" />
+                    </div>
+                    <h3 className="text-xl font-semibold text-foreground">
+                      {feature.title}
+                    </h3>
+                  </div>
+                  <p className="text-muted-foreground leading-relaxed">
+                    {feature.description}
+                  </p>
+                </Card>
+              </motion.div>
+            ))}
+          </div>
         </div>
-      </div>
       </section>
 
       {/* How It Works */}
       <section className="py-20 bg-muted transition-colors">
-      <div className="container mx-auto px-4">
-        <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        viewport={{ once: true }}
-        className="text-center mb-16"
-        >
-        <h2 className="text-4xl font-bold text-foreground mb-4">
-          How It Works
-        </h2>
-        <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-          Get professional resume insights in just three simple steps.
-        </p>
-        </motion.div>
-
-        <div className="grid md:grid-cols-3 gap-8">
-        {[
-          {
-          step: "01",
-          title: "Upload Resume",
-          description:
-            "Upload your PDF resume securely. We support all standard formats.",
-          icon: FileText,
-          },
-          {
-          step: "02",
-          title: "Add Job Description",
-          description:
-            "Paste the job description you're targeting for personalized analysis.",
-          icon: Target,
-          },
-          {
-          step: "03",
-          title: "Get AI Insights",
-          description:
-            "Receive detailed analysis with actionable recommendations in seconds.",
-          icon: Brain,
-          },
-        ].map((item, index) => (
+        <div className="container mx-auto px-4">
           <motion.div
-          key={index}
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: index * 0.2 }}
-          viewport={{ once: true }}
-          className="text-center"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
           >
-          <div className="relative mb-6">
-            <div className="w-20 h-20 bg-card rounded-full flex items-center justify-center mx-auto shadow-lg">
-            <item.icon className="h-8 w-8 text-primary" />
-            </div>
-            <div className="absolute -top-2 -right-2 w-8 h-8 bg-primary text-white rounded-full flex items-center justify-center text-sm font-bold">
-            {item.step}
-            </div>
-          </div>
-          <h3 className="text-xl font-semibold text-foreground mb-3">
-            {item.title}
-          </h3>
-          <p className="text-muted-foreground">{item.description}</p>
+            <h2 className="text-4xl font-bold text-foreground mb-4">
+              How It Works
+            </h2>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              Get professional resume insights in just three simple steps.
+            </p>
           </motion.div>
-        ))}
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {[
+              {
+                step: "01",
+                title: "Upload Resume",
+                description:
+                  "Upload your PDF resume securely. We support all standard formats.",
+                icon: FileText,
+              },
+              {
+                step: "02",
+                title: "Add Job Description",
+                description:
+                  "Paste the job description you're targeting for personalized analysis.",
+                icon: Target,
+              },
+              {
+                step: "03",
+                title: "Get AI Insights",
+                description:
+                  "Receive detailed analysis with actionable recommendations in seconds.",
+                icon: Brain,
+              },
+            ].map((item, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.2 }}
+                viewport={{ once: true }}
+                className="text-center"
+              >
+                <div className="relative mb-6">
+                  <div className="w-20 h-20 bg-card rounded-full flex items-center justify-center mx-auto shadow-lg">
+                    <item.icon className="h-8 w-8 text-primary" />
+                  </div>
+                  <div className="absolute -top-2 -right-2 w-8 h-8 bg-primary text-white rounded-full flex items-center justify-center text-sm font-bold">
+                    {item.step}
+                  </div>
+                </div>
+                <h3 className="text-xl font-semibold text-foreground mb-3">
+                  {item.title}
+                </h3>
+                <p className="text-muted-foreground">{item.description}</p>
+              </motion.div>
+            ))}
+          </div>
         </div>
-      </div>
       </section>
 
       {/* Testimonials */}
@@ -377,7 +377,7 @@ export default function LandingPage() {
           Join thousands of professionals who have improved their job
           prospects with our AI-powered resume analysis.
         </p>
-        <Link href="/waitlist">
+        <Link href="/dashboard/resume">
           <Button
           size="lg"
           variant="secondary"
@@ -393,17 +393,30 @@ export default function LandingPage() {
 
       {/* Footer */}
       <footer className="bg-background text-foreground py-12 transition-colors border-t">
-      <div className="container mx-auto px-4">
-        <div className="flex flex-col md:flex-row items-center justify-between">
-        <div className="flex items-center space-x-2 mb-4 md:mb-0">
-          <Brain className="h-6 w-6 text-primary" />
-          <span className="text-lg font-semibold">ResumeBolt</span>
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col md:flex-row items-center justify-between">
+            <div className="flex items-center space-x-2 mb-4 md:mb-0">
+              <Brain className="h-6 w-6 text-primary" />
+              <span className="text-lg font-semibold">ResumeBolt</span>
+            </div>
+            <div>
+              <h4 className="font-semibold mb-4">Legal</h4>
+              <ul className="space-y-2 text-sm text-gray-400">
+                <li>
+                  <Link
+                    href="/privacy"
+                    className="hover:text-white transition-colors"
+                  >
+                    Privacy Policy
+                  </Link>
+                </li>
+              </ul>
+            </div>
+            <div className="text-muted-foreground text-sm">
+              © 2025 ResumeBolt. All rights reserved.
+            </div>
+          </div>
         </div>
-        <div className="text-muted-foreground text-sm">
-          © 2025 ResumeBolt. All rights reserved.
-        </div>
-        </div>
-      </div>
       </footer>
     </div>
   );

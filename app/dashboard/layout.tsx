@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Menu} from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
 import Sidebar from "@/components/sidebar";
-import { Toaster } from "@/components/ui/toaster";
 
 export default function DashboardLayout({
   children,
