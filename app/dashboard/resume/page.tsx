@@ -52,10 +52,10 @@ export default function DashboardPage() {
           ? err.message
           : "Failed to analyze resume. Please try again."
       );
+      setStep("upload");
       // setError(err instanceof Error ? err.message : "Failed to analyze resume. Please try again.")
     } finally {
       setIsAnalyzing(false);
-      setStep("upload");
     }
   };
 

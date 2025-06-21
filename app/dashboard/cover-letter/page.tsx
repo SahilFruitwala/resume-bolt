@@ -50,9 +50,9 @@ export default function DashboardPage() {
         "Failed to analyze cover letter. Please try again."
       );
       // setError(err instanceof Error ? err.message : "Failed to analyze resume. Please try again.")
+      setStep("upload");
     } finally {
       setIsAnalyzing(false);
-      setStep("upload");
     }
   };
 
