@@ -15,9 +15,14 @@ import {
   Server,
   Users,
   Clock,
+  Twitter,
+  Linkedin,
+  Brain,
+  ArrowRight,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 const sections = [
   {
@@ -56,10 +61,10 @@ const sections = [
         subtitle: "Temporary Processing",
         text: "Resume content is processed in real-time and is not permanently stored on our servers after analysis completion.",
       },
-      {
-        subtitle: "Security Measures",
-        text: "All data processing occurs through encrypted connections and secure cloud infrastructure with industry-standard security protocols.",
-      },
+      //   {
+      //     subtitle: "Security Measures",
+      //     text: "All data processing occurs through encrypted connections and secure cloud infrastructure with industry-standard security protocols.",
+      //   },
     ],
   },
   {
@@ -150,23 +155,42 @@ const sections = [
 
 export default function PrivacyPolicyPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50">
+    <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="border-b bg-white/80 backdrop-blur-sm sticky top-0 z-50">
+      <header className="border-b bg-background/80 backdrop-blur-xs sticky top-0 z-50 transition-colors">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <Link href="/" className="flex items-center space-x-2">
-              <Shield className="h-8 w-8 text-blue-600" />
-              <span className="text-xl font-bold text-gray-900">
-                AI Resume Analyzer
-              </span>
-            </Link>
-            <Link href="/">
-              <Button variant="outline">
-                <ArrowLeft className="mr-2 h-4 w-4" />
-                Back to Home
-              </Button>
-            </Link>
+            <div className="flex items-center space-x-2">
+              <Link href="/" className="flex items-center space-x-2">
+                <Brain className="h-8 w-8 text-primary" />
+                <span className="text-xl font-bold text-foreground">
+                  ResumeBolt
+                </span>
+              </Link>
+            </div>
+            <nav className="hidden md:flex items-center space-x-6">
+              <Link
+                href="/"
+                className="text-muted-foreground hover:text-primary transition-colors font-medium"
+              >
+                Home
+              </Link>
+              <Link href="/dashboard/resume">
+                <Button>
+                  Get Started
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </Link>
+              <ThemeToggle />
+              {/* <div className="space-x-4 flex items-center">
+                <Link href="/dashboard/resume">
+                  <Button>
+                    Get Started
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Button>
+                </Link>
+              </div> */}
+            </nav>
           </div>
         </div>
       </header>
@@ -179,19 +203,19 @@ export default function PrivacyPolicyPage() {
           className="text-center mb-12"
         >
           <div className="flex justify-center mb-6">
-            <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center">
-              <Shield className="h-8 w-8 text-blue-600" />
+            <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center">
+              <Shield className="h-8 w-8 text-primary" />
             </div>
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Privacy Policy
+          <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
+            Privacy Policy. This is just an MVP.
           </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
             Your privacy is our priority. This policy explains how we collect,
             use, and protect your information when you use our AI-powered resume
             analysis service.
           </p>
-          <div className="mt-6 text-sm text-gray-500">
+          <div className="mt-6 text-sm text-muted-foreground">
             <p>Last updated: January 15, 2025</p>
             <p>Effective date: January 15, 2025</p>
           </div>
@@ -204,49 +228,53 @@ export default function PrivacyPolicyPage() {
           transition={{ delay: 0.1 }}
           className="mb-12"
         >
-          <Card className="p-8 bg-gradient-to-r from-green-50 to-blue-50 border-green-200">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center">
-              <Eye className="mr-3 h-6 w-6 text-green-600" />
+          <Card className="p-8 bg-card border-border">
+            <h2 className="text-2xl font-bold text-foreground mb-4 flex items-center">
+              <Eye className="mr-3 h-6 w-6 text-accent" />
               Privacy at a Glance
             </h2>
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
               <div className="text-center">
-                <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                  <Trash2 className="h-6 w-6 text-green-600" />
+                <div className="w-12 h-12 bg-destructive/10 rounded-full flex items-center justify-center mx-auto mb-3">
+                  <Trash2 className="h-6 w-6 text-destructive" />
                 </div>
-                <h3 className="font-semibold text-gray-900 mb-1">
+                <h3 className="font-semibold text-foreground mb-1">
                   Auto-Delete
                 </h3>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-muted-foreground">
                   Resume files deleted within 24 hours
                 </p>
               </div>
               <div className="text-center">
-                <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                  <Lock className="h-6 w-6 text-blue-600" />
+                <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
+                  <Lock className="h-6 w-6 text-primary" />
                 </div>
-                <h3 className="font-semibold text-gray-900 mb-1">Encrypted</h3>
-                <p className="text-sm text-gray-600">
+                <h3 className="font-semibold text-foreground mb-1">
+                  Encrypted
+                </h3>
+                <p className="text-sm text-muted-foreground">
                   All data encrypted in transit and at rest
                 </p>
               </div>
               <div className="text-center">
-                <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                  <Users className="h-6 w-6 text-purple-600" />
+                <div className="w-12 h-12 bg-secondary/10 rounded-full flex items-center justify-center mx-auto mb-3">
+                  <Users className="h-6 w-6 text-secondary-foreground" />
                 </div>
-                <h3 className="font-semibold text-gray-900 mb-1">No Selling</h3>
-                <p className="text-sm text-gray-600">
+                <h3 className="font-semibold text-foreground mb-1">
+                  No Selling
+                </h3>
+                <p className="text-sm text-muted-foreground">
                   We never sell your personal data
                 </p>
               </div>
               <div className="text-center">
-                <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                  <Download className="h-6 w-6 text-orange-600" />
+                <div className="w-12 h-12 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-3">
+                  <Download className="h-6 w-6 text-accent" />
                 </div>
-                <h3 className="font-semibold text-gray-900 mb-1">
+                <h3 className="font-semibold text-foreground mb-1">
                   Your Control
                 </h3>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-muted-foreground">
                   Download or delete your data anytime
                 </p>
               </div>
@@ -263,18 +291,18 @@ export default function PrivacyPolicyPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 * (index + 2) }}
             >
-              <Card className="p-8">
-                <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
-                  <section.icon className="mr-3 h-6 w-6 text-blue-600" />
+              <Card className="p-8 bg-card border-border">
+                <h2 className="text-2xl font-bold text-foreground mb-6 flex items-center">
+                  <section.icon className="mr-3 h-6 w-6 text-primary" />
                   {section.title}
                 </h2>
                 <div className="space-y-6">
                   {section.content.map((item, itemIndex) => (
                     <div key={itemIndex}>
-                      <h3 className="text-lg font-semibold text-gray-800 mb-2">
+                      <h3 className="text-lg font-semibold text-foreground mb-2">
                         {item.subtitle}
                       </h3>
-                      <p className="text-gray-600 leading-relaxed">
+                      <p className="text-muted-foreground leading-relaxed">
                         {item.text}
                       </p>
                       {itemIndex < section.content.length - 1 && (
@@ -295,26 +323,30 @@ export default function PrivacyPolicyPage() {
           transition={{ delay: 0.8 }}
           className="mt-12"
         >
-          <Card className="p-8 bg-gradient-to-r from-blue-50 to-indigo-50 border-blue-200">
+          <Card className="p-8 bg-card border-border">
             <div className="text-center">
-              <Mail className="h-12 w-12 text-blue-600 mx-auto mb-4" />
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">
+              <Mail className="h-12 w-12 text-primary mx-auto mb-4" />
+              <h2 className="text-2xl font-bold text-foreground mb-4">
                 Questions About Your Privacy?
               </h2>
-              <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
+              <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
                 If you have any questions about this Privacy Policy, your data
                 rights, or how we handle your information, please don't hesitate
                 to contact us.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button size="lg">
-                  <Mail className="mr-2 h-5 w-5" />
-                  Contact Privacy Team
-                </Button>
-                <Button size="lg" variant="outline">
-                  <Download className="mr-2 h-5 w-5" />
-                  Request My Data
-                </Button>
+                <Link href="https://www.linkedin.com/in/sahilfruitwala/">
+                  <Button size="lg">
+                    <Linkedin className="mr-2 h-5 w-5" />
+                    Contact on LinkedIn
+                  </Button>
+                </Link>
+                <Link href="http://x.com/sahil_Fruitwala">
+                  <Button size="lg" variant="outline">
+                    <Twitter className="mr-2 h-5 w-5" />
+                    Request My Data
+                  </Button>
+                </Link>
               </div>
             </div>
           </Card>
@@ -327,17 +359,45 @@ export default function PrivacyPolicyPage() {
           transition={{ delay: 1 }}
           className="mt-12 text-center"
         >
-          <div className="bg-gray-50 rounded-lg p-6">
-            <p className="text-sm text-gray-600 leading-relaxed">
+          <div className="bg-muted rounded-lg p-6">
+            <p className="text-sm text-muted-foreground leading-relaxed">
               <strong>Changes to This Policy:</strong> We may update this
               Privacy Policy from time to time. We will notify you of any
               material changes by posting the new Privacy Policy on this page
-              and updating the "Last updated\" date. We encourage you to review
+              and updating the "Last updated" date. We encourage you to review
               this Privacy Policy periodically for any changes.
             </p>
           </div>
         </motion.div>
       </div>
+      <footer className="bg-background text-foreground py-12 transition-colors border-t">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col md:flex-row items-center justify-between">
+            <div className="flex items-center space-x-2 mb-4 md:mb-0">
+              <Link href="/" className="flex items-center space-x-2">
+                <Brain className="h-6 w-6 text-primary" />
+                <span className="text-lg font-semibold">ResumeBolt</span>
+              </Link>
+            </div>
+            <div>
+              <h4 className="font-semibold mb-4 text-foreground">Legal</h4>
+              <ul className="space-y-2 text-sm text-muted-foreground">
+                <li>
+                  <Link
+                    href="/privacy"
+                    className="hover:text-primary transition-colors"
+                  >
+                    Privacy Policy
+                  </Link>
+                </li>
+              </ul>
+            </div>
+            <div className="text-muted-foreground text-sm">
+              © 2025 ResumeBolt. All rights reserved.
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }

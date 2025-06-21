@@ -15,7 +15,10 @@ import {
   TrendingUp,
   Shield,
   Clock,
-  Award
+  Award,
+  Linkedin,
+  X,
+  Twitter
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
@@ -99,20 +102,42 @@ export default function LandingPage() {
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
-              <Brain className="h-8 w-8 text-primary" />
-              <span className="text-xl font-bold text-foreground">
-                ResumeBolt
-              </span>
+              <Link href="/" className="flex items-center space-x-2">
+                <Brain className="h-8 w-8 text-primary" />
+                <span className="text-xl font-bold text-foreground">
+                  ResumeBolt
+                </span>
+              </Link>
             </div>
-            <div className="space-x-4 flex items-center">
-              <ThemeToggle />
+            <nav className="hidden md:flex items-center space-x-6">
+              <Link
+                href="#features"
+                className="text-muted-foreground hover:text-primary transition-colors font-medium"
+              >
+                Features
+              </Link>
+              <Link
+                href="#how-it-works"
+                className="text-muted-foreground hover:text-primary transition-colors font-medium"
+              >
+                How It Works
+              </Link>
               <Link href="/dashboard/resume">
                 <Button>
                   Get Started
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </Link>
-            </div>
+              <ThemeToggle />
+              {/* <div className="space-x-4 flex items-center">
+                <Link href="/dashboard/resume">
+                  <Button>
+                    Get Started
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Button>
+                </Link>
+              </div> */}
+            </nav>
           </div>
         </div>
       </header>
@@ -187,7 +212,7 @@ export default function LandingPage() {
       </section>
 
       {/* Features Section */}
-      <section className="py-20 px-4">
+      <section id="features" className="py-20 px-4">
         <div className="container mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -234,7 +259,7 @@ export default function LandingPage() {
       </section>
 
       {/* How It Works */}
-      <section className="py-20 bg-muted transition-colors">
+      <section id="how-it-works" className="py-20 bg-muted transition-colors">
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -302,25 +327,45 @@ export default function LandingPage() {
       </section>
 
       {/* Testimonials */}
-      {/* <section className="py-20 px-4">
-      <div className="container mx-auto">
-        <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        viewport={{ once: true }}
-        className="text-center mb-16"
-        >
-        <h2 className="text-4xl font-bold text-foreground mb-4">
-          Trusted by Job Seekers Worldwide
-        </h2>
-        <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+      <section className="py-20 px-4">
+        <div className="container mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl font-bold text-foreground mb-4">
+              This is an MVP. Please contact for any questions or feedback.
+            </h2>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+              className="flex flex-col sm:flex-row gap-4 justify-center pt-6"
+            >
+              <Link href="https://www.linkedin.com/in/sahilfruitwala/">
+                <Button size="lg">
+                  <Linkedin className="mr-2 h-5 w-5" />
+                  Contact on LinkedIn
+                </Button>
+              </Link>
+              <Link href="http://x.com/sahil_Fruitwala">
+                <Button size="lg" variant="outline">
+                  <Twitter className="mr-2 h-5 w-5" />
+                  Request My Data
+                </Button>
+              </Link>
+            </motion.div>
+            {/* <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
           See how our AI-powered resume analysis has helped professionals
           land their dream jobs.
-        </p>
-        </motion.div>
+        </p> */}
+          </motion.div>
 
-        <div className="grid md:grid-cols-3 gap-8">
+          {/* <div className="grid md:grid-cols-3 gap-8">
         {testimonials.map((testimonial, index) => (
           <motion.div
           key={index}
@@ -357,9 +402,9 @@ export default function LandingPage() {
           </Card>
           </motion.div>
         ))}
+        </div> */}
         </div>
-      </div>
-      </section> */}
+      </section>
 
       {/* CTA Section */}
       {/* <section className="py-20 bg-gradient-to-r from-primary to-secondary text-white transition-colors">
@@ -396,16 +441,18 @@ export default function LandingPage() {
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row items-center justify-between">
             <div className="flex items-center space-x-2 mb-4 md:mb-0">
-              <Brain className="h-6 w-6 text-primary" />
-              <span className="text-lg font-semibold">ResumeBolt</span>
+              <Link href="/" className="flex items-center space-x-2">
+                <Brain className="h-6 w-6 text-primary" />
+                <span className="text-lg font-semibold">ResumeBolt</span>
+              </Link>
             </div>
             <div>
-              <h4 className="font-semibold mb-4">Legal</h4>
-              <ul className="space-y-2 text-sm text-gray-400">
+              <h4 className="font-semibold mb-4 text-foreground">Legal</h4>
+              <ul className="space-y-2 text-sm text-muted-foreground">
                 <li>
                   <Link
                     href="/privacy"
-                    className="hover:text-white transition-colors"
+                    className="hover:text-primary transition-colors"
                   >
                     Privacy Policy
                   </Link>

@@ -126,7 +126,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <ClerkProvider waitlistUrl="/waitlist">
+    <ClerkProvider>
       <html lang="en" suppressHydrationWarning>
         <head>
           <script
