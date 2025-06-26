@@ -11,6 +11,15 @@ ResumeBolt is an AI-powered resume and cover letter analysis tool that provides 
 - **Actionable Recommendations:** Receive concrete suggestions for rewriting bullet points, summaries, and more.
 - **Progress Tracking:** View your analysis history and track improvements over time.
 
+## Tech Stack
+
+- **Frontend:** Next.js (App Router), React, TypeScript, Tailwind CSS, Framer Motion, Lucide Icons (Most components are from shadcn)
+- **Backend:** Next.js API Routes, TypeScript
+- **Database:** Turso (SQLite-compatible, serverless), Drizzle ORM
+- **Authentication:** Clerk
+- **AI/ML:** Google Gemini (via @ai-sdk/google)
+- **Analytics:** PostHog
+
 ## Getting Started
 
 1. **Clone the repository:**
