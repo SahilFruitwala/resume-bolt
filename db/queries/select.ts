@@ -31,7 +31,7 @@ export async function getPaginatedAnalysis(
     })
     .from(analysis)
     .where(eq(analysis.userId, userId))
-    .orderBy(asc(analysis.createdAt))
+    .orderBy(desc(analysis.createdAt))
     .limit(pageSize + 1)
     .offset((page - 1) * pageSize);
 
