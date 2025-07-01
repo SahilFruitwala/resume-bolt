@@ -1,29 +1,22 @@
 "use client";
 
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
   Brain,
   FileText,
-  Home,
   Settings,
-  HelpCircle,
-  Menu,
   X,
-  User,
-  BarChart3,
   ScrollText,
   History,
-  BarChart,
-  ChartColumn,
   LogOut,
 } from "lucide-react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { usePathname } from "next/navigation";
-import { useTheme } from "next-themes";
 import { SignOutButton } from "@clerk/nextjs";
+import { useClerk } from '@clerk/nextjs'
+import posthog from "posthog-js";
 
 const navigation = [
   // { name: "Dashboard", href: "/dashboard", icon: ChartColumn },
@@ -43,9 +36,14 @@ const navigation = [
   // { name: 'Help', href: '/dashboard/help', icon: HelpCircle },
 ];
 
-export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
-  const { theme } = useTheme();
+interface SidebarProps {
+  sidebarOpen: boolean;
+  setSidebarOpen: (open: boolean) => void;
+}
+
+export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
   const pathname = usePathname();
+  const { signOut } = useClerk()
 
   return (
     <>
@@ -179,7 +177,19 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
           {/* User profile section */}
           <div className="shrink-0 border-t border-border">
             <Card className="p-3 bg-card">
-              <SignOutButton>
+
+              <Button
+                variant="ghost"
+                onClick={() => { 
+                  posthog.reset();
+                  signOut({ redirectUrl: '/' }) 
+                }}
+                className="flex space-x-4 items-center"
+              >
+                Sign out
+                <LogOut className="ml-2 h-5 w-5 shrink-0 text-primary" />
+              </Button>
+              {/* <SignOutButton>
                 <div className="group flex items-center px-3 py-2 rounded-lg transition-colors cursor-pointer text-foreground hover:bg-muted hover:text-foreground">
                   <Button
                     variant="ghost"
@@ -189,7 +199,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
                   </Button>
                   <LogOut className="mr-3 h-5 w-5 shrink-0 text-primary" />
                 </div>
-              </SignOutButton>
+              </SignOutButton> */}
               {/* <div className="flex items-center">
                 <UserButton
                   showName={true}

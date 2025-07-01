@@ -1,5 +1,10 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 import logger from "@/lib/logger";
+import { PostHog } from "posthog-node";
+
+const posthogClient = new PostHog(process.env.NEXT_PUBLIC_POSTHOG_KEY!, {
+  host: process.env.NEXT_PUBLIC_POSTHOG_HOST,
+});
 
 const isPublicRoute = createRouteMatcher([
   "/",
@@ -11,9 +16,23 @@ const isPublicRoute = createRouteMatcher([
 ]);
 
 export default clerkMiddleware(async (auth, req) => {
-  if (!isPublicRoute(req)) {
-    logger.info(`Protected route accessed: ${req.url}`);
-    await auth.protect();
+  const {userId} = await auth()
+  try {
+    if (!isPublicRoute(req)) {
+      logger.info(`Protected route accessed: ${req.url}`);
+      await auth.protect();
+      if (userId) {
+        posthogClient.identify({
+          distinctId: userId,
+        });
+        posthogClient.capture({
+          distinctId: userId,
+          event: "user_signed_in",
+        });
+      }
+    }
+  } finally {
+    await posthogClient.shutdown();
   }
 });
 

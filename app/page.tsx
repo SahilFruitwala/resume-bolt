@@ -66,10 +66,10 @@ export default function HomePage() {
               </SignedOut>
               <SignedIn>
                 <Link href="/dashboard">
-                <Button size="lg" className="w-full sm:w-auto">
-                  Dashboard
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
+                  <Button size="lg" className="w-full sm:w-auto">
+                    Dashboard
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Button>
                 </Link>
               </SignedIn>
             </div>
@@ -358,20 +358,24 @@ export default function HomePage() {
             </SignedOut>
             <SignedIn>
               <Link href="/dashboard">
-                <Button size="lg" className="w-full sm:w-auto">
+                <Button
+                  variant={"secondary"}
+                  size="lg"
+                  className="w-full sm:w-auto transition-colors duration-200 hover:bg-secondary/80 hover:shadow-lg"
+                >
                   Dashboard
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </Link>
             </SignedIn>
             <Link href="https://www.linkedin.com/in/sahilfruitwala/" target='_blank'>
-            <Button
-              size="lg"
-              variant="outline"
-              className="w-full sm:w-auto bg-white/10 border-white/20 text-primary-foreground hover:bg-white/20 dark:hover:bg-white/30"
-            >
-              Contact Sahil Directly
-            </Button>
+              <Button
+                size="lg"
+                variant="outline"
+                className="w-full sm:w-auto bg-white/10 border-white/20 text-primary-foreground hover:bg-white/20 dark:hover:bg-white/30"
+              >
+                Contact Sahil Directly
+              </Button>
             </Link>
           </div>
         </div>
