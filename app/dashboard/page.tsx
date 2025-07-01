@@ -23,7 +23,7 @@ import {
   CheckCircle,
 } from "lucide-react";
 import { motion } from "framer-motion";
-import { ResumeAnalysis } from "@/components/analysis-results";
+import { ResumeAnalysis } from "@/components/resume-analysis";
 import { getScoreBgColor, getScoreColor } from "@/lib/colors";
 import { AnalysisDataType } from "@/lib/types";
 import { analyzeResume } from "@/lib/ai-analyzer";
