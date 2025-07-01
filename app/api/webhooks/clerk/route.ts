@@ -4,13 +4,14 @@ import type { WebhookEvent } from "@clerk/nextjs/server";
 import { db } from "@/db";
 import { users } from "@/db/schema";
 import { eq } from "drizzle-orm";
+import logger from "@/lib/logger";
 
 export async function POST(req: Request) {
   // Get the necessary headers from Clerk
   const WEBHOOK_SECRET = process.env.CLERK_WEBHOOK_SECRET;
 
   if (!WEBHOOK_SECRET) {
-    console.error("CLERK_WEBHOOK_SECRET is not set");
+    logger.error("CLERK_WEBHOOK_SECRET is not set");
     return new Response(
       "Error: Please add CLERK_WEBHOOK_SECRET from Clerk Dashboard to .env or .env.local",
       {
@@ -27,6 +28,7 @@ export async function POST(req: Request) {
 
   // If there are no headers, error out
   if (!svix_id || !svix_timestamp || !svix_signature) {
+    logger.warn("Missing svix headers");
     return new Response("Error occurred -- no svix headers", {
       status: 400,
     });
@@ -37,7 +39,7 @@ export async function POST(req: Request) {
   try {
     payload = await req.json();
   } catch (err) {
-    console.error("Error parsing webhook payload:", err);
+    logger.error("Error parsing webhook payload:", err);
     return new Response("Error occurred -- could not parse payload", {
       status: 400,
     });
@@ -56,7 +58,7 @@ export async function POST(req: Request) {
       "svix-signature": svix_signature,
     }) as WebhookEvent;
   } catch (err) {
-    console.error("Error verifying webhook:", err);
+    logger.error("Error verifying webhook:", err);
     return new Response("Error occurred -- could not verify webhook", {
       status: 400,
     });
@@ -64,7 +66,7 @@ export async function POST(req: Request) {
 
   // Get the type of webhook event
   const eventType = evt.type;
-  console.log(`Received webhook event: ${eventType}`);
+  logger.info(`Received webhook event: ${eventType}`);
 
   // Process the event
   try {
@@ -78,7 +80,7 @@ export async function POST(req: Request) {
         } = evt.data;
 
         if (!clerkUserId_created) {
-          console.error("user.created event is missing clerkUserId");
+          logger.error("user.created event is missing clerkUserId");
           return new Response(
             "Error: Missing clerkUserId in user.created event",
             { status: 400 }
@@ -94,7 +96,7 @@ export async function POST(req: Request) {
         )?.email_address;
 
         if (!primaryEmail_created) {
-          console.error("user.created event is missing primary email");
+          logger.error("user.created event is missing primary email");
           // Depending on requirements, you might still create the user or return an error
           // For now, we'll return an error if primary email is crucial.
           return new Response(
@@ -103,7 +105,7 @@ export async function POST(req: Request) {
           );
         }
 
-        console.log(
+        logger.info(
           `Processing user.created for Clerk User ID: ${clerkUserId_created}`
         );
         await db.insert(users).values({
@@ -113,7 +115,7 @@ export async function POST(req: Request) {
           lastName: lastName_created,
           // createdAt and updatedAt will use default values
         });
-        console.log(`User ${clerkUserId_created} created successfully.`);
+        logger.info(`User ${clerkUserId_created} created successfully.`);
         break;
 
       case "user.updated":
@@ -125,7 +127,7 @@ export async function POST(req: Request) {
         } = evt.data;
 
         if (!clerkUserId_updated) {
-          console.error("user.updated event is missing clerkUserId");
+          logger.error("user.updated event is missing clerkUserId");
           return new Response(
             "Error: Missing clerkUserId in user.updated event",
             { status: 400 }
@@ -141,13 +143,13 @@ export async function POST(req: Request) {
         )?.email_address;
 
         if (!primaryEmail_updated) {
-          console.error("user.updated event is missing primary email");
+          logger.warn("user.updated event is missing primary email");
           // For updates, you might choose to proceed without email if other fields are updated,
           // or enforce its presence. Here, we'll log and proceed if email is missing,
           // but update other fields.
         }
 
-        console.log(
+        logger.info(
           `Processing user.updated for Clerk User ID: ${clerkUserId_updated}`
         );
 
@@ -165,34 +167,34 @@ export async function POST(req: Request) {
           .update(users)
           .set(updateData)
           .where(eq(users.id, clerkUserId_updated));
-        console.log(`User ${clerkUserId_updated} updated successfully.`);
+        logger.info(`User ${clerkUserId_updated} updated successfully.`);
         break;
 
       // TODO: Add other event types as needed e.g user.deleted
       case "user.deleted":
         const { id: clerkUserId_deleted } = evt.data;
         if (!clerkUserId_deleted) {
-          console.error("user.deleted event is missing clerkUserId");
+          logger.error("user.deleted event is missing clerkUserId");
           return new Response(
             "Error: Missing clerkUserId in user.deleted event",
             { status: 400 }
           );
         }
-        console.log(
+        logger.info(
           `Processing user.deleted for Clerk User ID: ${clerkUserId_deleted}`
         );
         await db
           .update(users)
           .set({ isActive: false })
           .where(eq(users.id, clerkUserId_deleted));
-        console.log(`User ${clerkUserId_deleted} in activated successfully.`);
+        logger.info(`User ${clerkUserId_deleted} in activated successfully.`);
         break;
 
       default:
-        console.log(`Unhandled event type: ${eventType}`);
+        logger.info(`Unhandled event type: ${eventType}`);
     }
   } catch (dbError) {
-    console.error(
+    logger.error(
       "Error processing webhook event and interacting with database:",
       dbError
     );

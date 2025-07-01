@@ -6,6 +6,7 @@ import { db } from "@/db";
 import { analysis } from "@/db/schema";
 import { auth } from "@clerk/nextjs/server";
 import { saveAnalysis } from "@/db/queries/insert";
+import logger from "@/lib/logger";
 
 export const maxDuration = 60;
 
@@ -79,10 +80,12 @@ const coverLetterAnalysisSchema = z.object({
 });
 
 export async function POST(request: Request) {
+  logger.info("Cover letter analysis request received");
   try {
     const { userId } = await auth();
 
     if (!userId) {
+      logger.warn("Unauthorized request for cover letter analysis");
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
@@ -94,6 +97,7 @@ export async function POST(request: Request) {
     const title = formData.get("title") as string;
 
     if (!jobDescription) {
+      logger.warn("Job description is required for cover letter analysis");
       return Response.json(
         { error: "Job description is required" },
         { status: 400 }
@@ -101,6 +105,7 @@ export async function POST(request: Request) {
     }
 
     if (!coverLetterText && !coverLetterFile) {
+      logger.warn("Cover letter text or file is required");
       return Response.json(
         { error: "Cover letter text or file is required" },
         { status: 400 }
@@ -112,6 +117,7 @@ export async function POST(request: Request) {
     // If PDF file is provided, we'll analyze it directly
     if (coverLetterFile) {
       if (coverLetterFile.type !== "application/pdf") {
+        logger.warn("Invalid file type for cover letter analysis");
         return Response.json(
           { error: "Only PDF files are supported" },
           { status: 400 }
@@ -121,6 +127,7 @@ export async function POST(request: Request) {
 
     // Validate text input if provided
     if (coverLetterText && coverLetterText.trim().length < 100) {
+      logger.warn("Cover letter text is too short");
       return Response.json(
         {
           error:
@@ -137,7 +144,7 @@ export async function POST(request: Request) {
         content: [
           {
             type: "text",
-            text: `You are a world-class career coach and expert cover letter analyst with deep expertise in crafting compelling cover letters that align with Applicant Tracking Systems (ATS) like Taleo, Workday, and iCIMS, and secure interviews across industries (e.g., tech, healthcare, finance). Your goal is to deliver a concise, actionable, and encouraging JSON-formatted analysis of a candidate’s cover letter against a specific job description, tailored to the industry, role seniority, and company culture. Use temperature=0 for deterministic outputs and top-k=1 for consistent results. If real-time job market insights (e.g., trending skills from web/X posts) are included, cache them for 24 hours for consistency. Return the response in a JSON object that strictly matches the following schema:
+            text: `You are a world-class career coach and expert cover letter analyst with deep expertise in crafting compelling cover letters that align with Applicant Tracking Systems (ATS) like Taleo, Workday, and iCIMS, and secure interviews across industries (e.g., tech, healthcare, finance). Your goal is to deliver a concise, actionable, and encouraging JSON-formatted analysis of a candidate's cover letter against a specific job description, tailored to the industry, role seniority, and company culture. Use temperature=0 for deterministic outputs and top-k=1 for consistent results. If real-time job market insights (e.g., trending skills from web/X posts) are included, cache them for 24 hours for consistency. Return the response in a JSON object that strictly matches the following schema:
 
 {
   "overallScore": number,
@@ -173,7 +180,7 @@ export async function POST(request: Request) {
 }
 
 Job Description: ${jobDescription}
-Optional Candidate Context: ${candidateContext || 'Assume a general candidate profile: mid-level candidate in the job’s industry.'}
+Optional Candidate Context: ${candidateContext || "Assume a general candidate profile: mid-level candidate in the job's industry."}
 ${coverLetterText
                 ? `Cover Letter Text: ${coverLetterText}`
                 : "Cover Letter: [See attached PDF]"
@@ -190,7 +197,7 @@ Analyze the cover letter and return a JSON response following the schema above:
 - Provide a one-sentence justification in scoreJustification.
 
 #### 2. executiveSummary & firstImpression
-- In executiveSummary, summarize the cover letter’s effectiveness in 2-3 sentences, considering industry, role, and company culture.
+- In executiveSummary, summarize the cover letter's effectiveness in 2-3 sentences, considering industry, role, and company culture.
 - In firstImpression, describe the immediate impression (e.g., "Confident and role-specific," "Generic and unfocused").
 - Highlight one unique strength.
 
@@ -200,7 +207,7 @@ Analyze the cover letter and return a JSON response following the schema above:
 - recommendations: Provide 2-3 ATS-compatible improvements (e.g., "Use .docx format," "Simplify to single-column layout").
 
 #### 4. contentAnalysis
-- relevanceToJob: List 2-4 points on how well the content aligns with the job’s requirements, quoting specific text.
+- relevanceToJob: List 2-4 points on how well the content aligns with the job's requirements, quoting specific text.
 - personalityAndFit: List 2-3 points on enthusiasm and cultural fit, referencing company culture (use X post data if available).
 - valueProposition: List 2-3 points on how effectively the candidate communicates unique value, suggesting metrics if absent.
 - gaps: List 1-3 missing elements (e.g., key skills) and suggest transferable skills or additions.
@@ -221,7 +228,7 @@ Analyze the cover letter and return a JSON response following the schema above:
 - callToActionImprovement: Suggest a specific, role-relevant call-to-action.
 
 #### 8. finalChecklist
-- List exactly 3-5 prioritized actions (e.g., "Add ‘data analysis’ keyword," "Shorten to 300 words").
+- List exactly 3-5 prioritized actions (e.g., "Add 'data analysis' keyword," "Shorten to 300 words").
 
 ---
 

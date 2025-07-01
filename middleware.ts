@@ -1,4 +1,5 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
+import logger from "@/lib/logger";
 
 const isPublicRoute = createRouteMatcher([
   "/",
@@ -11,6 +12,7 @@ const isPublicRoute = createRouteMatcher([
 
 export default clerkMiddleware(async (auth, req) => {
   if (!isPublicRoute(req)) {
+    logger.info(`Protected route accessed: ${req.url}`);
     await auth.protect();
   }
 });

@@ -1,10 +1,12 @@
 import { db } from "@/db";
 import { analysis, users } from "@/db/schema";
 import { eq, sql } from "drizzle-orm";
+import logger from "@/lib/logger";
 
 
 
 export async function saveAnalysis(jobDescription: string, userId: string, title: string | undefined, company: string | undefined, analysisJson: any, forResume: boolean = true) {
+    logger.info(`Saving analysis for user ${userId}`);
     const dateSave = new Date()
     await db.transaction(async (tx) => {
         await tx.insert(analysis).values({
@@ -25,5 +27,6 @@ export async function saveAnalysis(jobDescription: string, userId: string, title
             })
             .where(eq(users.id, userId));
     });
+    logger.info(`Analysis saved for user ${userId}`);
 
 }

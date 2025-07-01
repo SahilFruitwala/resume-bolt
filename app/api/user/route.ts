@@ -3,11 +3,14 @@ import { auth, clerkClient } from "@clerk/nextjs/server";
 // import { users } from "@/db/schema";
 // import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
+import logger from "@/lib/logger";
 
 export async function PUT(request: Request) {
+  logger.info("User update request received");
   try {
     const { userId } = await auth();
     if (!userId) {
+      logger.warn("Unauthorized request to update user");
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
@@ -20,6 +23,7 @@ export async function PUT(request: Request) {
       firstName !== undefined &&
       (typeof firstName !== "string" || firstName.trim() === "")
     ) {
+      logger.warn("Invalid firstName format");
       return new NextResponse(
         "Invalid firstName format. Must be a non-empty string.",
         { status: 400 }
@@ -29,6 +33,7 @@ export async function PUT(request: Request) {
       lastName !== undefined &&
       (typeof lastName !== "string" || lastName.trim() === "")
     ) {
+      logger.warn("Invalid lastName format");
       return new NextResponse(
         "Invalid lastName format. Must be a non-empty string.",
         { status: 400 }
@@ -38,6 +43,7 @@ export async function PUT(request: Request) {
       email !== undefined &&
       (typeof email !== "string" || !email.includes("@"))
     ) {
+      logger.warn("Invalid email format");
       return new NextResponse("Invalid email format", { status: 400 });
     }
 
@@ -78,7 +84,7 @@ export async function PUT(request: Request) {
         await client.users.updateUser(userId, clerkUpdateData);
       }
     } catch (error) {
-      console.error("Error updating user in Clerk:", error);
+      logger.error("Error updating user in Clerk:", error);
       return new NextResponse("Internal Server Error", { status: 500 });
     }
 
@@ -87,6 +93,7 @@ export async function PUT(request: Request) {
     //   return NextResponse.json({ message: 'No update data provided.' }, { status: 400 });
     // }
     if (Object.keys(clerkUpdateData).length === 0) {
+      logger.warn("No update data provided");
       return NextResponse.json(
         { message: "No update data provided." },
         { status: 400 }
@@ -98,15 +105,17 @@ export async function PUT(request: Request) {
       { status: 200 }
     );
   } catch (error) {
-    console.error("Error updating user:", error);
+    logger.error("Error updating user:", error);
     return new NextResponse("Internal Server Error", { status: 500 });
   }
 }
 
 export async function DELETE(request: Request) {
+  logger.info("User delete request received");
   try {
     const { userId } = await auth();
     if (!userId) {
+      logger.warn("Unauthorized request to delete user");
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
@@ -114,7 +123,7 @@ export async function DELETE(request: Request) {
     // try {
     //   await db.delete(users).where(eq(users.clerkUserId, userId));
     // } catch (dbError) {
-    //   console.error('Error deleting user from database:', dbError);
+    //   logger.error('Error deleting user from database:', dbError);
     //   return NextResponse.json({ error: 'Failed to delete user from database' }, { status: 500 });
     // }
 
@@ -123,7 +132,7 @@ export async function DELETE(request: Request) {
     try {
       await client.users.deleteUser(userId);
     } catch (clerkError) {
-      console.error("Error deleting user from Clerk:", clerkError);
+      logger.error("Error deleting user from Clerk:", clerkError);
       // Potentially, the user is deleted from DB but not from Clerk.
       // For now, return a generic error. Production apps might need more robust error handling here.
       return NextResponse.json(
@@ -138,7 +147,7 @@ export async function DELETE(request: Request) {
     );
   } catch (error) {
     // Catch any unexpected errors (e.g., if auth() itself throws an error, though unlikely for this case)
-    console.error("Unexpected error during account deletion:", error);
+    logger.error("Unexpected error during account deletion:", error);
     return NextResponse.json(
       { error: "An unexpected error occurred" },
       { status: 500 }

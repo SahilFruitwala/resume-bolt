@@ -6,12 +6,15 @@ import { db } from "@/db";
 import { analysis } from "@/db/schema";
 import { auth } from "@clerk/nextjs/server";
 import { getDashboardData, getPaginatedAnalysis, getRecentAnalysis } from "@/db/queries/select";
+import logger from "@/lib/logger";
 
 export async function GET(request: Request) {
+  logger.info("Dashboard data request received");
   try {
     const { userId } = await auth();
 
     if (!userId) {
+      logger.warn("Unauthorized request for dashboard data");
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
@@ -31,11 +34,11 @@ export async function GET(request: Request) {
 
     // await getDashboardData(userId);
 
-    console.log("Recent Analysis Data:", formatedRecentData);
+    logger.info("Recent Analysis Data:", formatedRecentData);
 
 
     return Response.json(formatedRecentData);
   } catch (error) {
-    console.error("Error during authentication:", error);
+    logger.error("Error during authentication:", error);
   }
 }

@@ -7,6 +7,7 @@ import { analysis, users } from "@/db/schema";
 import { auth } from "@clerk/nextjs/server";
 import { eq, sql } from "drizzle-orm";
 import { saveAnalysis } from "@/db/queries/insert";
+import logger from "@/lib/logger";
 
 export const maxDuration = 60;
 
@@ -74,6 +75,7 @@ const analysisSchema = z.object({
 });
 
 export async function POST(request: Request) {
+  logger.info("Resume analysis request received");
   try {
     const { userId } = await auth();
     // return NextResponse.json(
@@ -131,7 +133,7 @@ export async function POST(request: Request) {
           content: [
             {
               type: "text",
-              text: `You are a world-class career coach and expert resume analyst with deep expertise in Applicant Tracking Systems (ATS) like Taleo, Workday, and iCIMS, and talent acquisition across industries (e.g., tech, healthcare, finance). Your goal is to deliver a concise, actionable, and encouraging JSON-formatted analysis of a candidate’s resume against a specific job description, tailored to the industry, role seniority, and ATS parsing behaviors. Use temperature=0 for deterministic outputs and top-k=1 for consistent results. If real-time job market insights (e.g., trending skills from web/X posts) are included, cache them for 24 hours for consistency. Return the response in a JSON object that strictly matches the following schema:
+              text: `You are a world-class career coach and expert resume analyst with deep expertise in Applicant Tracking Systems (ATS) like Taleo, Workday, and iCIMS, and talent acquisition across industries (e.g., tech, healthcare, finance). Your goal is to deliver a concise, actionable, and encouraging JSON-formatted analysis of a candidate's resume against a specific job description, tailored to the industry, role seniority, and ATS parsing behaviors. Use temperature=0 for deterministic outputs and top-k=1 for consistent results. If real-time job market insights (e.g., trending skills from web/X posts) are included, cache them for 24 hours for consistency. Return the response in a JSON object that strictly matches the following schema:
 
 {
   "overallScore": number,
@@ -163,7 +165,7 @@ export async function POST(request: Request) {
 }
 
 Job Description: ${jobDescription}
-Optional Candidate Context: ${candidateContext || 'Assume a general candidate profile: mid-level candidate in the job’s industry.'}
+Optional Candidate Context: ${candidateContext || "Assume a general candidate profile: mid-level candidate in the job's industry."}
 Resume: [See attached PDF or text input]
 
 Analyze the resume and return a JSON response following the schema above:
@@ -177,7 +179,7 @@ Analyze the resume and return a JSON response following the schema above:
 - Provide a one-sentence justification in scoreJustification.
 
 #### 2. executiveSummary & firstImpression
-- In executiveSummary, summarize the resume’s effectiveness in 2-3 sentences, considering industry, role, and candidateContext.
+- In executiveSummary, summarize the resume's effectiveness in 2-3 sentences, considering industry, role, and candidateContext.
 - In firstImpression, describe the immediate impression (e.g., "Technical expert," "Entry-level with potential").
 - Highlight one unique strength.
 
@@ -201,7 +203,7 @@ Analyze the resume and return a JSON response following the schema above:
 - addressingGaps: List 2-3 ways to reframe experience or add content to address gaps (e.g., "Highlight project management skills from volunteer work").
 
 #### 7. finalChecklist
-- List exactly 3-5 prioritized actions (e.g., "Add ‘data analysis’ to skills," "Remove header image").
+- List exactly 3-5 prioritized actions (e.g., "Add 'data analysis' to skills," "Remove header image").
 
 ---
 
@@ -229,13 +231,13 @@ Analyze the resume and return a JSON response following the schema above:
     try {
       await saveAnalysis(jobDescription, userId, title, company, result, false);
     } catch (dbError) {
-      console.error("Failed to save analysis to database:", dbError);
+      logger.error("Failed to save analysis to database:", dbError);
       // Continue with response even if DB save fails
     }
 
     return Response.json(result.object);
   } catch (error) {
-    console.error("Resume analysis error:", error);
+    logger.error("Resume analysis error:", error);
     return NextResponse.json(
       {
         error:

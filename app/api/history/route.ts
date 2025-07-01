@@ -1,12 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import { getPaginatedAnalysis } from "@/db/queries/select";
+import logger from "@/lib/logger";
 
 export async function GET(request: NextRequest) {
+  logger.info("Paginated analysis request received");
   try {
     const { userId } = await auth();
 
     if (!userId) {
+      logger.warn("Unauthorized request for paginated analysis");
       return new NextResponse("Unauthorized", { status: 401 });
     }
     const url = request.nextUrl;
@@ -15,6 +18,7 @@ export async function GET(request: NextRequest) {
     const page = searchParams.get("page");
 
     if (!page || isNaN(Number(page))) {
+      logger.warn("Invalid request for paginated analysis");
       return new NextResponse("Invalid request", { status: 403 });
     }
     
@@ -38,6 +42,6 @@ export async function GET(request: NextRequest) {
     
     return NextResponse.json({result, hasMore});
   } catch (error) {
-    console.error("Error during authentication:", error);
+    logger.error("Error during authentication:", error);
   }
 }

@@ -2,11 +2,13 @@ import { and, asc, avg, count, desc, eq, max } from "drizzle-orm";
 import { db } from "../index";
 import { analysis, SelectAnalysis } from "../schema";
 import { title } from "node:process";
+import logger from "@/lib/logger";
 
 export async function getRecentAnalysis(
   userId: string,
   count: number = 5
 ): Promise<SelectAnalysis[]> {
+  logger.info(`Fetching recent analysis for user ${userId}`);
   return db
     .select()
     .from(analysis)
@@ -20,6 +22,7 @@ export async function getPaginatedAnalysis(
   page: number = 1,
   pageSize: number = 10
 ) {
+  logger.info(`Fetching paginated analysis for user ${userId}, page ${page}`);
   const result = await db
     .select({
       id: analysis.id,
@@ -43,6 +46,7 @@ export async function getPaginatedAnalysis(
 }
 
 export async function getAnalysisById(userId: string, analysisId: number) {
+  logger.info(`Fetching analysis by ID ${analysisId} for user ${userId}`);
   const result = await db
     .select({
       id: analysis.id,
@@ -59,6 +63,7 @@ export async function getAnalysisById(userId: string, analysisId: number) {
 }
 
 export async function getDashboardData(userId: string) {
+  logger.info(`Fetching dashboard data for user ${userId}`);
   return db
     .select({
       total: count(analysis.id),
