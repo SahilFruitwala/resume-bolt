@@ -13,6 +13,8 @@ import { CoverLetterAnalysis } from "@/components/cover-letter-analysis";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { CoverLetterInput } from "@/components/cover-letter-text";
 
 export default function DashboardPage() {
   const [step, setStep] = useState<"upload" | "analyzing" | "results">(
@@ -20,13 +22,14 @@ export default function DashboardPage() {
   );
   const [coverLetterFile, setCoverLetterFile] = useState<File | null>(null);
   const [jobDescription, setJobDescription] = useState("");
+  const [coverLetter, setCoverLetter] = useState("");
   const [analysisData, setAnalysisData] =
     useState<CoverLetterAnalysisDataType | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analysisName, setAnalysisName] = useState("");
 
   const handleAnalyze = async () => {
-    if (!coverLetterFile || !jobDescription.trim()) {
+    if ((!coverLetterFile && !coverLetter) || !jobDescription.trim()) {
       return;
     }
 
@@ -35,7 +38,8 @@ export default function DashboardPage() {
 
     try {
       const analysisData = await analyzeCoverLetter(
-        coverLetterFile,
+        coverLetterFile!,
+        coverLetter,
         jobDescription,
         analysisName
       );
@@ -57,6 +61,7 @@ export default function DashboardPage() {
     setStep("upload");
     setCoverLetterFile(null);
     setJobDescription("");
+    setCoverLetter("");
     setAnalysisData(null);
     setIsAnalyzing(false);
     setAnalysisName("");
@@ -120,8 +125,6 @@ export default function DashboardPage() {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div
-          // // initial={{ opacity: 0, y: -20 }}
-          // // animate={{ opacity: 1, y: 0 }}
           className="mb-8"
         >
           <h1 className="text-3xl font-bold text-primary mb-2">
@@ -133,74 +136,10 @@ export default function DashboardPage() {
           </p>
         </div>
 
-        {/* Quick Stats */}
-        {/* <motion.div
-          // initial={{ opacity: 0, y: 20 }}
-          // animate={{ opacity: 1, y: 0 }}
-          // transition={{ delay: 0.1 }}
-          className="grid md:grid-cols-4 gap-4 mb-8"
-        >
-          <Card className="p-4 bg-gradient-to-r from-blue-50 to-blue-100 border-blue-200 dark:from-blue-900 dark:to-blue-800 dark:border-blue-700">
-            <div className="flex items-center">
-              <Target className="h-8 w-8 text-blue-600 dark:text-blue-300 mr-3" />
-              <div>
-                <p className="text-sm font-medium text-blue-800 dark:text-blue-200">
-                  Skills Match
-                </p>
-                <p className="text-xs text-blue-600 dark:text-blue-300">
-                  Precision scoring
-                </p>
-              </div>
-            </div>
-          </Card>
-          <Card className="p-4 bg-gradient-to-r from-green-50 to-green-100 border-green-200 dark:from-green-900 dark:to-green-800 dark:border-green-700">
-            <div className="flex items-center">
-              <FileText className="h-8 w-8 text-green-600 dark:text-green-300 mr-3" />
-              <div>
-                <p className="text-sm font-medium text-green-800 dark:text-green-200">
-                  ATS Optimization
-                </p>
-                <p className="text-xs text-green-600 dark:text-green-300">
-                  System compatibility
-                </p>
-              </div>
-            </div>
-          </Card>
-          <Card className="p-4 bg-gradient-to-r from-purple-50 to-purple-100 border-purple-200 dark:from-purple-900 dark:to-purple-800 dark:border-purple-700">
-            <div className="flex items-center">
-              <Zap className="h-8 w-8 text-purple-600 dark:text-purple-300 mr-3" />
-              <div>
-                <p className="text-sm font-medium text-purple-800 dark:text-purple-200">
-                  Instant Analysis
-                </p>
-                <p className="text-xs text-purple-600 dark:text-purple-300">
-                  Real-time feedback
-                </p>
-              </div>
-            </div>
-          </Card>
-          <Card className="p-4 bg-gradient-to-r from-orange-50 to-orange-100 border-orange-200 dark:from-orange-900 dark:to-orange-800 dark:border-orange-700">
-            <div className="flex items-center">
-              <Brain className="h-8 w-8 text-orange-600 dark:text-orange-300 mr-3" />
-              <div>
-                <p className="text-sm font-medium text-orange-800 dark:text-orange-200">
-                  AI Insights
-                </p>
-                <p className="text-xs text-orange-600 dark:text-orange-300">
-                  Smart recommendations
-                </p>
-              </div>
-            </div>
-          </Card>
-        </motion.div> */}
-
         {/* Main Content */}
         <div className="grid lg:grid-cols-2 gap-8 mb-8">
           <div className="space-y-6 w-full">
             <div
-              // initial={{ opacity: 0, x: -20 }}
-              // animate={{ opacity: 1, x: 0 }}
-              // transition={{ delay: 0.2 }}
               className="grid w-full items-center gap-3"
             >
               <Label htmlFor="analysis name">Name</Label>
@@ -210,23 +149,28 @@ export default function DashboardPage() {
                 onChange={(e) => setAnalysisName(e.target.value)}
               />
             </div>
-          <div
-            // initial={{ opacity: 0, x: -20 }}
-            // animate={{ opacity: 1, x: 0 }}
-            // transition={{ delay: 0.2 }}
-          >
-            <FileUpload
-              onFileSelect={setCoverLetterFile}
-              selectedFile={coverLetterFile}
-              type="cover letter"
-            />
-          </div>
+            <Tabs defaultValue="pdf">
+              <TabsList>
+                <TabsTrigger value="pdf">Upload PDF</TabsTrigger>
+                <TabsTrigger value="text">Insert Text</TabsTrigger>
+              </TabsList>
+              <TabsContent value="pdf">
+              <FileUpload
+                onFileSelect={setCoverLetterFile}
+                selectedFile={coverLetterFile}
+                type="cover letter"
+              />
+            </TabsContent>
+              <TabsContent value="text">
+                <CoverLetterInput
+                  value={coverLetter}
+                  onChange={setCoverLetter}
+                />
+              </TabsContent>
+            </Tabs>
           </div>
 
           <div
-            // initial={{ opacity: 0, x: 20 }}
-            // animate={{ opacity: 1, x: 0 }}
-            // transition={{ delay: 0.3 }}
           >
             <JobDescriptionInput
               value={jobDescription}
@@ -237,15 +181,12 @@ export default function DashboardPage() {
 
         {/* Analyze Button */}
         <div
-          // initial={{ opacity: 0, y: 20 }}
-          // animate={{ opacity: 1, y: 0 }}
-          // transition={{ delay: 0.4 }}
           className="text-center"
         >
           <Button
             onClick={handleAnalyze}
             disabled={
-              !coverLetterFile || !jobDescription.trim() || isAnalyzing
+              (!coverLetterFile && !coverLetter) || !jobDescription.trim() || isAnalyzing
             }
             size="lg"
             className="px-12 py-4 text-lg font-semibold transition-colors duration-200"

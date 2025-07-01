@@ -115,7 +115,7 @@ export async function POST(request: Request) {
     const coverLetterContent = coverLetterText;
 
     // If PDF file is provided, we'll analyze it directly
-    if (coverLetterFile) {
+    if (coverLetterFile && !coverLetterText) {
       if (coverLetterFile.type !== "application/pdf") {
         logger.warn("Invalid file type for cover letter analysis");
         return Response.json(
@@ -246,7 +246,7 @@ Analyze the cover letter and return a JSON response following the schema above:
     ];
 
     // Add PDF file if provided
-    if (coverLetterFile) {
+    if (coverLetterFile && !coverLetterText) {
       const coverLetterBuffer = await coverLetterFile.arrayBuffer();
       messages[0].content.push({
         type: "file",

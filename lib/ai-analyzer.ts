@@ -31,6 +31,7 @@ export async function analyzeResume(
 
 export async function analyzeCoverLetter(
   coverLetterFile: File,
+  coverLetterInput: string,
   jobDescription: string,
   analysisName: string
 ): Promise<CoverLetterAnalysisDataType> {
@@ -39,6 +40,7 @@ export async function analyzeCoverLetter(
     formData.append("jobDescription", jobDescription);
     formData.append("coverLetterFile", coverLetterFile);
     formData.append("title", analysisName);
+    formData.append("coverLetter", coverLetterInput);
 
     const response = await fetch("/api/analyze-cover-letter", {
       method: "POST",
