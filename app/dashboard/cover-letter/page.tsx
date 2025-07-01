@@ -4,14 +4,11 @@ import { useState } from "react";
 import { FileUpload } from "@/components/file-upload";
 import { JobDescriptionInput } from "@/components/job-description-input";
 import { LoadingState } from "@/components/loading-state";
-import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Brain, FileText, Target, Zap, ArrowLeft, Star } from "lucide-react";
-import { motion } from "framer-motion";
-import { ResumeAnalysis } from "@/components/analysis-results";
+import { Brain, ArrowLeft, Star } from "lucide-react";
 import { getScoreBgColor, getScoreColor } from "@/lib/colors";
-import { AnalysisDataType, CoverLetterAnalysisDataType } from "@/lib/types";
-import { analyzeCoverLetter, analyzeResume } from "@/lib/ai-analyzer";
+import { CoverLetterAnalysisDataType } from "@/lib/types";
+import { analyzeCoverLetter } from "@/lib/ai-analyzer";
 import { CoverLetterAnalysis } from "@/components/cover-letter-analysis";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -66,7 +63,7 @@ export default function DashboardPage() {
   };
 
   if (step === "analyzing") {
-    return <LoadingState />;
+    return <LoadingState isResume={false} />;
   }
 
   if (step === "results" && analysisData) {
@@ -122,9 +119,9 @@ export default function DashboardPage() {
     <div className="p-6">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
+        <div
+          // // initial={{ opacity: 0, y: -20 }}
+          // // animate={{ opacity: 1, y: 0 }}
           className="mb-8"
         >
           <h1 className="text-3xl font-bold text-primary mb-2">
@@ -134,13 +131,13 @@ export default function DashboardPage() {
             Upload your cover letter and job description to get AI-powered
             insights and recommendations.
           </p>
-        </motion.div>
+        </div>
 
         {/* Quick Stats */}
         {/* <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
+          // initial={{ opacity: 0, y: 20 }}
+          // animate={{ opacity: 1, y: 0 }}
+          // transition={{ delay: 0.1 }}
           className="grid md:grid-cols-4 gap-4 mb-8"
         >
           <Card className="p-4 bg-gradient-to-r from-blue-50 to-blue-100 border-blue-200 dark:from-blue-900 dark:to-blue-800 dark:border-blue-700">
@@ -200,10 +197,10 @@ export default function DashboardPage() {
         {/* Main Content */}
         <div className="grid lg:grid-cols-2 gap-8 mb-8">
           <div className="space-y-6 w-full">
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.2 }}
+            <div
+              // initial={{ opacity: 0, x: -20 }}
+              // animate={{ opacity: 1, x: 0 }}
+              // transition={{ delay: 0.2 }}
               className="grid w-full items-center gap-3"
             >
               <Label htmlFor="analysis name">Name</Label>
@@ -212,37 +209,37 @@ export default function DashboardPage() {
                 value={analysisName}
                 onChange={(e) => setAnalysisName(e.target.value)}
               />
-            </motion.div>
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.2 }}
+            </div>
+          <div
+            // initial={{ opacity: 0, x: -20 }}
+            // animate={{ opacity: 1, x: 0 }}
+            // transition={{ delay: 0.2 }}
           >
             <FileUpload
               onFileSelect={setCoverLetterFile}
               selectedFile={coverLetterFile}
               type="cover letter"
             />
-          </motion.div>
+          </div>
           </div>
 
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.3 }}
+          <div
+            // initial={{ opacity: 0, x: 20 }}
+            // animate={{ opacity: 1, x: 0 }}
+            // transition={{ delay: 0.3 }}
           >
             <JobDescriptionInput
               value={jobDescription}
               onChange={setJobDescription}
             />
-          </motion.div>
+          </div>
         </div>
 
         {/* Analyze Button */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
+        <div
+          // initial={{ opacity: 0, y: 20 }}
+          // animate={{ opacity: 1, y: 0 }}
+          // transition={{ delay: 0.4 }}
           className="text-center"
         >
           <Button
@@ -268,7 +265,7 @@ export default function DashboardPage() {
           <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
             Analysis typically takes 30-60 seconds
           </p>
-        </motion.div>
+        </div>
       </div>
     </div>
   );

@@ -4,11 +4,9 @@ import { useState } from "react";
 import { FileUpload } from "@/components/file-upload";
 import { JobDescriptionInput } from "@/components/job-description-input";
 import { LoadingState } from "@/components/loading-state";
-import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Brain, FileText, Target, Zap, ArrowLeft, Star } from "lucide-react";
-import { motion } from "framer-motion";
-import { ResumeAnalysis } from "@/components/analysis-results";
+import { Brain, ArrowLeft, Star } from "lucide-react";
+import { ResumeAnalysis } from "@/components/resume-analysis";
 import { getScoreBgColor, getScoreColor } from "@/lib/colors";
 import { AnalysisDataType } from "@/lib/types";
 import { analyzeResume } from "@/lib/ai-analyzer";
@@ -125,9 +123,9 @@ export default function DashboardPage() {
     <div className="p-6">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
+        <div
+          // // initial={{ opacity: 0, y: -20 }}
+          // // animate={{ opacity: 1, y: 0 }}
           className="mb-8"
         >
           <h1 className="text-3xl font-bold text-primary mb-2">
@@ -137,76 +135,16 @@ export default function DashboardPage() {
             Upload your resume and job description to get AI-powered insights
             and recommendations.
           </p>
-        </motion.div>
+        </div>
 
-        {/* Quick Stats */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-          className="grid md:grid-cols-4 gap-4 mb-8"
-        >
-          <Card className="p-4 bg-gradient-to-r from-blue-50 to-blue-100 border-blue-200 dark:from-blue-900 dark:to-blue-800 dark:border-blue-700">
-            <div className="flex items-center">
-              <Target className="h-8 w-8 text-blue-600 dark:text-blue-300 mr-3" />
-              <div>
-                <p className="text-sm font-medium text-blue-800 dark:text-blue-200">
-                  Skills Match
-                </p>
-                <p className="text-xs text-blue-600 dark:text-blue-300">
-                  Precision scoring
-                </p>
-              </div>
-            </div>
-          </Card>
-          <Card className="p-4 bg-gradient-to-r from-green-50 to-green-100 border-green-200 dark:from-green-900 dark:to-green-800 dark:border-green-700">
-            <div className="flex items-center">
-              <FileText className="h-8 w-8 text-green-600 dark:text-green-300 mr-3" />
-              <div>
-                <p className="text-sm font-medium text-green-800 dark:text-green-200">
-                  ATS Optimization
-                </p>
-                <p className="text-xs text-green-600 dark:text-green-300">
-                  System compatibility
-                </p>
-              </div>
-            </div>
-          </Card>
-          <Card className="p-4 bg-gradient-to-r from-purple-50 to-purple-100 border-purple-200 dark:from-purple-900 dark:to-purple-800 dark:border-purple-700">
-            <div className="flex items-center">
-              <Zap className="h-8 w-8 text-purple-600 dark:text-purple-300 mr-3" />
-              <div>
-                <p className="text-sm font-medium text-purple-800 dark:text-purple-200">
-                  Instant Analysis
-                </p>
-                <p className="text-xs text-purple-600 dark:text-purple-300">
-                  Real-time feedback
-                </p>
-              </div>
-            </div>
-          </Card>
-          <Card className="p-4 bg-gradient-to-r from-orange-50 to-orange-100 border-orange-200 dark:from-orange-900 dark:to-orange-800 dark:border-orange-700">
-            <div className="flex items-center">
-              <Brain className="h-8 w-8 text-orange-600 dark:text-orange-300 mr-3" />
-              <div>
-                <p className="text-sm font-medium text-orange-800 dark:text-orange-200">
-                  AI Insights
-                </p>
-                <p className="text-xs text-orange-600 dark:text-orange-300">
-                  Smart recommendations
-                </p>
-              </div>
-            </div>
-          </Card>
-        </motion.div>
 
         {/* Main Content */}
         <div className="grid lg:grid-cols-2 gap-8 mb-8">
           <div className="space-y-6 w-full">
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.2 }}
+            <div
+              // initial={{ opacity: 0, x: -20 }}
+              // animate={{ opacity: 1, x: 0 }}
+              // transition={{ delay: 0.2 }}
               className="grid w-full items-center gap-3"
             >
               <Label htmlFor="analysis name">Name</Label>
@@ -215,37 +153,37 @@ export default function DashboardPage() {
                 value={analysisName}
                 onChange={(e) => setAnalysisName(e.target.value)}
               />
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.2 }}
+            </div>
+            <div
+              // initial={{ opacity: 0, x: -20 }}
+              // animate={{ opacity: 1, x: 0 }}
+              // transition={{ delay: 0.2 }}
             >
               <FileUpload
                 onFileSelect={setResumeFile}
                 selectedFile={resumeFile}
                 type="resume"
               />
-            </motion.div>
+            </div>
           </div>
 
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.3 }}
+          <div
+            // initial={{ opacity: 0, x: 20 }}
+            // animate={{ opacity: 1, x: 0 }}
+            // transition={{ delay: 0.3 }}
           >
             <JobDescriptionInput
               value={jobDescription}
               onChange={setJobDescription}
             />
-          </motion.div>
+          </div>
         </div>
 
         {/* Analyze Button */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
+        <div
+          // initial={{ opacity: 0, y: 20 }}
+          // animate={{ opacity: 1, y: 0 }}
+          // transition={{ delay: 0.4 }}
           className="text-center"
         >
           <Button
@@ -269,7 +207,7 @@ export default function DashboardPage() {
           <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
             Analysis typically takes 30-60 seconds
           </p>
-        </motion.div>
+        </div>
       </div>
     </div>
   );

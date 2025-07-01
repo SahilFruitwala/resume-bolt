@@ -7,15 +7,17 @@ import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 
 const steps = [
-  { icon: FileCheck, label: 'Parsing resume content', duration: 2000 },
+  { icon: FileCheck, label: 'Parsing document content', duration: 2000 },
   { icon: Target, label: 'Analyzing job requirements', duration: 1500 },
   { icon: Brain, label: 'AI processing and comparison', duration: 3000 },
   { icon: Layout, label: 'Generating recommendations', duration: 1500 },
 ];
 
-export function LoadingState() {
+export function LoadingState({isResume = true}: {isResume?: boolean}) {
   const [currentStep, setCurrentStep] = useState(0);
   const [progress, setProgress] = useState(0);
+
+  const docType = isResume ? 'Resume' : 'Cover Letter'
 
   useEffect(() => {
     let progressTimer: NodeJS.Timeout;
@@ -59,9 +61,9 @@ export function LoadingState() {
         <div className="mx-auto w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mb-6">
         <Brain className="h-10 w-10 text-primary animate-pulse" />
         </div>
-        <h1 className="text-3xl font-bold text-foreground mb-2">Working on Your Resume</h1>
+        <h1 className="text-3xl font-bold text-foreground mb-2">Working on Your {docType}</h1>
         <p className="text-muted-foreground">
-        We&apos;re matching your resume to the job description and preparing tailored insights.
+        We&apos;re matching your {docType} to the job description and preparing tailored insights.
         </p>
       </motion.div>
 

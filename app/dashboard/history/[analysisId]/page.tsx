@@ -1,19 +1,18 @@
 "use client";
 
-import { useRouter, useParams, useSearchParams } from "next/navigation";
+import { useParams } from "next/navigation";
 import { CoverLetterAnalysis } from "@/components/cover-letter-analysis";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import {
   Loader2,
-  ServerCrash,
   FileWarning,
   Star,
   ArrowLeft,
 } from "lucide-react"; // Added FileWarning
 import { Badge } from "@/components/ui/badge";
 import { useEffect, useState } from "react";
-import { ResumeAnalysis } from "@/components/analysis-results";
+import { ResumeAnalysis } from "@/components/resume-analysis";
 import { getScoreBgColor, getScoreColor } from "@/lib/colors";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -71,6 +70,8 @@ export default function AnalysisDetailPage() {
       }
 
       const { data } = await response.json();
+      console.clear();
+      console.log("Fetched analysis data:", data);
       setAnalysisData(data);
     } catch (error) {
       setAnalysisData(null);

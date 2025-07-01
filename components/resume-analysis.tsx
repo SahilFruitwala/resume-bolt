@@ -26,19 +26,6 @@ interface ResumeAnalysisProps {
 export function ResumeAnalysis({ analysis }: ResumeAnalysisProps) {
   return (
     <div className="max-w-7xl mx-auto space-y-6">
-      {/* <div className="flex items-center justify-between">
-          <Button onClick={onReset} variant="outline" className="flex items-center gap-2">
-            <ArrowLeft className="h-4 w-4" />
-            Analyze Another Resume
-          </Button>
-          <div className={`flex items-center gap-3 px-6 py-3 rounded-full ${getScoreBgColor(analysis.overallScore)}`}>
-            <Star className={`h-6 w-6 ${getScoreColor(analysis.overallScore)}`} />
-            <span className={`text-2xl font-bold ${getScoreColor(analysis.overallScore)}`}>
-              {analysis.overallScore}/100
-            </span>
-          </div>
-        </div> */}
-
       {/* Rest of the existing content remains the same */}
       {/* Score Justification */}
       <Card className="dark:bg-gray-800 dark:border-gray-700">

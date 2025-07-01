@@ -99,16 +99,16 @@ export default function SettingsPage() {
     // <main className="flex-1 p-6 lg:p-10 space-y-4">
     //     <div className="p-6">
     <div className="max-w-7xl mx-auto p-6">
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
+      <div
+        // initial={{ opacity: 0, y: -20 }}
+        // animate={{ opacity: 1, y: 0 }}
         className="mb-8"
       >
         <h1 className="text-3xl font-bold text-primary mb-2">Settings</h1>
         <p className="text-muted-foreground mt-2">
           Manage your account settings and preferences
         </p>
-      </motion.div>
+      </div>
 
       {/* <Tabs defaultValue="profile" className="w-full">
         <TabsList className="grid w-full grid-cols-2">
@@ -117,10 +117,10 @@ export default function SettingsPage() {
         </TabsList> */}
 
       {/* <TabsContent value="profile" className="space-y-4"> */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.1 }}
+      <div
+        // initial={{ opacity: 0, y: 20 }}
+        // animate={{ opacity: 1, y: 0 }}
+        // transition={{ delay: 0.1 }}
       >
         <Card>
           <CardHeader>
@@ -163,7 +163,7 @@ export default function SettingsPage() {
             <Button onClick={handleSaveProfile}>Save Changes</Button>
           </CardFooter>
         </Card>
-      </motion.div>
+      </div>
 
       {/* <Card>
             <CardHeader>

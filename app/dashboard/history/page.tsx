@@ -5,20 +5,14 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
   FileText,
-  Download,
   Eye,
   Calendar,
-  TrendingUp,
-  Star,
-  Clock,
   FileEdit,
   Loader2,
 } from "lucide-react";
-import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { getScoreColor } from "@/lib/colors";
 import { useSearchParams } from "next/navigation";
-import { AnalysisDataType, CoverLetterAnalysisDataType } from "@/lib/types";
 import Link from "next/link";
 import { toast } from "sonner";
 
@@ -76,76 +70,23 @@ export default function ReportsPage() {
       <div className="p-6">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
+          <div
             className="mb-8"
           >
             <h1 className="text-3xl font-bold mb-2 text-primary">My Reports</h1>
             <p className="text-muted-foreground">
               View and manage your resume analysis reports.
             </p>
-          </motion.div>
-
-          {/* Stats Overview
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-          className="grid md:grid-cols-4 gap-4 mb-8"
-        >
-          <Card className="p-6">
-            <div className="flex items-center">
-              <FileText className="h-8 w-8 text-primary mr-3" />
-              <div>
-                <p className="text-2xl font-bold text-primary">3</p>
-                <p className="text-sm text-muted-foreground">Total Reports</p>
-              </div>
-            </div>
-          </Card>
-          <Card className="p-6">
-            <div className="flex items-center">
-              <TrendingUp className="h-8 w-8 text-green-600 mr-3" />
-              <div>
-                <p className="text-2xl font-bold text-green-700">85.7</p>
-                <p className="text-sm text-muted-foreground">Avg Score</p>
-              </div>
-            </div>
-          </Card>
-          <Card className="p-6">
-            <div className="flex items-center">
-              <Star className="h-8 w-8 text-yellow-500 mr-3" />
-              <div>
-                <p className="text-2xl font-bold text-yellow-700">92</p>
-                <p className="text-sm text-muted-foreground">Best Score</p>
-              </div>
-            </div>
-          </Card>
-          <Card className="p-6">
-            <div className="flex items-center">
-              <Clock className="h-8 w-8 text-blue-500 mr-3" />
-              <div>
-                <p className="text-2xl font-bold text-blue-700">2</p>
-                <p className="text-sm text-muted-foreground">This Week</p>
-              </div>
-            </div>
-          </Card>
-        </motion.div> */}
+          </div>
 
           {/* Reports List */}
           {historyData && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
+            <div
               className="space-y-4"
             >
               {historyData.map((report, index) => (
-                <motion.div
+                <div
                   key={report.id}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.1 * index }}
                 >
                   <Card className="p-6 hover:shadow-lg transition-shadow">
                     <div className="flex items-center justify-between">
@@ -203,7 +144,7 @@ export default function ReportsPage() {
                       </div>
                     </div>
                   </Card>
-                </motion.div>
+                </div>
               ))}
 
               <div className="flex space-x-4">
@@ -222,14 +163,11 @@ export default function ReportsPage() {
                   </Link>
                 )}
               </div>
-            </motion.div>
+            </div>
           )}
           {/* Empty State (if no reports) */}
           {historyData.length === 0 && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
+            <div
               className="text-center py-12"
             >
               <FileText className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
@@ -245,7 +183,7 @@ export default function ReportsPage() {
                   Analyze Resume
                 </Button>
               </Link>
-            </motion.div>
+            </div>
           )}
         </div>
       </div>
