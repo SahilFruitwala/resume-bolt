@@ -1,400 +1,324 @@
-"use client";
+import { Brain, Shield, Eye, Lock, Users, Mail } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
+import HeaderComponent from '@/components/header';
 
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-import {
-  Shield,
-  Lock,
-  Eye,
-  Trash2,
-  Download,
-  Mail,
-  ArrowLeft,
-  FileText,
-  Server,
-  Users,
-  Clock,
-  Twitter,
-  Linkedin,
-  Brain,
-  ArrowRight,
-} from "lucide-react";
-import { motion } from "framer-motion";
-import Link from "next/link";
-import { ThemeToggle } from "@/components/theme-toggle";
-
-const sections = [
-  {
-    id: "information-collection",
-    title: "Information We Collect",
-    icon: FileText,
-    content: [
-      {
-        subtitle: "Resume Data",
-        text: "When you upload your resume for analysis, we temporarily process the document content to provide our AI-powered insights. This includes text extraction, formatting analysis, and content evaluation.",
-      },
-      {
-        subtitle: "Job Description Data",
-        text: "We process the job descriptions you provide to compare against your resume and generate personalized recommendations.",
-      },
-      {
-        subtitle: "Usage Information",
-        text: "We collect basic usage analytics to improve our service, including analysis frequency, feature usage, and general performance metrics.",
-      },
-      {
-        subtitle: "Technical Data",
-        text: "Standard web information such as IP address, browser type, device information, and access times for security and optimization purposes.",
-      },
-    ],
-  },
-  {
-    id: "data-processing",
-    title: "How We Process Your Data",
-    icon: Server,
-    content: [
-      {
-        subtitle: "AI Analysis",
-        text: "Your resume and job description data are processed by our AI systems (Google Gemini) to generate personalized insights and recommendations.",
-      },
-      {
-        subtitle: "Temporary Processing",
-        text: "Resume content is processed in real-time and is not permanently stored on our servers after analysis completion.",
-      },
-      //   {
-      //     subtitle: "Security Measures",
-      //     text: "All data processing occurs through encrypted connections and secure cloud infrastructure with industry-standard security protocols.",
-      //   },
-    ],
-  },
-  {
-    id: "data-retention",
-    title: "Data Retention & Storage",
-    icon: Clock,
-    content: [
-      {
-        subtitle: "Resume Files",
-        text: "Uploaded resume files are automatically deleted from our servers within 24 hours of analysis completion.",
-      },
-      {
-        subtitle: "Analysis Results",
-        text: "Analysis reports may be temporarily cached for up to 30 days to improve performance, then automatically purged.",
-      },
-      {
-        subtitle: "Usage Analytics",
-        text: "Anonymized usage statistics are retained for up to 2 years for service improvement purposes.",
-      },
-    ],
-  },
-  {
-    id: "data-sharing",
-    title: "Data Sharing & Third Parties",
-    icon: Users,
-    content: [
-      {
-        subtitle: "AI Processing Partners",
-        text: "We use Google's Gemini AI service for resume analysis. Data is processed according to Google's privacy policies and security standards.",
-      },
-      {
-        subtitle: "No Sale of Personal Data",
-        text: "We do not sell, rent, or trade your personal information or resume data to third parties for marketing purposes.",
-      },
-      {
-        subtitle: "Legal Requirements",
-        text: "We may disclose information if required by law, court order, or to protect our rights and the safety of our users.",
-      },
-    ],
-  },
-  {
-    id: "user-rights",
-    title: "Your Rights & Controls",
-    icon: Shield,
-    content: [
-      {
-        subtitle: "Data Access",
-        text: "You can request information about what personal data we have processed about you.",
-      },
-      {
-        subtitle: "Data Deletion",
-        text: "You can request deletion of your data at any time. Resume files are automatically deleted within 24 hours.",
-      },
-      {
-        subtitle: "Data Portability",
-        text: "You can download your analysis reports and any data we have about you in a machine-readable format.",
-      },
-      {
-        subtitle: "Opt-Out",
-        text: "You can opt out of non-essential data collection and analytics at any time.",
-      },
-    ],
-  },
-  {
-    id: "security",
-    title: "Security Measures",
-    icon: Lock,
-    content: [
-      {
-        subtitle: "Encryption",
-        text: "All data transmission is encrypted using TLS/SSL protocols. Data at rest is encrypted using industry-standard encryption methods.",
-      },
-      {
-        subtitle: "Access Controls",
-        text: "Strict access controls ensure only authorized personnel can access systems, with all access logged and monitored.",
-      },
-      {
-        subtitle: "Regular Audits",
-        text: "We conduct regular security audits and vulnerability assessments to maintain the highest security standards.",
-      },
-      {
-        subtitle: "Incident Response",
-        text: "We have established procedures for detecting, responding to, and reporting any security incidents.",
-      },
-    ],
-  },
-];
+export const metadata = {
+  title: 'Privacy Policy | ResumeBolt - How We Protect Your Data',
+  description: 'Learn how ResumeBolt protects your privacy and handles your data. Comprehensive privacy policy covering data collection, processing, and your rights under GDPR.',
+};
 
 export default function PrivacyPolicyPage() {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="border-b bg-background/80 backdrop-blur-xs sticky top-0 z-50 transition-colors">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2">
-              <Link href="/" className="flex items-center space-x-2">
-                <Brain className="h-8 w-8 text-primary" />
-                <span className="text-xl font-bold text-foreground">
-                  ResumeBolt
-                </span>
-              </Link>
-            </div>
-            <nav className="hidden md:flex items-center space-x-6">
-              <Link
-                href="/"
-                className="text-muted-foreground hover:text-primary transition-colors font-medium"
-              >
-                Home
-              </Link>
-              <Link href="/dashboard/resume">
-                <Button>
-                  Get Started
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </Link>
-              <ThemeToggle />
-              {/* <div className="space-x-4 flex items-center">
-                <Link href="/dashboard/resume">
-                  <Button>
-                    Get Started
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </Button>
-                </Link>
-              </div> */}
-            </nav>
-          </div>
-        </div>
-      </header>
+      <HeaderComponent />
 
-      <div className="container mx-auto px-4 py-12">
-        {/* Hero Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-12"
-        >
-          <div className="flex justify-center mb-6">
-            <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center">
-              <Shield className="h-8 w-8 text-primary" />
-            </div>
-          </div>
-          <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-            Privacy Policy. This is just an MVP.
-          </h1>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            Your privacy is our priority. This policy explains how we collect,
-            use, and protect your information when you use our AI-powered resume
-            analysis service.
-          </p>
-          <div className="mt-6 text-sm text-muted-foreground">
-            <p>Last updated: January 15, 2025</p>
-            <p>Effective date: January 15, 2025</p>
-          </div>
-        </motion.div>
-
-        {/* Quick Summary */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-          className="mb-12"
-        >
-          <Card className="p-8 bg-card border-border">
-            <h2 className="text-2xl font-bold text-foreground mb-4 flex items-center">
-              <Eye className="mr-3 h-6 w-6 text-accent" />
-              Privacy at a Glance
-            </h2>
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              <div className="text-center">
-                <div className="w-12 h-12 bg-destructive/10 rounded-full flex items-center justify-center mx-auto mb-3">
-                  <Trash2 className="h-6 w-6 text-destructive" />
-                </div>
-                <h3 className="font-semibold text-foreground mb-1">
-                  Auto-Delete
-                </h3>
-                <p className="text-sm text-muted-foreground">
-                  Resume files deleted within 24 hours
-                </p>
-              </div>
-              <div className="text-center">
-                <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
-                  <Lock className="h-6 w-6 text-primary" />
-                </div>
-                <h3 className="font-semibold text-foreground mb-1">
-                  Encrypted
-                </h3>
-                <p className="text-sm text-muted-foreground">
-                  All data encrypted in transit and at rest
-                </p>
-              </div>
-              <div className="text-center">
-                <div className="w-12 h-12 bg-secondary/10 rounded-full flex items-center justify-center mx-auto mb-3">
-                  <Users className="h-6 w-6 text-secondary-foreground" />
-                </div>
-                <h3 className="font-semibold text-foreground mb-1">
-                  No Selling
-                </h3>
-                <p className="text-sm text-muted-foreground">
-                  We never sell your personal data
-                </p>
-              </div>
-              <div className="text-center">
-                <div className="w-12 h-12 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-3">
-                  <Download className="h-6 w-6 text-accent" />
-                </div>
-                <h3 className="font-semibold text-foreground mb-1">
-                  Your Control
-                </h3>
-                <p className="text-sm text-muted-foreground">
-                  Download or delete your data anytime
-                </p>
-              </div>
-            </div>
-          </Card>
-        </motion.div>
-
-        {/* Detailed Sections */}
-        <div className="space-y-8">
-          {sections.map((section, index) => (
-            <motion.div
-              key={section.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 * (index + 2) }}
-            >
-              <Card className="p-8 bg-card border-border">
-                <h2 className="text-2xl font-bold text-foreground mb-6 flex items-center">
-                  <section.icon className="mr-3 h-6 w-6 text-primary" />
-                  {section.title}
-                </h2>
-                <div className="space-y-6">
-                  {section.content.map((item, itemIndex) => (
-                    <div key={itemIndex}>
-                      <h3 className="text-lg font-semibold text-foreground mb-2">
-                        {item.subtitle}
-                      </h3>
-                      <p className="text-muted-foreground leading-relaxed">
-                        {item.text}
-                      </p>
-                      {itemIndex < section.content.length - 1 && (
-                        <Separator className="mt-4" />
-                      )}
-                    </div>
-                  ))}
-                </div>
-              </Card>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* Contact Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.8 }}
-          className="mt-12"
-        >
-          <Card className="p-8 bg-card border-border">
-            <div className="text-center">
-              <Mail className="h-12 w-12 text-primary mx-auto mb-4" />
-              <h2 className="text-2xl font-bold text-foreground mb-4">
-                Questions About Your Privacy?
-              </h2>
-              <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
-                If you have any questions about this Privacy Policy, your data
-                rights, or how we handle your information, please don't hesitate
-                to contact us.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Link href="https://www.linkedin.com/in/sahilfruitwala/">
-                  <Button size="lg">
-                    <Linkedin className="mr-2 h-5 w-5" />
-                    Contact on LinkedIn
-                  </Button>
-                </Link>
-                <Link href="http://x.com/sahil_Fruitwala">
-                  <Button size="lg" variant="outline">
-                    <Twitter className="mr-2 h-5 w-5" />
-                    Request My Data
-                  </Button>
-                </Link>
-              </div>
-            </div>
-          </Card>
-        </motion.div>
-
-        {/* Footer Note */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1 }}
-          className="mt-12 text-center"
-        >
-          <div className="bg-muted rounded-lg p-6">
-            <p className="text-sm text-muted-foreground leading-relaxed">
-              <strong>Changes to This Policy:</strong> We may update this
-              Privacy Policy from time to time. We will notify you of any
-              material changes by posting the new Privacy Policy on this page
-              and updating the "Last updated" date. We encourage you to review
-              this Privacy Policy periodically for any changes.
+      {/* Privacy Policy Content */}
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="max-w-4xl mx-auto">
+          {/* Header Section */}
+          <div className="text-center mb-12">
+            <h1 className="text-4xl font-bold mb-4">Privacy Policy</h1>
+            <p className="text-xl text-muted-foreground">
+              Your privacy is important to us. This policy explains how we collect, use, and protect your information.
+            </p>
+            <p className="text-sm text-muted-foreground mt-2">
+              <strong>Last updated:</strong> January 2025
             </p>
           </div>
-        </motion.div>
-      </div>
-      <footer className="bg-background text-foreground py-12 transition-colors border-t">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row items-center justify-between">
-            <div className="flex items-center space-x-2 mb-4 md:mb-0">
-              <Link href="/" className="flex items-center space-x-2">
-                <Brain className="h-6 w-6 text-primary" />
-                <span className="text-lg font-semibold">ResumeBolt</span>
-              </Link>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-4 text-foreground">Legal</h4>
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                <li>
-                  <Link
-                    href="/privacy"
-                    className="hover:text-primary transition-colors"
-                  >
-                    Privacy Policy
-                  </Link>
-                </li>
+
+          {/* Quick Overview Cards */}
+          <div className="grid md:grid-cols-3 gap-6 mb-12">
+            <Card>
+              <CardHeader className="text-center">
+                <Shield className="h-8 w-8 text-green-500 mx-auto mb-2" />
+                <CardTitle className="text-lg">We Don't Store Your Docs</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground text-center">
+                  Your resumes and job descriptions are processed temporarily and never permanently stored.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader className="text-center">
+                <Lock className="h-8 w-8 text-blue-500 mx-auto mb-2" />
+                <CardTitle className="text-lg">Secure Processing</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground text-center">
+                  All data is encrypted in transit and processed in secure, isolated environments.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader className="text-center">
+                <Users className="h-8 w-8 text-purple-500 mx-auto mb-2" />
+                <CardTitle className="text-lg">GDPR Compliant</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground text-center">
+                  Full compliance with GDPR and other data protection regulations worldwide.
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Main Content */}
+          <div className="prose prose-lg max-w-none">
+
+            <h2 className="text-2xl font-bold mt-8 mb-4 flex items-center">
+              <Eye className="h-6 w-6 mr-2 text-primary" />
+              Information We Collect
+            </h2>
+
+            <div className="bg-muted/50 p-6 rounded-lg mb-6">
+              <h3 className="text-lg font-semibold mb-3">Account Information</h3>
+              <ul className="space-y-2 text-muted-foreground">
+                <li>• Email address (for account creation and communication)</li>
+                <li>• Name (if provided during registration)</li>
+                <li>• Authentication tokens (for secure login)</li>
+                <li>• Account preferences and settings</li>
               </ul>
             </div>
-            <div className="text-muted-foreground text-sm">
-              © 2025 ResumeBolt. All rights reserved.
+
+            <div className="bg-muted/50 p-6 rounded-lg mb-6">
+              <h3 className="text-lg font-semibold mb-3">Analysis Reports</h3>
+              <ul className="space-y-2 text-muted-foreground">
+                <li>• Analysis results and feedback generated by our AI</li>
+                <li>• Performance scores and improvement suggestions</li>
+                <li>• Usage statistics (number of analyses performed)</li>
+                <li>• Anonymized metadata for service improvement</li>
+              </ul>
             </div>
+
+            <div className="bg-red-50 border border-red-200 p-6 rounded-lg mb-6">
+              <h3 className="text-lg font-semibold mb-3 text-red-800">What We DON'T Store</h3>
+              <ul className="space-y-2 text-red-700">
+                <li>• Your actual resume or CV content</li>
+                <li>• Job descriptions you submit for analysis</li>
+                <li>• Personal information from your documents</li>
+                <li>• Temporary files after analysis completion</li>
+              </ul>
+            </div>
+
+            <h2 className="text-2xl font-bold mt-8 mb-4 flex items-center">
+              <Shield className="h-6 w-6 mr-2 text-primary" />
+              How We Use Your Information
+            </h2>
+
+            <div className="space-y-4 mb-6">
+              <div className="border-l-4 border-primary pl-4">
+                <h3 className="font-semibold">Service Provision</h3>
+                <p className="text-muted-foreground">
+                  We use your information to provide AI-powered analysis of your documents, generate reports, and deliver personalized feedback.
+                </p>
+              </div>
+
+              <div className="border-l-4 border-primary pl-4">
+                <h3 className="font-semibold">Account Management</h3>
+                <p className="text-muted-foreground">
+                  Your email is used for account authentication, sending analysis reports, and important service updates.
+                </p>
+              </div>
+
+              <div className="border-l-4 border-primary pl-4">
+                <h3 className="font-semibold">Service Improvement</h3>
+                <p className="text-muted-foreground">
+                  Anonymized usage data helps us improve our AI models and service quality.
+                </p>
+              </div>
+            </div>
+
+            <h2 className="text-2xl font-bold mt-8 mb-4 flex items-center">
+              <Lock className="h-6 w-6 mr-2 text-primary" />
+              Data Security & Processing
+            </h2>
+
+            <div className="bg-green-50 border border-green-200 p-6 rounded-lg mb-6">
+              <h3 className="text-lg font-semibold mb-3 text-green-800">Our Security Measures</h3>
+              <ul className="space-y-2 text-green-700">
+                <li>• <strong>Encryption in Transit:</strong> All data is encrypted using TLS 1.3</li>
+                <li>• <strong>Temporary Processing:</strong> Documents are processed in memory and immediately discarded</li>
+                <li>• <strong>Secure Infrastructure:</strong> Hosted on industry-leading cloud platforms with SOC 2 compliance</li>
+                <li>• <strong>Access Controls:</strong> Strict access controls and monitoring for all systems</li>
+                <li>• <strong>Regular Audits:</strong> Regular security audits and penetration testing</li>
+              </ul>
+            </div>
+
+            <h2 className="text-2xl font-bold mt-8 mb-4">Third-Party Services</h2>
+
+            <div className="bg-blue-50 border border-blue-200 p-6 rounded-lg mb-6">
+              <h3 className="text-lg font-semibold mb-3 text-blue-800">Analytics</h3>
+              <p className="text-blue-700 mb-3">
+                We use privacy-friendly analytics to understand how our service is used and to improve user experience.
+              </p>
+              <ul className="space-y-2 text-blue-700">
+                <li>• <strong>Data collected:</strong> Page views, feature usage, performance metrics</li>
+                <li>• <strong>Privacy features:</strong> IP anonymization, data retention limits</li>
+                <li>• <strong>GDPR compliance:</strong> Full GDPR compliance with easy opt-out options</li>
+                <li>• <strong>No personal data:</strong> No personally identifiable information is tracked</li>
+              </ul>
+            </div>
+
+            <h2 className="text-2xl font-bold mt-8 mb-4">Your Rights Under GDPR</h2>
+
+            <div className="grid md:grid-cols-2 gap-6 mb-6">
+              <div className="space-y-4">
+                <div className="bg-muted/50 p-4 rounded-lg">
+                  <h3 className="font-semibold mb-2">Right to Access</h3>
+                  <p className="text-sm text-muted-foreground">
+                    Request a copy of all personal data we hold about you.
+                  </p>
+                </div>
+
+                <div className="bg-muted/50 p-4 rounded-lg">
+                  <h3 className="font-semibold mb-2">Right to Rectification</h3>
+                  <p className="text-sm text-muted-foreground">
+                    Correct any inaccurate or incomplete personal data.
+                  </p>
+                </div>
+
+                <div className="bg-muted/50 p-4 rounded-lg">
+                  <h3 className="font-semibold mb-2">Right to Erasure</h3>
+                  <p className="text-sm text-muted-foreground">
+                    Request deletion of your personal data ("right to be forgotten").
+                  </p>
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <div className="bg-muted/50 p-4 rounded-lg">
+                  <h3 className="font-semibold mb-2">Right to Portability</h3>
+                  <p className="text-sm text-muted-foreground">
+                    Export your data in a machine-readable format.
+                  </p>
+                </div>
+
+                <div className="bg-muted/50 p-4 rounded-lg">
+                  <h3 className="font-semibold mb-2">Right to Object</h3>
+                  <p className="text-sm text-muted-foreground">
+                    Object to processing of your personal data for specific purposes.
+                  </p>
+                </div>
+
+                <div className="bg-muted/50 p-4 rounded-lg">
+                  <h3 className="font-semibold mb-2">Right to Restrict</h3>
+                  <p className="text-sm text-muted-foreground">
+                    Limit how we process your personal data in certain circumstances.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <h2 className="text-2xl font-bold mt-8 mb-4">Cookie Policy</h2>
+
+            <div className="bg-muted/50 p-6 rounded-lg mb-6">
+              <p className="mb-4">We use minimal, essential cookies to provide our service:</p>
+              <ul className="space-y-2 text-muted-foreground">
+                <li>• <strong>Authentication cookies:</strong> To keep you logged in securely</li>
+                <li>• <strong>Session cookies:</strong> To maintain your session during analysis</li>
+                <li>• <strong>Preference cookies:</strong> To remember your settings and preferences</li>
+                <li>• <strong>Analytics cookies:</strong> analytics (can be opted out)</li>
+              </ul>
+              <p className="mt-4 text-sm">
+                You can manage cookie preferences in your browser settings. Disabling essential cookies may affect service functionality.
+              </p>
+            </div>
+
+            <h2 className="text-2xl font-bold mt-8 mb-4">Data Retention</h2>
+
+            <div className="space-y-4 mb-6">
+              <div className="border-l-4 border-red-500 pl-4">
+                <h3 className="font-semibold">Uploaded Documents</h3>
+                <p className="text-muted-foreground">
+                  <strong>Retention period:</strong> Immediately deleted after processing (typically within minutes)
+                </p>
+              </div>
+
+              <div className="border-l-4 border-blue-500 pl-4">
+                <h3 className="font-semibold">Account Information</h3>
+                <p className="text-muted-foreground">
+                  <strong>Retention period:</strong> Until account deletion or 2 years of inactivity
+                </p>
+              </div>
+
+              <div className="border-l-4 border-green-500 pl-4">
+                <h3 className="font-semibold">Analysis Reports</h3>
+                <p className="text-muted-foreground">
+                  <strong>Retention period:</strong> Until account deletion or upon request
+                </p>
+              </div>
+            </div>
+
+            {/* <h2 className="text-2xl font-bold mt-8 mb-4 flex items-center">
+              <Mail className="h-6 w-6 mr-2 text-primary" />
+              Contact Us
+            </h2>
+
+            <div className="bg-primary/5 p-6 rounded-lg mb-6">
+              <p className="mb-4">
+                If you have any questions about this privacy policy or want to exercise your rights, please contact us:
+              </p>
+              <div className="space-y-2">
+                <p><strong>Email:</strong> privacy@ResumeBolt.com</p>
+                <p><strong>Data Protection Officer:</strong> dpo@ResumeBolt.com</p>
+                <p><strong>Address:</strong> ResumeBolt Privacy Team, 123 AI Street, Tech City, TC 12345</p>
+              </div>
+            </div> */}
+
+            <h2 className="text-2xl font-bold mt-8 mb-4">Changes to This Policy</h2>
+
+            <div className="bg-muted/50 p-6 rounded-lg mb-6">
+              <p className="mb-4">
+                We may update this privacy policy from time to time to reflect changes in our practices or for legal compliance.
+                When we make changes:
+              </p>
+              <ul className="space-y-2 text-muted-foreground">
+                <li>• We'll update the "Last updated" date at the top of this policy</li>
+                <li>• For significant changes, we'll notify you via email or in-app notification</li>
+                <li>• Your continued use of the service constitutes acceptance of the updated policy</li>
+                <li>• Previous versions will be archived and available upon request</li>
+              </ul>
+            </div>
+
+            <div className="text-center mt-12 p-8 bg-gradient-to-r from-primary/10 to-blue-600/10 rounded-lg">
+              <h3 className="text-xl font-semibold mb-4">Questions About Your Privacy?</h3>
+              <p className="text-muted-foreground mb-6">
+                We're here to help. Contact our privacy team with any questions or concerns.
+              </p>
+              <Link href="https://www.linkedin.com/in/sahilfruitwala/" target="_blank">
+              <Button size="lg">
+                Contact Privacy Team
+                <Mail className="ml-2 h-4 w-4" />
+              </Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Footer */}
+      <footer className="border-t bg-background">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="flex flex-col md:flex-row justify-between items-center">
+            <div className="flex items-center space-x-2 mb-4 md:mb-0">
+              <Brain className="h-6 w-6 text-primary" />
+              <span className="text-lg font-bold">ResumeBolt</span>
+            </div>
+            <div className="flex space-x-6 text-sm text-muted-foreground">
+              <Link href="/" className="hover:text-primary transition-colors">Home</Link>
+              <Link href="/privacy" className="hover:text-primary transition-colors">Privacy Policy</Link>
+              {/* <a href="#" className="hover:text-primary transition-colors">Terms of Service</a> */}
+              <a href="https://www.linkedin.com/in/sahilfruitwala/" className="hover:text-primary transition-colors">Contact</a>
+            </div>
+          </div>
+          <div className="text-center text-sm text-muted-foreground mt-4">
+            <p>&copy; 2025 ResumeBolt. All rights reserved.</p>
           </div>
         </div>
       </footer>

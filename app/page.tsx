@@ -1,467 +1,425 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { 
-  Brain, 
-  FileText, 
-  Target, 
-  Zap, 
-  CheckCircle, 
+import {
+  Brain,
+  FileText,
+  Target,
+  Zap,
+  Shield,
+  Users,
+  CheckCircle,
   ArrowRight,
   Star,
-  Users,
+  Upload,
+  Search,
   TrendingUp,
-  Shield,
-  Clock,
   Award,
-  Linkedin,
-  X,
-  Twitter
+  Lock,
+  Clock
 } from 'lucide-react';
-import { motion } from 'framer-motion';
 import Link from 'next/link';
+import { SignedIn, SignedOut, SignIn, UserButton } from '@clerk/nextjs';
 import { ThemeToggle } from '@/components/theme-toggle';
+import HeaderComponent from '@/components/header';
 
-const features = [
-  {
-    icon: Target,
-    title: 'Skills Matching',
-    description: 'AI-powered analysis compares your skills against job requirements with precision scoring',
-    color: 'text-blue-600'
-  },
-  {
-    icon: FileText,
-    title: 'ATS Optimization',
-    description: 'Ensure your resume passes Applicant Tracking Systems with detailed recommendations',
-    color: 'text-green-600'
-  },
-  {
-    icon: Zap,
-    title: 'Instant Analysis',
-    description: 'Get comprehensive feedback in seconds with actionable insights and improvements',
-    color: 'text-purple-600'
-  },
-  {
-    icon: Brain,
-    title: 'AI-Powered Insights',
-    description: 'Advanced machine learning provides personalized recommendations for your career',
-    color: 'text-orange-600'
-  },
-  {
-    icon: Shield,
-    title: 'Privacy First',
-    description: 'Your resume data is processed securely and never stored on our servers',
-    color: 'text-red-600'
-  },
-  {
-    icon: Clock,
-    title: 'Save Time',
-    description: 'Skip hours of manual resume tweaking with automated optimization suggestions',
-    color: 'text-indigo-600'
-  }
-];
+export default function HomePage() {
+  const [isVisible, setIsVisible] = useState(false);
 
-const stats = [
-  { number: '50K+', label: 'Resumes Analyzed', icon: FileText },
-  { number: '95%', label: 'Success Rate', icon: TrendingUp },
-  { number: '4.9/5', label: 'User Rating', icon: Star },
-  { number: '24/7', label: 'Available', icon: Clock }
-];
+  useEffect(() => {
+    setIsVisible(true);
+  }, []);
 
-const testimonials = [
-  {
-    name: 'Sarah Chen',
-    role: 'Software Engineer',
-    company: 'Google',
-    content: 'This tool helped me identify missing keywords that got my resume past the ATS. I landed 3 interviews in one week!',
-    rating: 5
-  },
-  {
-    name: 'Michael Rodriguez',
-    role: 'Marketing Manager',
-    company: 'Meta',
-    content: 'The AI insights were incredibly detailed. It pointed out formatting issues I never would have noticed.',
-    rating: 5
-  },
-  {
-    name: 'Emily Johnson',
-    role: 'Data Scientist',
-    company: 'Microsoft',
-    content: 'Game-changer for my job search. The recommendations were spot-on and helped me tailor my resume perfectly.',
-    rating: 5
-  }
-];
-
-export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-background transition-colors">
+    <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="border-b bg-background/80 backdrop-blur-xs sticky top-0 z-50 transition-colors">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2">
-              <Link href="/" className="flex items-center space-x-2">
-                <Brain className="h-8 w-8 text-primary" />
-                <span className="text-xl font-bold text-foreground">
-                  ResumeBolt
-                </span>
-              </Link>
-            </div>
-            <nav className="hidden md:flex items-center space-x-6">
-              <Link
-                href="#features"
-                className="text-muted-foreground hover:text-primary transition-colors font-medium"
-              >
-                Features
-              </Link>
-              <Link
-                href="#how-it-works"
-                className="text-muted-foreground hover:text-primary transition-colors font-medium"
-              >
-                How It Works
-              </Link>
-              <Link href="/dashboard/resume">
-                <Button>
-                  Get Started
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </Link>
-              <ThemeToggle />
-              {/* <div className="space-x-4 flex items-center">
-                <Link href="/dashboard/resume">
-                  <Button>
-                    Get Started
+      <HeaderComponent />
+
+      {/* Hero Section */}
+      <section className="pt-20 pb-16 px-4 sm:px-6 lg:px-8">
+        <div className="container mx-auto text-center">
+          <div className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+            <Badge variant="secondary" className="mb-4">
+              🚀 AI-Powered Career Optimization
+            </Badge>
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 bg-gradient-to-r from-primary via-chart-1 to-chart-2 bg-clip-text text-transparent">
+              Transform Your Job Applications with AI
+            </h1>
+            <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto leading-relaxed">
+              Get instant, intelligent analysis of your resume and cover letters.
+              ResumeBolt provides personalized feedback and optimization suggestions to help you land your dream job.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
+              <SignedOut>
+                <Link href="/dashboard">
+                  <Button size="lg" className="w-full sm:w-auto">
+                    Start Free Analysis
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
                 </Link>
-              </div> */}
-            </nav>
-          </div>
-        </div>
-      </header>
-
-      {/* Hero Section */}
-      <section className="py-20 px-4">
-        <div className="container mx-auto text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <Badge className="mb-4 px-4 py-2 text-sm font-medium bg-muted text-primary">
-              <Zap className="mr-2 h-4 w-4" />
-              Powered by Advanced AI
-            </Badge>
-            <h1 className="text-5xl md:text-7xl font-bold text-foreground mb-6 leading-tight">
-              Optimize Your Resume with
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">
-                {" "}
-                AI
-              </span>
-            </h1>
-            <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto leading-relaxed">
-              Get instant, AI-powered insights to make your resume stand out.
-              Our advanced analysis helps you match job requirements, pass ATS
-              systems, and land more interviews.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/dashboard/resume">
-                <Button size="lg" className="px-8 py-4 text-lg font-semibold">
-                  <Brain className="mr-2 h-5 w-5" />
-                  Analyze My Resume
+                {/* <Button variant="outline" size="lg" className="w-full sm:w-auto">
+                  Watch Demo
+                </Button> */}
+              </SignedOut>
+              <SignedIn>
+                <Link href="/dashboard">
+                <Button size="lg" className="w-full sm:w-auto">
+                  Dashboard
+                  <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
-              </Link>
-              {/* <Button
-          size="lg"
-          variant="outline"
-          className="px-8 py-4 text-lg font-semibold"
-          >
-          <FileText className="mr-2 h-5 w-5" />
-          View Sample Report
-          </Button> */}
+                </Link>
+              </SignedIn>
             </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Stats Section */}
-      <section className="py-16 bg-background transition-colors">
-        <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="grid grid-cols-2 md:grid-cols-4 gap-8"
-          >
-            {stats.map((stat, index) => (
-              <div key={index} className="text-center">
-                <div className="flex justify-center mb-2">
-                  <stat.icon className="h-8 w-8 text-primary" />
-                </div>
-                <div className="text-3xl font-bold text-foreground mb-1">
-                  {stat.number}
-                </div>
-                <div className="text-muted-foreground">{stat.label}</div>
+            <div className="flex items-center justify-center space-x-8 text-sm text-muted-foreground">
+              <div className="flex items-center space-x-2">
+                <CheckCircle className="h-4 w-4 text-chart-2" />
+                <span>Free to start</span>
               </div>
-            ))}
-          </motion.div>
+              <div className="flex items-center space-x-2">
+                <CheckCircle className="h-4 w-4 text-chart-2" />
+                <span>No credit card required</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <CheckCircle className="h-4 w-4 text-chart-2" />
+                <span>Instant results</span>
+              </div>
+            </div>
+            <div className="mt-16 text-center flex justify-center">
+              <div className="flex items-center space-x-6">
+                <div className="flex items-center -space-x-2">
+                  {['m', 'y', 'f', 'r', 'i', 'e', 'n', 'd', 's'].map((char, idx) => (
+                    <div
+                      key={char + idx}
+                      className={`h-12 w-12 rounded-full flex items-center justify-center font-bold border-2 border-background
+                      ${[
+                          'bg-chart-1 text-white',
+                          'bg-chart-2 text-white',
+                          'bg-chart-3 text-white',
+                          'bg-chart-4 text-white',
+                          'bg-chart-5 text-white',
+                          'bg-primary text-primary-foreground',
+                          'bg-secondary text-secondary-foreground',
+                          'bg-accent text-accent-foreground',
+                          'bg-muted text-foreground'
+                        ][idx]
+                        }
+                    `}
+                    >
+                      {char}
+                    </div>
+                  ))}
+                </div>
+                <div className="text-left">
+                  <div className="flex items-center space-x-1 mb-2">
+                    <Star className="h-5 w-5 text-chart-4 fill-current" />
+                    <Star className="h-5 w-5 text-chart-4 fill-current" />
+                    <Star className="h-5 w-5 text-chart-4 fill-current" />
+                    <Star className="h-5 w-5 text-chart-4 fill-current" />
+                    <Star className="h-5 w-5 text-chart-4 fill-current" />
+                    <span className="text-sm text-muted-foreground ml-2">4.9/5 rating</span>
+                  </div>
+                  <p className="text-lg font-semibold">My friends love this app</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
       {/* Features Section */}
-      <section id="features" className="py-20 px-4">
-        <div className="container mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl font-bold text-foreground mb-4">
-              Everything You Need to Land Your Dream Job
-            </h2>
+      <section id="features" className="py-20 bg-muted/50">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl sm:text-4xl font-bold mb-4">Powerful AI-Driven Features</h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Our comprehensive AI analysis covers every aspect of your resume
-              to maximize your chances of success.
+              Our advanced AI analyzes every aspect of your application materials to give you the competitive edge you need.
             </p>
-          </motion.div>
+          </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {features.map((feature, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                viewport={{ once: true }}
-              >
-                <Card className="p-8 h-full hover:shadow-lg transition-all duration-300 border-0 bg-card backdrop-blur-xs">
-                  <div className="flex items-center mb-4">
-                    <div className="p-3 rounded-lg bg-muted mr-4">
-                      <feature.icon className="h-6 w-6 text-primary" />
-                    </div>
-                    <h3 className="text-xl font-semibold text-foreground">
-                      {feature.title}
-                    </h3>
-                  </div>
-                  <p className="text-muted-foreground leading-relaxed">
-                    {feature.description}
-                  </p>
-                </Card>
-              </motion.div>
-            ))}
+            <Card className="group hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+              <CardHeader>
+                <div className="h-12 w-12 bg-chart-1/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-chart-1/20 transition-colors">
+                  <Brain className="h-6 w-6 text-chart-1" />
+                </div>
+                <CardTitle>Intelligent Analysis</CardTitle>
+                <CardDescription>
+                  Advanced AI algorithms analyze your resume content, structure, and formatting to identify improvement opportunities.
+                </CardDescription>
+              </CardHeader>
+            </Card>
+
+            <Card className="group hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+              <CardHeader>
+                <div className="h-12 w-12 bg-chart-2/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-chart-2/20 transition-colors">
+                  <Target className="h-6 w-6 text-chart-2" />
+                </div>
+                <CardTitle>Job Match Optimization</CardTitle>
+                <CardDescription>
+                  Compare your resume against job descriptions to optimize keyword usage and improve ATS compatibility.
+                </CardDescription>
+              </CardHeader>
+            </Card>
+
+            <Card className="group hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+              <CardHeader>
+                <div className="h-12 w-12 bg-chart-5/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-chart-5/20 transition-colors">
+                  <FileText className="h-6 w-6 text-chart-5" />
+                </div>
+                <CardTitle>Cover Letter Enhancement</CardTitle>
+                <CardDescription>
+                  Get personalized suggestions to make your cover letters more compelling and tailored to specific roles.
+                </CardDescription>
+              </CardHeader>
+            </Card>
+
+            <Card className="group hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+              <CardHeader>
+                <div className="h-12 w-12 bg-chart-4/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-chart-4/20 transition-colors">
+                  <Zap className="h-6 w-6 text-chart-4" />
+                </div>
+                <CardTitle>Instant Feedback</CardTitle>
+                <CardDescription>
+                  Receive immediate, actionable feedback with specific recommendations for improvement and optimization.
+                </CardDescription>
+              </CardHeader>
+            </Card>
+
+            <Card className="group hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+              <CardHeader>
+                <div className="h-12 w-12 bg-chart-3/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-chart-3/20 transition-colors">
+                  <TrendingUp className="h-6 w-6 text-chart-3" />
+                </div>
+                <CardTitle>Performance Tracking</CardTitle>
+                <CardDescription>
+                  Track your improvement over time with detailed analytics and performance metrics for your applications.
+                </CardDescription>
+              </CardHeader>
+            </Card>
+
+            <Card className="group hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+              <CardHeader>
+                <div className="h-12 w-12 bg-destructive/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-destructive/20 transition-colors">
+                  <Award className="h-6 w-6 text-destructive" />
+                </div>
+                <CardTitle>Industry Standards</CardTitle>
+                <CardDescription>
+                  Ensure your resume meets current industry standards and best practices across different fields and roles.
+                </CardDescription>
+              </CardHeader>
+            </Card>
           </div>
         </div>
       </section>
 
-      {/* How It Works */}
-      <section id="how-it-works" className="py-20 bg-muted transition-colors">
-        <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl font-bold text-foreground mb-4">
-              How It Works
-            </h2>
+      {/* How It Works Section */}
+      <section id="how-it-works" className="py-20">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl sm:text-4xl font-bold mb-4">How ResumeBolt Works</h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Get professional resume insights in just three simple steps.
+              Get professional-grade analysis in three simple steps. No complex setup required.
             </p>
-          </motion.div>
+          </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                step: "01",
-                title: "Upload Resume",
-                description:
-                  "Upload your PDF resume securely. We support all standard formats.",
-                icon: FileText,
-              },
-              {
-                step: "02",
-                title: "Add Job Description",
-                description:
-                  "Paste the job description you're targeting for personalized analysis.",
-                icon: Target,
-              },
-              {
-                step: "03",
-                title: "Get AI Insights",
-                description:
-                  "Receive detailed analysis with actionable recommendations in seconds.",
-                icon: Brain,
-              },
-            ].map((item, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.2 }}
-                viewport={{ once: true }}
-                className="text-center"
-              >
-                <div className="relative mb-6">
-                  <div className="w-20 h-20 bg-card rounded-full flex items-center justify-center mx-auto shadow-lg">
-                    <item.icon className="h-8 w-8 text-primary" />
-                  </div>
-                  <div className="absolute -top-2 -right-2 w-8 h-8 bg-primary text-white rounded-full flex items-center justify-center text-sm font-bold">
-                    {item.step}
-                  </div>
+            <div className="text-center group">
+              <div className="relative mb-6">
+                <div className="h-20 w-20 bg-gradient-to-r from-chart-1 to-chart-2 rounded-full flex items-center justify-center mx-auto group-hover:scale-110 transition-transform">
+                  <Upload className="h-10 w-10 text-white" />
                 </div>
-                <h3 className="text-xl font-semibold text-foreground mb-3">
-                  {item.title}
-                </h3>
-                <p className="text-muted-foreground">{item.description}</p>
-              </motion.div>
-            ))}
+                <div className="absolute -top-2 -right-2 h-8 w-8 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-sm font-bold">
+                  1
+                </div>
+              </div>
+              <h3 className="text-xl font-semibold mb-3">Upload Your Documents</h3>
+              <p className="text-muted-foreground">
+                Simply upload your resume and cover letter. We support all major file formats including PDF, Word, and text files.
+              </p>
+            </div>
+
+            <div className="text-center group">
+              <div className="relative mb-6">
+                <div className="h-20 w-20 bg-gradient-to-r from-chart-2 to-chart-3 rounded-full flex items-center justify-center mx-auto group-hover:scale-110 transition-transform">
+                  <Search className="h-10 w-10 text-white" />
+                </div>
+                <div className="absolute -top-2 -right-2 h-8 w-8 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-sm font-bold">
+                  2
+                </div>
+              </div>
+              <h3 className="text-xl font-semibold mb-3">AI Analysis</h3>
+              <p className="text-muted-foreground">
+                Our advanced AI analyzes your content, structure, keywords, and formatting against industry best practices and job requirements.
+              </p>
+            </div>
+
+            <div className="text-center group">
+              <div className="relative mb-6">
+                <div className="h-20 w-20 bg-gradient-to-r from-chart-4 to-chart-5 rounded-full flex items-center justify-center mx-auto group-hover:scale-110 transition-transform">
+                  <TrendingUp className="h-10 w-10 text-white" />
+                </div>
+                <div className="absolute -top-2 -right-2 h-8 w-8 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-sm font-bold">
+                  3
+                </div>
+              </div>
+              <h3 className="text-xl font-semibold mb-3">Get Actionable Insights</h3>
+              <p className="text-muted-foreground">
+                Receive detailed feedback, optimization suggestions, and a comprehensive score to improve your job application success rate.
+              </p>
+            </div>
+          </div>
+
+          {/* <div className="text-center mt-12">
+            <Button size="lg">
+              Start Your Free Analysis
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
+          </div> */}
+        </div>
+      </section>
+
+      {/* Trust & Security Section */}
+      <section id="security" className="py-20 bg-muted/50">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl sm:text-4xl font-bold mb-4">Your Privacy & Security Matter</h2>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              We take data security seriously. Your documents are processed securely and never stored permanently.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <Card className="text-center hover:shadow-lg transition-all duration-300">
+              <CardContent className="pt-6">
+                <Shield className="h-12 w-12 text-chart-2 mx-auto mb-4" />
+                <h3 className="font-semibold mb-2">Secure Processing</h3>
+                <p className="text-sm text-muted-foreground">
+                  End-to-end encryption protects your data during analysis
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="text-center hover:shadow-lg transition-all duration-300">
+              <CardContent className="pt-6">
+                <Lock className="h-12 w-12 text-chart-1 mx-auto mb-4" />
+                <h3 className="font-semibold mb-2">No Permanent Storage</h3>
+                <p className="text-sm text-muted-foreground">
+                  Your resumes and job descriptions are never stored
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="text-center hover:shadow-lg transition-all duration-300">
+              <CardContent className="pt-6">
+                <Clock className="h-12 w-12 text-chart-5 mx-auto mb-4" />
+                <h3 className="font-semibold mb-2">GDPR Compliant</h3>
+                <p className="text-sm text-muted-foreground">
+                  Full compliance with data protection regulations
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="text-center hover:shadow-lg transition-all duration-300">
+              <CardContent className="pt-6">
+                <Users className="h-12 w-12 text-chart-4 mx-auto mb-4" />
+                <h3 className="font-semibold mb-2">Trusted by My Friends</h3>
+                <p className="text-sm text-muted-foreground">
+                  Over 10,000 professionals trust ResumeBolt
+                </p>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </section>
 
-      {/* Testimonials */}
-      <section className="py-20 px-4">
-        <div className="container mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl font-bold text-foreground mb-4">
-              This is an MVP. Please contact for any questions or feedback.
-            </h2>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-              className="flex flex-col sm:flex-row gap-4 justify-center pt-6"
+      {/* Final CTA Section */}
+      <section className="py-20 bg-gradient-to-r from-primary via-chart-1 to-chart-2">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl sm:text-4xl font-bold text-primary-foreground mb-4">
+            Ready to Transform Your Job Applications?
+          </h2>
+          <p className="text-xl text-primary-foreground/80 mb-8 max-w-2xl mx-auto">
+            Join thousands of professionals who have already improved their job prospects with ResumeBolt.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <SignedOut>
+              <Link href="/dashboard">
+                <Button size="lg" variant="secondary" className="w-full sm:w-auto">
+                  Start Free Analysis
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </Link>
+              {/* <Button variant="outline" size="lg" className="w-full sm:w-auto">
+                  Watch Demo
+                </Button> */}
+            </SignedOut>
+            <SignedIn>
+              <Link href="/dashboard">
+                <Button size="lg" className="w-full sm:w-auto">
+                  Dashboard
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </Link>
+            </SignedIn>
+            <Link href="https://www.linkedin.com/in/sahilfruitwala/" target='_blank'>
+            <Button
+              size="lg"
+              variant="outline"
+              className="w-full sm:w-auto bg-white/10 border-white/20 text-primary-foreground hover:bg-white/20 dark:hover:bg-white/30"
             >
-              <Link href="https://www.linkedin.com/in/sahilfruitwala/">
-                <Button size="lg">
-                  <Linkedin className="mr-2 h-5 w-5" />
-                  Contact on LinkedIn
-                </Button>
-              </Link>
-              <Link href="http://x.com/sahil_Fruitwala">
-                <Button size="lg" variant="outline">
-                  <Twitter className="mr-2 h-5 w-5" />
-                  Request My Data
-                </Button>
-              </Link>
-            </motion.div>
-            {/* <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-          See how our AI-powered resume analysis has helped professionals
-          land their dream jobs.
-        </p> */}
-          </motion.div>
-
-          {/* <div className="grid md:grid-cols-3 gap-8">
-        {testimonials.map((testimonial, index) => (
-          <motion.div
-          key={index}
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: index * 0.1 }}
-          viewport={{ once: true }}
-          >
-          <Card className="p-6 h-full bg-card backdrop-blur-xs border-0 shadow-lg">
-            <div className="flex items-center mb-4">
-            {[...Array(testimonial.rating)].map((_, i) => (
-              <Star
-              key={i}
-              className="h-4 w-4 text-yellow-400 fill-current"
-              />
-            ))}
-            </div>
-            <p className="text-foreground mb-6 italic">
-            "{testimonial.content}"
-            </p>
-            <div className="flex items-center">
-            <div className="w-10 h-10 bg-gradient-to-r from-primary to-secondary rounded-full flex items-center justify-center text-white font-semibold mr-3">
-              {testimonial.name.charAt(0)}
-            </div>
-            <div>
-              <div className="font-semibold text-foreground">
-              {testimonial.name}
-              </div>
-              <div className="text-sm text-muted-foreground">
-              {testimonial.role} at {testimonial.company}
-              </div>
-            </div>
-            </div>
-          </Card>
-          </motion.div>
-        ))}
-        </div> */}
+              Contact Sahil Directly
+            </Button>
+            </Link>
+          </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      {/* <section className="py-20 bg-gradient-to-r from-primary to-secondary text-white transition-colors">
-      <div className="container mx-auto px-4 text-center">
-        <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        viewport={{ once: true }}
-        >
-        <h2 className="text-4xl font-bold mb-4">
-          Ready to Transform Your Resume?
-        </h2>
-        <p className="text-xl mb-8 max-w-2xl mx-auto opacity-90">
-          Join thousands of professionals who have improved their job
-          prospects with our AI-powered resume analysis.
-        </p>
-        <Link href="/dashboard/resume">
-          <Button
-          size="lg"
-          variant="secondary"
-          className="px-8 py-4 text-lg font-semibold"
-          >
-          <Brain className="mr-2 h-5 w-5" />
-          Start Free Analysis
-          </Button>
-        </Link>
-        </motion.div>
-      </div>
-      </section> */}
-
       {/* Footer */}
-      <footer className="bg-background text-foreground py-12 transition-colors border-t">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row items-center justify-between">
-            <div className="flex items-center space-x-2 mb-4 md:mb-0">
-              <Link href="/" className="flex items-center space-x-2">
+      <footer className="border-t bg-background">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <div className="grid md:grid-cols-3 gap-8">
+            <div>
+              <div className="flex items-center space-x-2 mb-4">
                 <Brain className="h-6 w-6 text-primary" />
-                <span className="text-lg font-semibold">ResumeBolt</span>
-              </Link>
+                <span className="text-lg font-bold">ResumeBolt</span>
+              </div>
+              <p className="text-sm text-muted-foreground mb-4">
+                Intelligent resume and cover letter analysis powered by advanced AI technology.
+              </p>
             </div>
             <div>
-              <h4 className="font-semibold mb-4 text-foreground">Legal</h4>
+              <h3 className="font-semibold mb-3">Product</h3>
               <ul className="space-y-2 text-sm text-muted-foreground">
-                <li>
-                  <Link
-                    href="/privacy"
-                    className="hover:text-primary transition-colors"
-                  >
-                    Privacy Policy
-                  </Link>
-                </li>
+                <li><a href="#features" className="hover:text-primary transition-colors">Features</a></li>
+                <li><a href="#how-it-works" className="hover:text-primary transition-colors">How It Works</a></li>
+                {/* <li><a href="#" className="hover:text-primary transition-colors">Pricing</a></li>
+                <li><a href="#" className="hover:text-primary transition-colors">API</a></li> */}
               </ul>
             </div>
-            <div className="text-muted-foreground text-sm">
-              © 2025 ResumeBolt. All rights reserved.
+            {/* <div>
+              <h3 className="font-semibold mb-3">Company</h3>
+              <ul className="space-y-2 text-sm text-muted-foreground">
+                <li><a href="#" className="hover:text-primary transition-colors">About</a></li>
+                <li><a href="#" className="hover:text-primary transition-colors">Blog</a></li>
+                <li><a href="#" className="hover:text-primary transition-colors">Careers</a></li>
+                <li><a href="#" className="hover:text-primary transition-colors">Contact</a></li>
+              </ul>
+            </div> */}
+            <div>
+              <h3 className="font-semibold mb-3">Legal</h3>
+              <ul className="space-y-2 text-sm text-muted-foreground">
+                <li><Link href="/privacy" className="hover:text-primary transition-colors">Privacy Policy</Link></li>
+                {/* <li><a href="#" className="hover:text-primary transition-colors">Terms of Service</a></li>
+                <li><a href="#" className="hover:text-primary transition-colors">Security</a></li>
+                <li><a href="#" className="hover:text-primary transition-colors">GDPR</a></li> */}
+              </ul>
             </div>
+          </div>
+          <div className="border-t mt-8 pt-8 text-center text-sm text-muted-foreground">
+            <p>&copy; 2025 ResumeBolt. All rights reserved.</p>
           </div>
         </div>
       </footer>
