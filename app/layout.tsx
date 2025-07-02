@@ -10,7 +10,7 @@ import { Toaster } from "sonner";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://resumebolt.thehalfbakedlab.com"),
+  metadataBase: new URL("https://resumebolt.sahilfruitwala.com"),
   title: {
     default: "ResumeBolt - AI Career Coach | Resume & Cover Letter Analysis",
     template: "%s | ResumeBolt",
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     "career guidance",
     "resume writing",
   ],
-  authors: [{ name: "ResumeBolt", url: "https://resumebolt.thehalfbakedlab.com" }],
+  authors: [{ name: "ResumeBolt", url: "https://resumebolt.sahilfruitwala.com" }],
   creator: "ResumeBolt",
   publisher: "ResumeBolt",
   formatDetection: {
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://resumebolt.thehalfbakedlab.com",
+    url: "https://resumebolt.sahilfruitwala.com",
     title: "ResumeBolt - AI Career Coach | Resume & Cover Letter Analysis",
     description:
       "Professional AI-powered resume and cover letter analysis with actionable feedback to optimize your job applications for ATS systems and land more interviews.",
@@ -85,7 +85,7 @@ export const metadata: Metadata = {
     yahoo: "your-yahoo-verification-code",
   },
   alternates: {
-    canonical: "https://resumebolt.thehalfbakedlab.com",
+    canonical: "https://resumebolt.sahilfruitwala.com",
   },
   category: "technology",
   generator: "v0.dev",
@@ -97,7 +97,7 @@ const structuredData = {
   name: "ResumeBolt",
   description:
     "Professional AI-powered resume and cover letter analysis with actionable feedback to optimize your job applications for ATS systems and land more interviews.",
-  url: "https://resumebolt.thehalfbakedlab.com",
+  url: "https://resumebolt.sahilfruitwala.com",
   applicationCategory: "BusinessApplication",
   operatingSystem: "Web",
   offers: {
@@ -108,7 +108,7 @@ const structuredData = {
   creator: {
     "@type": "Organization",
     name: "ResumeBolt",
-    url: "https://resumebolt.thehalfbakedlab.com",
+    url: "https://resumebolt.sahilfruitwala.com",
   },
   featureList: [
     "AI-powered resume analysis",
