@@ -20,6 +20,13 @@ const nextConfig: NextConfig = {
         destination: '/dashboard/resume',
         permanent: true,
       },
+      // by default when we change plan clerk is trying to redirect to the plans page
+      // but we want to redirect to the settings page
+      {
+        source: '/dashboard/settings/billing/plans',
+        destination: '/dashboard/settings',
+        permanent: true,
+      },
     ]
   },
   async rewrites() {

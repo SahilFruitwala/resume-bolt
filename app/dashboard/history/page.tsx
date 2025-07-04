@@ -15,16 +15,7 @@ import { getScoreColor } from "@/lib/colors";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { toast } from "sonner";
-
-// Loading Spinner Component
-const LoadingSpinner = () => (
-  <div className="flex flex-col items-center justify-center min-h-screen">
-    <Loader2 className="h-16 w-16 animate-spin text-primary mb-4" />
-    <p className="text-lg text-gray-600 dark:text-gray-400">
-      Loading analysis details...
-    </p>
-  </div>
-);
+import LoadingSpinner from "@/components/loading-spinner";
 
 export default function ReportsPage() {
   const searchParams = useSearchParams();
@@ -64,7 +55,7 @@ export default function ReportsPage() {
   }, [page]);
 
   if (isLoading && historyData.length === 0) {
-    return <LoadingSpinner />;
+    return <LoadingSpinner message="Fetching past analysis..." />;
   }
     return (
       <div className="p-6">

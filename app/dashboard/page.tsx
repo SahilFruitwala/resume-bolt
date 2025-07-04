@@ -80,7 +80,7 @@ export default function DashboardPage() {
     setStep("analyzing");
 
     try {
-      const analysisData = await analyzeResume(resumeFile, jobDescription);
+      const analysisData = await analyzeResume(resumeFile, jobDescription, "");
       setAnalysisData(analysisData);
       setStep("results");
     } catch (err) {

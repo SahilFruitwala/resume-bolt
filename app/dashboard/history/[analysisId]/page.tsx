@@ -16,16 +16,7 @@ import { ResumeAnalysis } from "@/components/resume-analysis";
 import { getScoreBgColor, getScoreColor } from "@/lib/colors";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-
-// Loading Spinner Component
-const LoadingSpinner = () => (
-  <div className="flex flex-col items-center justify-center min-h-screen">
-    <Loader2 className="h-16 w-16 animate-spin text-primary mb-4" />
-    <p className="text-lg text-gray-600 dark:text-gray-400">
-      Loading analysis details...
-    </p>
-  </div>
-);
+import LoadingSpinner from "@/components/loading-spinner";
 
 // Error Message Component
 const ErrorMessage = ({
@@ -87,7 +78,7 @@ export default function AnalysisDetailPage() {
 
   // Handle loading state
   if (isLoading) {
-    return <LoadingSpinner />;
+    return <LoadingSpinner message="Loading analysis details..." />;
   }
 
   // Handle case where analysis data is null (not found)
