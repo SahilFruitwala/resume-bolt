@@ -25,6 +25,9 @@ export const users = sqliteTable("users", {
   subscriptionPlanId: integer("subscription_plan_id").references(
     () => subscriptionPlans.id
   ).default(1), // Foreign key to subscription_plans
+  stripeCustomerId: text('stripe_customer_id'),
+  stripeSubscriptionId: text('stripe_subscription_id'),
+  stripeSubscriptionStatus: text('stripe_subscription_status'),
 });
 
 
